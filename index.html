@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Auction Split pretvara slobodan hotelski i apartmanski kapacitet u transparentnu aukciju.">
+  <title>Auction Split | Aukcije slobodnog smještaja</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles.css">
+  <script src="/vendor/lucide.min.js" defer></script>
+  <script type="module" src="/src/site.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="site-brand" href="/" aria-label="Auction Split početna">
+        <img class="brand-mark" src="/assets/favicon.svg" alt="">
+        <span><strong>Auction Split</strong></span>
+      </a>
+      <button class="menu-toggle icon-button" type="button" data-menu-toggle aria-expanded="false" aria-controls="siteNavigation">
+        <i data-lucide="menu"></i><span class="sr-only">Otvori izbornik</span>
+      </button>
+      <nav class="site-navigation" id="siteNavigation" data-site-navigation aria-label="Glavna navigacija">
+        <a class="active" href="/">Početna</a>
+        <a href="/demo.html">Aukcije</a>
+        <a href="/koncept.html">Kako radi</a>
+        <a href="/brosura-korisnici.html">Za goste</a>
+        <a href="/brosura-partneri.html">Za partnere</a>
+        <a href="/partner.html">Partner centar</a>
+      </nav>
+      <a class="button primary desktop-action" href="/demo.html">Istraži aukcije</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="home-hero">
+      <img class="home-hero-image" src="/assets/media/auction-split-hero.jpg" alt="Svijetla hotelska soba u Splitu s pogledom na more">
+      <div class="home-hero-overlay" aria-hidden="true"></div>
+      <div class="home-hero-inner">
+        <div class="home-hero-copy">
+          <span class="eyebrow light">Aukcije slobodnog smještaja</span>
+          <h1>Slobodan termin. Vaša početna ponuda.</h1>
+          <p>Odaberite kamo želite putovati i iznos od kojeg želite krenuti. Hoteli zadržavaju svoj minimum, a vi dobivate jasnu aukciju bez skrivenih troškova.</p>
+        </div>
+        <form class="hero-search" action="/demo.html" method="get" aria-label="Pretraži aktivne aukcije">
+          <label class="search-field">
+            <i data-lucide="map-pin"></i>
+            <span><small>Odredište</small>
+              <select name="city" aria-label="Odredište">
+                <option value="">Cijela Hrvatska</option>
+                <option value="Split" selected>Split</option>
+                <option value="Dubrovnik">Dubrovnik</option>
+                <option value="Pula">Pula</option>
+                <option value="Zagreb">Zagreb</option>
+              </select>
+            </span>
+          </label>
+          <label class="search-field">
+            <i data-lucide="badge-euro"></i>
+            <span><small>Početna ponuda</small><input name="bid" type="number" min="10" max="600" step="5" value="40" aria-label="Početna ponuda u eurima"></span>
+          </label>
+          <label class="search-field">
+            <i data-lucide="timer"></i>
+            <span><small>Trajanje aukcije</small>
+              <select name="duration" aria-label="Trajanje aukcije">
+                <option value="15">15 minuta</option>
+                <option value="60" selected>1 sat</option>
+                <option value="180">3 sata</option>
+                <option value="1440">24 sata</option>
+              </select>
+            </span>
+          </label>
+          <button class="button primary hero-search-button" type="submit"><i data-lucide="search"></i><span>Pronađi smještaj</span></button>
+        </form>
+      </div>
+    </section>
+
+    <section class="confidence-band" aria-label="Načela platforme">
+      <div><i data-lucide="shield-check"></i><span><strong>Kontroliran minimum</strong> partner određuje hladnu cijenu</span></div>
+      <div><i data-lucide="eye"></i><span><strong>Potpuna transparentnost</strong> vidite ponudu i razliku</span></div>
+      <div><i data-lucide="badge-euro"></i><span><strong>Bez naknade za oglas</strong> platforma dijeli samo rast</span></div>
+    </section>
+
+    <section class="content-band model-story">
+      <div class="section-heading">
+        <div><span class="eyebrow">Poslovni model</span><h2>Vrijednost nastaje tek iznad partnerova minimuma.</h2></div>
+        <p>Hotel prvo osigurava trošak hladnog pogona. Sve što aukcija stvori iznad toga dijeli se transparentno.</p>
+      </div>
+      <div class="model-visual">
+        <div class="model-numbers">
+          <div><span>Hladna cijena</span><strong>50 €</strong><small>određuje hotel</small></div>
+          <i data-lucide="arrow-right"></i>
+          <div><span>Završna ponuda</span><strong>80 €</strong><small>nakon bidanja</small></div>
+          <i data-lucide="equal"></i>
+          <div class="difference"><span>Novostvorena razlika</span><strong>30 €</strong><small>predmet podjele</small></div>
+        </div>
+        <div class="share-bar" aria-label="Podjela razlike: 70 posto hotelu, 30 posto platformi">
+          <div class="partner-share"><span>Hotel 21 €</span></div>
+          <div class="platform-share"><span>Platforma 9 €</span></div>
+        </div>
+        <p>Hotel ukupno prima 71 €, a Auction Split 9 €. Nema članarine ni plaćenog isticanja.</p>
+      </div>
+    </section>
+
+    <section class="content-band guest-path">
+      <div class="section-heading">
+        <div><span class="eyebrow">Jednostavan korisnički put</span><h2>Od praznog termina do potvrđene rezervacije.</h2></div>
+        <a class="text-link" href="/demo.html">Isprobajte cijeli tok <i data-lucide="arrow-right"></i></a>
+      </div>
+      <div class="path-grid">
+        <article><span>1</span><i data-lucide="calendar-days"></i><h3>Odaberite termin</h3><p>Kalendar prikazuje samo dane za koje postoji slobodan demo kapacitet.</p></article>
+        <article><span>2</span><i data-lucide="sliders-horizontal"></i><h3>Postavite uvjete</h3><p>Vi birate početnu ponudu i trajanje aukcije od 15 minuta do 24 sata.</p></article>
+        <article><span>3</span><i data-lucide="gavel"></i><h3>Licitirajte jasno</h3><p>Trenutna ponuda, sljedeći minimum i ekonomika vidljivi su prije svakog klika.</p></article>
+        <article><span>4</span><i data-lucide="badge-check"></i><h3>Potvrdite pobjedu</h3><p>Pobjednički iznos i odabrani smještaj spremaju se u demo sustav.</p></article>
+      </div>
+    </section>
+
+    <section class="audience-band">
+      <div class="audience-copy">
+        <span class="eyebrow">Za goste</span>
+        <h2>Rezervacija koja počinje vašom odlukom.</h2>
+        <p>Manje uspoređivanja, jasniji budžet i anoniman tijek ponuda.</p>
+        <a class="button secondary" href="/brosura-korisnici.html">Vodič za goste</a>
+      </div>
+      <div class="audience-copy partner-audience">
+        <span class="eyebrow">Za hotele i apartmane</span>
+        <h2>Novi prihod za kapacitet koji bi ostao prazan.</h2>
+        <p>Partner zadržava kontrolu nad cijenom, datumima, fotografijama i pravilima aukcije.</p>
+        <a class="button secondary" href="/partner.html">Otvori Partner centar</a>
+      </div>
+    </section>
+
+    <section class="content-band investor-band">
+      <div><span class="eyebrow">Za investitorsku prezentaciju</span><h2>Jedan demo, oba lica platforme.</h2><p>Gost može pronaći termin, poslati ponudu i potvrditi pobjedu. Partner istodobno vidi inventar, prihod, ponude i može uređivati smještaj u povezanoj demo bazi.</p></div>
+      <div class="investor-actions"><a class="button primary" href="/demo.html">Pokreni gostujući demo</a><a class="button secondary" href="/partner.html">Prikaži Partner centar</a></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="site-brand footer-brand" href="/"><img class="brand-mark" src="/assets/favicon.svg" alt=""><span><strong>Auction Split</strong></span></a>
+    <p>Transparentne aukcije za slobodan smještaj.</p>
+    <nav aria-label="Podnožje"><a href="/koncept.html">Koncept</a><a href="/brosura-korisnici.html">Za goste</a><a href="/brosura-partneri.html">Za partnere</a></nav>
+  </footer>
+</body>
+</html>

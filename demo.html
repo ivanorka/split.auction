@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interaktivni Auction Split demo: odaberite termin, početnu ponudu i licitirajte za slobodan smještaj.">
+  <title>Aktivne aukcije | Auction Split</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="/src/styles.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="" defer></script>
+  <script src="/vendor/lucide.min.js" defer></script>
+  <script type="module" src="/src/site.js"></script>
+  <script type="module" src="/src/demo.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="site-brand" href="/" aria-label="Auction Split početna">
+        <img class="brand-mark" src="/assets/favicon.svg" alt="">
+        <span><strong>Auction Split</strong></span>
+      </a>
+      <button class="menu-toggle icon-button" type="button" data-menu-toggle aria-expanded="false" aria-controls="siteNavigation">
+        <i data-lucide="menu"></i><span class="sr-only">Otvori izbornik</span>
+      </button>
+      <nav class="site-navigation" id="siteNavigation" data-site-navigation aria-label="Glavna navigacija">
+        <a href="/">Početna</a>
+        <a class="active" href="/demo.html">Aukcije</a>
+        <a href="/koncept.html">Kako radi</a>
+        <a href="/brosura-korisnici.html">Za goste</a>
+        <a href="/brosura-partneri.html">Za partnere</a>
+        <a href="/partner.html">Partner centar</a>
+      </nav>
+      <a class="button secondary desktop-action" href="/partner.html"><i data-lucide="layout-dashboard"></i> Partner centar</a>
+    </div>
+  </header>
+
+  <main class="marketplace-page">
+    <section class="marketplace-heading content-width">
+      <div>
+        <span class="eyebrow">Interaktivni investitorski demo</span>
+        <h1>Pronađite praznu sobu i pokrenite svoju aukciju.</h1>
+        <p>Odaberite uvjete. Sustav uspoređuje dostupnost s hladnom cijenom partnera i prvo prikazuje najrealniji match.</p>
+      </div>
+      <span class="system-status" id="backendIndicator"><span class="status-dot"></span> Spajanje s demo bazom</span>
+    </section>
+
+    <section class="auction-search-shell" aria-label="Uvjeti pretraživanja">
+      <div class="auction-search content-width">
+        <label class="market-search-field destination-field">
+          <i data-lucide="map-pin"></i>
+          <span><small>Odredište</small><select id="destinationSelect" aria-label="Odredište"><option>Učitavanje...</option></select></span>
+        </label>
+        <div class="market-search-field">
+          <i data-lucide="calendar-days"></i>
+          <span><small>Odabrani termini</small><strong id="dateSummary">Fleksibilno</strong></span>
+        </div>
+        <label class="market-search-field">
+          <i data-lucide="badge-euro"></i>
+          <span><small>Početna ponuda</small><strong id="openingBidOutput">40 €</strong></span>
+        </label>
+        <label class="market-search-field">
+          <i data-lucide="timer"></i>
+          <span><small>Trajanje</small><select id="durationSelect" aria-label="Trajanje aukcije"></select><strong class="select-fallback" id="durationSummary">1 sat</strong></span>
+        </label>
+        <button class="button primary search-apply" id="applySearchButton" type="button"><i data-lucide="search"></i><span>Prikaži aukcije</span></button>
+      </div>
+    </section>
+
+    <section class="content-width auction-builder">
+      <div class="calendar-tool">
+        <div class="tool-heading">
+          <div><span class="eyebrow">1. Termin</span><h2>Kolovoz 2026.</h2><p>Odaberite jedan ili više datuma koji vam odgovaraju.</p></div>
+          <span class="inventory-legend"><span class="status-dot live"></span> dani sa slobodnim kapacitetom</span>
+        </div>
+        <div class="calendar-grid" id="calendarGrid" aria-label="Kalendar slobodnog smještaja"></div>
+        <div class="selected-date-row" id="selectedDateChips"></div>
+      </div>
+      <div class="bid-tool">
+        <div class="tool-heading">
+          <div><span class="eyebrow">2. Vaši uvjeti</span><h2>Početna ponuda</h2><p>Ovo je iznos od kojeg želite krenuti. Hotel ne može pasti ispod svoje hladne cijene.</p></div>
+        </div>
+        <div class="range-value"><strong id="openingBidLarge">40 €</strong><span>po noćenju</span></div>
+        <input class="price-range" id="openingBidRange" type="range" min="10" max="300" step="5" value="40" aria-label="Početna ponuda gosta">
+        <div class="range-scale"><span>10 €</span><span>150 €</span><span>300 €</span></div>
+        <div class="bid-explainer">
+          <i data-lucide="lightbulb"></i>
+          <p>Ako ponudite 40 €, vidjet ćete i smještaj čiji je minimum blizu tom iznosu. Sljedeća ponuda uvijek poštuje višu od dvije početne cijene.</p>
+        </div>
+        <button class="button tertiary wide" id="clearSearchButton" type="button"><i data-lucide="rotate-ccw"></i> Očisti odabir</button>
+      </div>
+    </section>
+
+    <section class="content-width results-section" id="resultsSection">
+      <div class="results-heading">
+        <div><span class="eyebrow">3. Odaberite smještaj</span><h2 id="resultCount">0 smještaja</h2><p id="resultSummary">Učitavanje ponuda...</p></div>
+        <button class="button secondary" id="openMapButton" type="button"><i data-lucide="map"></i> Prikaži kartu</button>
+      </div>
+      <div class="hotel-results" id="hotelResults" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="auctionModal" hidden>
+    <section class="modal-dialog auction-dialog" role="dialog" aria-modal="true" aria-labelledby="auctionModalTitle">
+      <button class="modal-close icon-button" type="button" data-close-modal title="Zatvori"><i data-lucide="x"></i><span class="sr-only">Zatvori</span></button>
+      <div id="auctionModalBody"></div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="confirmationModal" hidden>
+    <section class="modal-dialog confirmation-dialog" role="dialog" aria-modal="true" aria-labelledby="confirmationTitle">
+      <button class="modal-close icon-button" type="button" data-close-modal title="Zatvori"><i data-lucide="x"></i><span class="sr-only">Zatvori</span></button>
+      <span class="confirmation-icon"><i data-lucide="badge-check"></i></span>
+      <span class="eyebrow">Završetak demo aukcije</span>
+      <h2 id="confirmationTitle">Potvrdite pobjedničku rezervaciju</h2>
+      <p>U stvarnom sustavu ovdje bi se provela autorizacija plaćanja. U demu se potvrda sigurno sprema samo u lokalnu JSON bazu.</p>
+      <div class="confirmation-summary" id="confirmationSummary"></div>
+      <form class="form-grid" id="confirmBookingForm">
+        <input id="confirmPackageId" name="packageId" type="hidden">
+        <label><span>Ime i prezime</span><input name="name" required autocomplete="name" readonly></label>
+        <label><span>E-mail</span><input name="email" type="email" required autocomplete="email" readonly></label>
+        <label class="full-field"><span>Način potvrde</span><input name="card" required value="Demo Visa ···· 4242"></label>
+        <button class="button primary wide full-field" id="confirmSubmitButton" type="submit">Potvrdi rezervaciju <i data-lucide="check"></i></button>
+      </form>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="mapModal" hidden>
+    <section class="modal-dialog map-dialog" role="dialog" aria-modal="true" aria-labelledby="mapTitle">
+      <div class="map-modal-heading"><div><span class="eyebrow">Aktivni rezultati</span><h2 id="mapTitle">Karta smještaja</h2></div><button class="modal-close inline icon-button" type="button" data-close-modal title="Zatvori"><i data-lucide="x"></i><span class="sr-only">Zatvori</span></button></div>
+      <div id="map"></div>
+    </section>
+  </div>
+</body>
+</html>

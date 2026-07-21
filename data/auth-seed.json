@@ -1,0 +1,58 @@
+{
+  "users": [
+    {
+      "id": "user-guest-demo",
+      "name": "Demo Gost",
+      "email": "gost@auction.split",
+      "phone": "+385 91 111 1111",
+      "role": "guest",
+      "partnerId": null,
+      "partnerRole": null,
+      "status": "active",
+      "passwordHash": "scrypt$16384$8$1$YueGVTPejfDcJptnbw9BgmCz$bbd34fd0dd9cf59ec261cfec3a3d41d0afc5ceb288973ddb559b57881738a640e62b0a1144829f41f3045997e1dd8dfdfc23460e0a6c51fa7ea4601728fef134",
+      "emailVerifiedAt": "2026-07-07T08:00:00.000Z",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "lastLoginAt": null
+    },
+    {
+      "id": "user-partner-demo",
+      "name": "Ana Partner",
+      "email": "partner@auction.split",
+      "phone": "+385 91 222 2222",
+      "role": "partner",
+      "partnerId": "partner-demo",
+      "partnerRole": "owner",
+      "status": "active",
+      "passwordHash": "scrypt$16384$8$1$EJzwaXOlEPpvpVnS_sCc5WHX$b172abb3ec143f760b05aa99782922874d1146dc6e29e49831ac3775d5dded313b7cc6f180aaefaa8730cf155445fad98ff735b9f53350a373f4298387ecef75",
+      "emailVerifiedAt": "2026-07-07T08:00:00.000Z",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "lastLoginAt": null
+    },
+    {
+      "id": "user-admin-demo",
+      "name": "Administrator Platforme",
+      "email": "admin@auction.split",
+      "phone": "+385 91 333 3333",
+      "role": "admin",
+      "partnerId": null,
+      "partnerRole": null,
+      "status": "active",
+      "passwordHash": "scrypt$16384$8$1$eCbQcMxonXtbqLtkVbVXOizn$9d1329d50f7493536d2a33520ee5f083babca315451fafe109dbdae59931e8d8b4d9ca54d26f865aee1164ddeda5f024ef072dafcc4ba934490c36a364302867",
+      "emailVerifiedAt": "2026-07-07T08:00:00.000Z",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "lastLoginAt": null
+    }
+  ],
+  "partners": [
+    {
+      "id": "partner-demo",
+      "businessName": "Auction Split Demo Portfolio",
+      "partnerType": "hotel",
+      "ownerUserId": "user-partner-demo",
+      "city": "Split",
+      "taxId": "",
+      "status": "active",
+      "createdAt": "2026-07-07T08:00:00.000Z"
+    }
+  ]
+}

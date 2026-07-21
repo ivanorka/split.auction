@@ -1,0 +1,7 @@
+node_modules/
+dist/
+tmp/
+data/demo-db.json
+data/*.tmp
+.DS_Store
+*.log

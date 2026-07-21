@@ -1,0 +1,110 @@
+import {
+  api,
+  byId,
+  escapeAttribute,
+  escapeHtml,
+  formatMoney,
+  formatShortDate,
+  notify,
+  refreshIcons,
+  setBusy
+} from './shared.js';
+import {
+  getAuthSession,
+  initAuthUI,
+  openAuthDialog,
+  refreshAuthSession
+} from './auth.js';
+
+function showGate(){
+  byId('accountGate').hidden = false;
+  byId('accountContent').hidden = true;
+}
+
+function roleLabel(user){
+  if(user.role === 'admin') return 'Administrator platforme';
+  if(user.role === 'partner') return 'Partnerski račun';
+  return 'Gostujući račun';
+}
+
+function render(payload){
+  const { user, bids, reservations, watchedPackages } = payload;
+  byId('accountGate').hidden = true;
+  byId('accountContent').hidden = false;
+  byId('accountRole').textContent = roleLabel(user);
+  byId('accountName').textContent = user.name;
+  byId('accountEmail').textContent = user.email;
+  byId('accountPartnerLink').hidden = !['partner', 'admin'].includes(user.role);
+  byId('accountBidCount').textContent = String(bids.length);
+  byId('accountWatchCount').textContent = String(watchedPackages.length);
+  byId('accountReservationCount').textContent = String(reservations.length);
+
+  const profile = byId('profileForm');
+  profile.name.value = user.name;
+  profile.email.value = user.email;
+  profile.phone.value = user.phone || '';
+
+  byId('accountBidsBody').innerHTML = bids.length
+    ? bids.map(bid => `<tr><td><strong>${escapeHtml(bid.hotelName)}</strong><small class="table-note">${escapeHtml(bid.packageName)}</small></td><td>${(bid.dates || []).map(formatShortDate).join(', ')}</td><td><strong>${formatMoney(bid.amount)}</strong></td><td><span class="status-badge ${bid.leading ? 'active' : ''}">${bid.leading ? 'Vodeća' : 'Nadmašena'}</span></td></tr>`).join('')
+    : '<tr><td colspan="4"><div class="empty-inline">Još nemate poslanih ponuda.</div></td></tr>';
+
+  byId('accountReservationsBody').innerHTML = reservations.length
+    ? reservations.map(item => `<tr><td><strong>${escapeHtml(item.bookingCode)}</strong></td><td>${escapeHtml(item.hotel)}<small class="table-note">${escapeHtml(item.packageName || '')}</small></td><td>${escapeHtml(item.dates)}</td><td><strong>${formatMoney(item.amount)}</strong></td><td><span class="status-badge active">Potvrđeno</span></td></tr>`).join('')
+    : '<tr><td colspan="5"><div class="empty-inline">Još nemate potvrđenih rezervacija.</div></td></tr>';
+
+  byId('accountWatched').innerHTML = watchedPackages.length
+    ? watchedPackages.map(item => `<a href="/demo.html?package=${escapeAttribute(item.package.id)}"><img src="${escapeAttribute(item.hotel.images?.[0] || '/assets/favicon.svg')}" alt=""><span><strong>${escapeHtml(item.hotel.name)}</strong><small>${escapeHtml(item.package.name)} · od ${formatMoney(item.package.coldPrice)}</small></span><i data-lucide="arrow-right"></i></a>`).join('')
+    : '<p class="empty-inline">Aukcije koje pratite pojavit će se ovdje.</p>';
+  refreshIcons();
+}
+
+async function loadAccount(){
+  const auth = getAuthSession();
+  if(!auth.user){
+    showGate();
+    return;
+  }
+  try{
+    render(await api('/api/account/activity'));
+  }catch(error){
+    notify(error.message, 'error');
+    showGate();
+  }
+}
+
+async function saveProfile(event){
+  event.preventDefault();
+  const form = event.currentTarget;
+  const button = byId('profileButton');
+  setBusy(button, true, 'Spremam...');
+  try{
+    const payload = await api('/api/account/profile', { method:'PATCH', body:JSON.stringify({ name:form.name.value, phone:form.phone.value }) });
+    notify('Profil je spremljen.');
+    await refreshAuthSession();
+  }catch(error){ notify(error.message, 'error'); }
+  finally{ setBusy(button, false); }
+}
+
+async function changePassword(event){
+  event.preventDefault();
+  const form = event.currentTarget;
+  const button = byId('passwordButton');
+  setBusy(button, true, 'Mijenjam...');
+  try{
+    const payload = await api('/api/account/password', { method:'POST', body:JSON.stringify({ currentPassword:form.currentPassword.value, newPassword:form.newPassword.value }) });
+    form.reset();
+    notify(payload.message);
+  }catch(error){ notify(error.message, 'error'); }
+  finally{ setBusy(button, false); }
+}
+
+async function init(){
+  byId('accountGateLogin').addEventListener('click', () => openAuthDialog('login'));
+  byId('profileForm').addEventListener('submit', saveProfile);
+  byId('passwordForm').addEventListener('submit', changePassword);
+  window.addEventListener('auction:auth-changed', loadAccount);
+  await initAuthUI();
+  await loadAccount();
+}
+
+init();

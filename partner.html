@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Auction Split Partner centar za upravljanje hladnim cijenama, slobodnim kapacitetom i aukcijama.">
+  <title>Partner centar | Auction Split</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles.css">
+  <script src="/vendor/lucide.min.js" defer></script>
+  <script type="module" src="/src/site.js"></script>
+  <script type="module" src="/src/partner.js"></script>
+</head>
+<body class="partner-body">
+  <header class="site-header partner-header">
+    <div class="site-header-inner">
+      <a class="site-brand" href="/" aria-label="Auction Split početna">
+        <img class="brand-mark" src="/assets/favicon.svg" alt="">
+        <span><strong>Auction Split</strong><small>Partner centar</small></span>
+      </a>
+      <button class="menu-toggle icon-button" type="button" data-menu-toggle aria-expanded="false" aria-controls="siteNavigation">
+        <i data-lucide="menu"></i><span class="sr-only">Otvori izbornik</span>
+      </button>
+      <nav class="site-navigation partner-top-nav" id="siteNavigation" data-site-navigation aria-label="Glavna navigacija">
+        <a href="/">Javna stranica</a>
+        <a href="/demo.html">Gostujući demo</a>
+        <a class="active" href="/partner.html">Partner centar</a>
+      </nav>
+      <span class="system-status desktop-action" id="partnerBackendStatus"><span class="status-dot"></span> Spajanje s bazom</span>
+    </div>
+</header>
+
+  <main class="partner-access-gate" id="partnerAccessGate" hidden>
+    <section>
+      <span class="gate-icon"><i data-lucide="shield-check"></i></span>
+      <span class="eyebrow">Zaštićeni partnerski prostor</span>
+      <h1 id="partnerGateTitle">Prijavite se u Partner centar</h1>
+      <p id="partnerGateText">Partnerski račun povezuje tim s vlastitim smještajima, paketima i rezervacijama.</p>
+      <div><button class="button primary" id="partnerGateLogin" type="button"><i data-lucide="log-in"></i> Prijava</button><button class="button secondary" id="partnerGateRegister" type="button"><i data-lucide="building-2"></i> Registracija partnera</button></div>
+    </section>
+  </main>
+
+  <main class="partner-app" id="partnerApp" hidden>
+    <aside class="partner-sidebar" aria-label="Partner centar">
+      <div class="partner-identity">
+        <span class="partner-avatar" id="partnerIdentityAvatar">AS</span>
+        <span><strong id="partnerIdentityName">Partner portfolio</strong><small id="partnerPropertyCount">0 objekata</small></span>
+      </div>
+      <nav class="partner-nav" role="tablist" aria-label="Sekcije Partner centra">
+        <button class="active" type="button" data-partner-panel="overview" role="tab" aria-label="Pregled" aria-selected="true"><i data-lucide="layout-dashboard"></i><span>Pregled</span></button>
+        <button type="button" data-partner-panel="properties" role="tab" aria-label="Smještaji" aria-selected="false"><i data-lucide="building-2"></i><span>Smještaji</span></button>
+        <button type="button" data-partner-panel="packages" role="tab" aria-label="Paketi" aria-selected="false"><i data-lucide="package-open"></i><span>Paketi</span><small id="partnerPackageCount">0</small></button>
+        <button type="button" data-partner-panel="auctions" role="tab" aria-label="Aukcije" aria-selected="false"><i data-lucide="gavel"></i><span>Aukcije</span></button>
+        <button type="button" data-partner-panel="bookings" role="tab" aria-label="Potvrde" aria-selected="false"><i data-lucide="badge-check"></i><span>Potvrde</span><small id="partnerBookingCount">0 potvrda</small></button>
+        <button type="button" data-partner-panel="team" role="tab" aria-label="Tim" aria-selected="false"><i data-lucide="users"></i><span>Tim</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <button class="partner-reset" id="resetPartnerDemo" type="button"><i data-lucide="rotate-ccw"></i><span>Resetiraj demo</span></button>
+        <span><i data-lucide="database"></i> Lokalna demo baza</span>
+      </div>
+    </aside>
+
+    <section class="partner-workspace">
+      <header class="workspace-heading">
+        <div><span class="eyebrow">Auction Split operativa</span><h1 id="partnerPageTitle">Pregled poslovanja</h1><p id="partnerPageSubtitle">Učinak demo inventara i zadnje aktivnosti.</p></div>
+        <div class="workspace-actions"><button class="button secondary" id="addPropertyButton" type="button"><i data-lucide="building-2"></i> Dodaj smještaj</button><button class="button primary" id="addPackageButton" type="button"><i data-lucide="package-plus"></i> Novi paket</button></div>
+      </header>
+
+      <section data-panel-content="overview">
+        <div class="metric-grid">
+          <article><span class="metric-icon coral"><i data-lucide="bed-double"></i></span><div><small>Slobodne jedinice</small><strong id="metricInventory">0</strong><span>u demo inventaru</span></div></article>
+          <article><span class="metric-icon teal"><i data-lucide="radio"></i></span><div><small>Aktivne aukcije</small><strong id="metricAuctions">0</strong><span>otvorene gostima</span></div></article>
+          <article><span class="metric-icon blue"><i data-lucide="gavel"></i></span><div><small>Zaprimljene ponude</small><strong id="metricBids">0</strong><span>u svim aukcijama</span></div></article>
+          <article><span class="metric-icon green"><i data-lucide="wallet-cards"></i></span><div><small>Prihod partnera</small><strong id="metricRevenue">0 €</strong><span>hladna cijena + udio razlike</span></div></article>
+        </div>
+        <div class="dashboard-grid">
+          <section class="workspace-panel revenue-panel">
+            <div class="panel-heading"><div><span class="eyebrow">Prihod po objektu</span><h2>Udio platforme u razlici</h2></div><span class="info-chip"><i data-lucide="info"></i> demo podaci</span></div>
+            <div class="revenue-chart" id="revenueChart"></div>
+          </section>
+          <section class="workspace-panel activity-panel">
+            <div class="panel-heading"><div><span class="eyebrow">U stvarnom vremenu</span><h2>Zadnje aktivnosti</h2></div></div>
+            <div class="activity-list" id="activityList"></div>
+          </section>
+        </div>
+        <section class="workspace-panel dashboard-properties">
+          <div class="panel-heading"><div><span class="eyebrow">Inventar</span><h2>Smještaji spremni za aukciju</h2></div><button class="text-link" type="button" data-partner-panel="properties">Prikaži sve <i data-lucide="arrow-right"></i></button></div>
+          <div class="responsive-table"><table><thead><tr><th>Objekt</th><th>Model</th><th>Paketi</th><th>Jedinice</th><th>Status</th><th></th></tr></thead><tbody id="propertiesTableBody"></tbody></table></div>
+        </section>
+      </section>
+
+      <section data-panel-content="properties" hidden>
+        <section class="workspace-panel">
+          <div class="panel-heading"><div><span class="eyebrow">Konfiguracija</span><h2>Svi smještaji</h2></div><p>Partner određuje cijenu i dostupnost, administrator uređuje prezentacijske podatke.</p></div>
+          <div class="responsive-table"><table><thead><tr><th>Objekt</th><th>Model</th><th>Paketi</th><th>Jedinice</th><th>Status</th><th></th></tr></thead><tbody id="propertiesTableBodyMirror"></tbody></table></div>
+        </section>
+      </section>
+
+      <section data-panel-content="packages" hidden>
+        <section class="workspace-panel">
+          <div class="panel-heading"><div><span class="eyebrow">Aukcijski inventar</span><h2>Paketi termina i soba</h2></div><p>Svaki paket ima vlastitu hladnu cijenu, datume, broj jedinica i tijek ponuda.</p></div>
+          <div class="responsive-table wide-table"><table><thead><tr><th>Paket</th><th>Soba i obrok</th><th>Minimum</th><th>Datumi</th><th>Jedinice</th><th>Status</th><th>Ponude</th><th></th></tr></thead><tbody id="packagesTableBody"></tbody></table></div>
+        </section>
+      </section>
+
+      <section data-panel-content="auctions" hidden>
+        <section class="workspace-panel">
+          <div class="panel-heading"><div><span class="eyebrow">Financijski pregled</span><h2>Aktivne aukcije i razlika</h2></div><p>Prihod platforme računa se samo na iznos iznad hladne cijene.</p></div>
+          <div class="responsive-table wide-table"><table><thead><tr><th>Paket</th><th>Hladna cijena</th><th>Trenutno</th><th>Razlika</th><th>Ponude</th><th>Trajanje</th><th>Partner</th><th>Platforma</th><th></th></tr></thead><tbody id="auctionsTableBody"></tbody></table></div>
+        </section>
+      </section>
+
+      <section data-panel-content="bookings" hidden>
+        <section class="workspace-panel">
+          <div class="panel-heading"><div><span class="eyebrow">Pobjednici</span><h2>Potvrđene rezervacije</h2></div><p>Rezervacije iz gostujućeg demo toka pojavljuju se ovdje odmah nakon potvrde.</p></div>
+          <div class="responsive-table"><table><thead><tr><th>Gost</th><th>Smještaj</th><th>Termin</th><th>Iznos</th><th>Status</th></tr></thead><tbody id="bookingsTableBody"></tbody></table></div>
+        </section>
+      </section>
+
+      <section data-panel-content="team" hidden>
+        <div class="team-layout">
+          <section class="workspace-panel">
+            <div class="panel-heading"><div><span class="eyebrow">Pristupi</span><h2>Članovi i pozivnice</h2></div></div>
+            <div class="team-list" id="teamList"></div>
+          </section>
+          <section class="workspace-panel" id="teamInvitePanel">
+            <div class="panel-heading"><div><span class="eyebrow">Novi član</span><h2>Pozovite člana tima</h2></div></div>
+            <form class="form-grid" id="adminForm">
+              <label><span>Ime i prezime</span><input name="name" required></label>
+              <label><span>E-mail</span><input name="email" type="email" required></label>
+              <label><span>Uloga</span><select name="role"><option value="manager">Manager</option><option value="editor">Urednik inventara</option><option value="viewer">Samo pregled</option></select></label>
+              <label><span>Telefon</span><input name="phone" type="tel"></label>
+              <button class="button primary full-field" id="addAdminButton" type="submit"><i data-lucide="send"></i> Izradi pozivnicu</button>
+            </form>
+          </section>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="propertyModal" hidden>
+    <section class="modal-dialog property-dialog" role="dialog" aria-modal="true" aria-labelledby="propertyModalTitle">
+      <div class="property-modal-heading"><div><span class="eyebrow">Konfiguracija inventara</span><h2 id="propertyModalTitle">Dodaj smještaj</h2></div><button class="modal-close inline icon-button" type="button" data-close-modal title="Zatvori"><i data-lucide="x"></i><span class="sr-only">Zatvori</span></button></div>
+      <form class="form-grid property-form" id="propertyForm">
+        <label class="full-field"><span>Naziv smještaja</span><input name="name" required data-autofocus></label>
+        <label><span>Grad</span><input name="city" required></label>
+        <label><span>Adresa</span><input name="street" required></label>
+        <label><span>Latitude</span><input name="lat" type="number" step="0.0001" required></label>
+        <label><span>Longitude</span><input name="lng" type="number" step="0.0001" required></label>
+        <label><span>Partnerski model</span><select name="partnerType"><option value="hotel">Hotel · 70/30</option><option value="small">Apartman · 60/40</option></select></label>
+        <label><span>Status profila</span><select name="status"><option value="active">Aktivan</option><option value="draft">Skica</option><option value="archived">Arhiviran</option></select></label>
+        <label><span>Ukupno jedinica</span><input name="totalRooms" type="number" min="1" max="21" required></label>
+        <label class="full-field"><span>URL fotografija (odvojeni zarezom)</span><textarea name="images" rows="3"></textarea></label>
+        <label class="full-field"><span>Opis za gosta</span><textarea name="description" rows="3"></textarea></label>
+        <label class="full-field"><span>Sadržaji (odvojeni zarezom)</span><input name="amenities"></label>
+        <label class="checkbox-field full-field"><input name="featured" type="checkbox"><span>Istakni kao preporučeni demo smještaj</span></label>
+        <div class="form-footer full-field">
+          <button class="button danger" id="deletePropertyButton" type="button" hidden><i data-lucide="trash-2"></i> Obriši</button>
+          <span></span>
+          <button class="button secondary" type="button" data-close-modal>Odustani</button>
+          <button class="button primary" id="savePropertyButton" type="submit"><i data-lucide="save"></i> Spremi konfiguraciju</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="packageModal" hidden>
+    <section class="modal-dialog property-dialog" role="dialog" aria-modal="true" aria-labelledby="packageModalTitle">
+      <div class="property-modal-heading"><div><span class="eyebrow">Aukcijski inventar</span><h2 id="packageModalTitle">Dodaj aukcijski paket</h2></div><button class="modal-close inline icon-button" type="button" data-close-modal title="Zatvori"><i data-lucide="x"></i><span class="sr-only">Zatvori</span></button></div>
+      <form class="form-grid property-form" id="packageForm">
+        <label class="full-field"><span>Smještaj</span><select name="hotelId" required></select></label>
+        <label class="full-field"><span>Naziv paketa</span><input name="name" required data-autofocus></label>
+        <label><span>Vrsta sobe ili jedinice</span><input name="roomType" required></label>
+        <label><span>Obrok</span><input name="mealPlan" required></label>
+        <label class="full-field"><span>Raspoloživi datumi (YYYY-MM-DD, odvojeni zarezom)</span><textarea name="dates" rows="2" required></textarea></label>
+        <label><span>Hladna cijena (€)</span><input name="coldPrice" type="number" min="10" max="50000" required></label>
+        <label><span>Trajanje aukcije (min)</span><input name="duration" type="number" min="15" max="1440" required></label>
+        <label><span>Slobodne jedinice</span><input name="units" type="number" min="0" max="5000" required></label>
+        <label><span>Maksimalno gostiju</span><input name="maxGuests" type="number" min="1" max="30" required></label>
+        <label><span>Status</span><select name="status"><option value="draft">Skica</option><option value="active">Aktivan</option><option value="paused">Pauziran</option><option value="archived">Arhiviran</option></select></label>
+        <label class="full-field"><span>Opis paketa</span><textarea name="description" rows="3"></textarea></label>
+        <div class="form-footer full-field">
+          <button class="button danger" id="deletePackageButton" type="button" hidden><i data-lucide="trash-2"></i> Obriši</button><span></span>
+          <button class="button secondary" type="button" data-close-modal>Odustani</button>
+          <button class="button primary" id="savePackageButton" type="submit"><i data-lucide="save"></i> Spremi paket</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</body>
+</html>

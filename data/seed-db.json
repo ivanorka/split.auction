@@ -1,0 +1,277 @@
+{
+  "hotels": [
+    {
+      "id": "st-marjan-demo",
+      "name": "Hotel Marjan Split",
+      "city": "Split",
+      "street": "Obala kneza Branimira 8, Split",
+      "lat": 43.5089,
+      "lng": 16.4391,
+      "startPrice": 50,
+      "duration": 60,
+      "partnerType": "hotel",
+      "freeRooms": 12,
+      "totalRooms": 21,
+      "dates": ["2026-08-02", "2026-08-03", "2026-08-06", "2026-08-12", "2026-08-18", "2026-08-24"],
+      "images": [
+        "/assets/media/split-city-hotel.jpg",
+        "https://picsum.photos/seed/hotel-marjan-lobby/1200/760",
+        "https://picsum.photos/seed/hotel-marjan-view/1200/760"
+      ],
+      "description": "Demo hotel s velikim brojem praznih soba u hladnijim terminima. Idealno za pokazati primjer 50 € hladne cijene i aukcije koja raste do 80 €.",
+      "amenities": ["Pogled na more", "Doručak", "Parking", "Wellness"],
+      "featured": true
+    },
+    {
+      "id": "st-park-demo",
+      "name": "Hotel Park Split",
+      "city": "Split",
+      "street": "Hatzeov perivoj 3, Split",
+      "lat": 43.5013,
+      "lng": 16.4438,
+      "startPrice": 85,
+      "duration": 120,
+      "partnerType": "hotel",
+      "freeRooms": 8,
+      "totalRooms": 21,
+      "dates": ["2026-08-03", "2026-08-04", "2026-08-09", "2026-08-15", "2026-08-21"],
+      "images": [
+        "/assets/media/auction-split-hero.jpg",
+        "https://picsum.photos/seed/hotel-park-split-pool/1200/760"
+      ],
+      "description": "Klasičan gradski hotel za goste koji žele bolju lokaciju i kraću aukciju.",
+      "amenities": ["Plaža blizu", "Restoran", "Recepcija 24/7"],
+      "featured": false
+    },
+    {
+      "id": "st-bacvice-apartment",
+      "name": "Apartman Bačvice Loft",
+      "city": "Split",
+      "street": "Prilaz braće Kaliterna 6, Split",
+      "lat": 43.5041,
+      "lng": 16.4488,
+      "startPrice": 40,
+      "duration": 45,
+      "partnerType": "small",
+      "freeRooms": 2,
+      "totalRooms": 4,
+      "dates": ["2026-08-02", "2026-08-05", "2026-08-10", "2026-08-16", "2026-08-23"],
+      "images": [
+        "/assets/media/bacvice-apartment.jpg",
+        "https://picsum.photos/seed/bacvice-loft-balcony/1200/760"
+      ],
+      "description": "Manji smještaj s modelom 60/40, dobar za pokazati kako se nakon hotela mogu priključiti apartmani.",
+      "amenities": ["Kuhinja", "Blizu plaže", "Samostalni ulaz"],
+      "featured": true
+    },
+    {
+      "id": "st-radisson-demo",
+      "name": "Radisson Blu Resort Split",
+      "city": "Split",
+      "street": "Put Trstenika 19, Split",
+      "lat": 43.5037,
+      "lng": 16.4707,
+      "startPrice": 120,
+      "duration": 180,
+      "partnerType": "hotel",
+      "freeRooms": 15,
+      "totalRooms": 21,
+      "dates": ["2026-08-04", "2026-08-06", "2026-08-12", "2026-08-18", "2026-08-28"],
+      "images": [
+        "/assets/media/auction-split-hero.jpg",
+        "https://picsum.photos/seed/radisson-split-spa/1200/760"
+      ],
+      "description": "Veći hotel s više slobodnih soba i većom razlikom između hladne cijene i moguće završne ponude.",
+      "amenities": ["Spa", "Bazen", "Obiteljske sobe"],
+      "featured": false
+    },
+    {
+      "id": "zg-ambasador-demo",
+      "name": "Hotel Ambasador Zagreb",
+      "city": "Zagreb",
+      "street": "Trg hrvatskih velikana 1, Zagreb",
+      "lat": 45.813,
+      "lng": 15.977,
+      "startPrice": 70,
+      "duration": 90,
+      "partnerType": "hotel",
+      "freeRooms": 11,
+      "totalRooms": 21,
+      "dates": ["2026-08-03", "2026-08-08", "2026-08-14", "2026-08-20", "2026-08-25"],
+      "images": [
+        "/assets/media/split-city-hotel.jpg",
+        "https://picsum.photos/seed/ambasador-zagreb-lobby/1200/760"
+      ],
+      "description": "Zagrebački demo hotel za pokazati širenje platforme izvan obale.",
+      "amenities": ["Centar grada", "Poslovni gosti", "Doručak"],
+      "featured": false
+    },
+    {
+      "id": "os-hotel-demo",
+      "name": "Hotel Osijek",
+      "city": "Osijek",
+      "street": "Šamačka 4, Osijek",
+      "lat": 45.559,
+      "lng": 18.675,
+      "startPrice": 50,
+      "duration": 60,
+      "partnerType": "hotel",
+      "freeRooms": 13,
+      "totalRooms": 21,
+      "dates": ["2026-08-02", "2026-08-07", "2026-08-13", "2026-08-19", "2026-08-27"],
+      "images": [
+        "/assets/media/split-city-hotel.jpg",
+        "https://picsum.photos/seed/hotel-osijek-river/1200/760"
+      ],
+      "description": "Kontinentalni primjer s nižom hladnom cijenom i većim potencijalom punjenja praznog kapaciteta.",
+      "amenities": ["Rijeka Drava", "Parking", "Kongresna dvorana"],
+      "featured": false
+    },
+    {
+      "id": "pu-pula-demo",
+      "name": "Hotel Pula",
+      "city": "Pula",
+      "street": "Sisplac 31, Pula",
+      "lat": 44.8616,
+      "lng": 13.8366,
+      "startPrice": 40,
+      "duration": 30,
+      "partnerType": "hotel",
+      "freeRooms": 7,
+      "totalRooms": 21,
+      "dates": ["2026-08-03", "2026-08-06", "2026-08-11", "2026-08-17", "2026-08-22"],
+      "images": [
+        "/assets/media/auction-split-hero.jpg",
+        "https://picsum.photos/seed/hotel-pula-sea/1200/760"
+      ],
+      "description": "Primjer hotela koji može odmah prihvatiti gostovu početnu ponudu od 40 €.",
+      "amenities": ["More blizu", "Kratka aukcija", "Parking"],
+      "featured": true
+    },
+    {
+      "id": "du-lapad-demo",
+      "name": "Hotel Lapad Dubrovnik",
+      "city": "Dubrovnik",
+      "street": "Lapadska obala 37, Dubrovnik",
+      "lat": 42.6583,
+      "lng": 18.0835,
+      "startPrice": 110,
+      "duration": 120,
+      "partnerType": "hotel",
+      "freeRooms": 9,
+      "totalRooms": 21,
+      "dates": ["2026-08-04", "2026-08-09", "2026-08-15", "2026-08-22", "2026-08-29"],
+      "images": [
+        "/assets/media/auction-split-hero.jpg",
+        "https://picsum.photos/seed/hotel-lapad-terrace/1200/760"
+      ],
+      "description": "Dubrovnik kao jača destinacija, koristan za pokazati da aukcija ne mora rušiti cijenu nego puni rupe.",
+      "amenities": ["Terasa", "Bazen", "Luka blizu"],
+      "featured": false
+    },
+    {
+      "id": "si-amadria-demo",
+      "name": "Amadria Park Hotel Ivan",
+      "city": "Šibenik",
+      "street": "Hoteli Solaris 86, Šibenik",
+      "lat": 43.6832,
+      "lng": 15.8867,
+      "startPrice": 75,
+      "duration": 75,
+      "partnerType": "hotel",
+      "freeRooms": 10,
+      "totalRooms": 21,
+      "dates": ["2026-08-02", "2026-08-10", "2026-08-16", "2026-08-20", "2026-08-26"],
+      "images": [
+        "/assets/media/auction-split-hero.jpg",
+        "https://picsum.photos/seed/amadria-ivan-resort/1200/760"
+      ],
+      "description": "Resort primjer za obiteljske goste i destinacije koje imaju slobodne datume izvan špice.",
+      "amenities": ["Resort", "Obiteljski sadržaji", "Plaža"],
+      "featured": false
+    }
+  ],
+  "admins": [
+    {
+      "id": "admin-owner",
+      "name": "Maximilian Split",
+      "email": "maximilian.split@gmail.com",
+      "role": "Vlasnik sustava",
+      "phone": "+385 91 000 0000"
+    }
+  ],
+  "confirms": [
+    {
+      "id": "confirm-seed-1",
+      "name": "Marko Perić",
+      "email": "marko.peric@example.com",
+      "card": "Demo Visa",
+      "hotel": "Hotel Marjan Split",
+      "hotelId": "st-marjan-demo",
+      "dates": "2026-07-08, 2026-07-09",
+      "amount": 80,
+      "createdAt": "2026-07-07T10:00:00.000Z"
+    }
+  ],
+  "bidsByHotel": {
+    "st-marjan-demo": [
+      {
+        "id": "bid-marjan-a",
+        "label": "A",
+        "meta": "Anonimni sudionik",
+        "amount": 55,
+        "self": false,
+        "dates": ["2026-07-08", "2026-07-09"],
+        "duration": 60,
+        "createdAt": "2026-07-07T09:30:00.000Z"
+      },
+      {
+        "id": "bid-marjan-b",
+        "label": "Vi",
+        "meta": "Demo korisnik",
+        "amount": 80,
+        "self": true,
+        "dates": ["2026-07-08", "2026-07-09"],
+        "duration": 60,
+        "createdAt": "2026-07-07T09:42:00.000Z"
+      }
+    ],
+    "st-bacvice-apartment": [
+      {
+        "id": "bid-bacvice-a",
+        "label": "B",
+        "meta": "Anonimni sudionik",
+        "amount": 45,
+        "self": false,
+        "dates": ["2026-07-08"],
+        "duration": 45,
+        "createdAt": "2026-07-07T09:12:00.000Z"
+      }
+    ],
+    "pu-pula-demo": [
+      {
+        "id": "bid-pula-a",
+        "label": "A",
+        "meta": "Anonimni sudionik",
+        "amount": 45,
+        "self": false,
+        "dates": ["2026-07-09"],
+        "duration": 30,
+        "createdAt": "2026-07-07T08:50:00.000Z"
+      }
+    ],
+    "os-hotel-demo": [
+      {
+        "id": "bid-osijek-a",
+        "label": "C",
+        "meta": "Anonimni sudionik",
+        "amount": 60,
+        "self": false,
+        "dates": ["2026-07-08"],
+        "duration": 60,
+        "createdAt": "2026-07-07T08:40:00.000Z"
+      }
+    ]
+  },
+  "watchedHotels": ["st-marjan-demo"]
+}
