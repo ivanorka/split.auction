@@ -129,6 +129,7 @@
     },
     {
       "id": "pu-pula-demo",
+      "partnerId": "partner-adriatic",
       "name": "Hotel Pula",
       "city": "Pula",
       "street": "Sisplac 31, Pula",
@@ -150,6 +151,7 @@
     },
     {
       "id": "du-lapad-demo",
+      "partnerId": "partner-adriatic",
       "name": "Hotel Lapad Dubrovnik",
       "city": "Dubrovnik",
       "street": "Lapadska obala 37, Dubrovnik",
@@ -171,6 +173,7 @@
     },
     {
       "id": "si-amadria-demo",
+      "partnerId": "partner-adriatic",
       "name": "Amadria Park Hotel Ivan",
       "city": "Šibenik",
       "street": "Hoteli Solaris 86, Šibenik",
@@ -188,6 +191,139 @@
       ],
       "description": "Resort primjer za obiteljske goste i destinacije koje imaju slobodne datume izvan špice.",
       "amenities": ["Resort", "Obiteljski sadržaji", "Plaža"],
+      "featured": false
+    },
+    {
+      "id": "ma-osejava-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Hotel Osejava Makarska",
+      "city": "Makarska",
+      "street": "Šetalište fra Jure Radića 12, Makarska",
+      "lat": 43.2938,
+      "lng": 17.0154,
+      "startPrice": 65,
+      "duration": 60,
+      "partnerType": "hotel",
+      "freeRooms": 14,
+      "totalRooms": 48,
+      "dates": ["2026-08-03", "2026-08-07", "2026-08-13", "2026-08-19", "2026-08-25", "2026-08-30"],
+      "images": ["/assets/media/split-city-hotel.jpg", "https://picsum.photos/seed/osejava-makarska/1200/760"],
+      "description": "Boutique hotel uz rivu s paketima za kraće boravke između glavnih smjena gostiju.",
+      "amenities": ["Riva", "Doručak", "Transfer", "Terasa"],
+      "featured": true
+    },
+    {
+      "id": "zd-forum-demo",
+      "partnerId": "partner-hosts",
+      "name": "Forum Heritage Rooms",
+      "city": "Zadar",
+      "street": "Široka ulica 18, Zadar",
+      "lat": 44.1155,
+      "lng": 15.2249,
+      "startPrice": 55,
+      "duration": 45,
+      "partnerType": "small",
+      "freeRooms": 4,
+      "totalRooms": 7,
+      "dates": ["2026-08-02", "2026-08-06", "2026-08-12", "2026-08-17", "2026-08-24"],
+      "images": ["/assets/media/bacvice-apartment.jpg", "https://picsum.photos/seed/forum-zadar/1200/760"],
+      "description": "Mali gradski smještaj za demonstraciju 60/40 modela i fleksibilnih city-break termina.",
+      "amenities": ["Stari grad", "Samostalna prijava", "Klima", "Wi-Fi"],
+      "featured": false
+    },
+    {
+      "id": "ro-adriatic-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Adriatic Garden Rovinj",
+      "city": "Rovinj",
+      "street": "Ulica Luja Adamovića 9, Rovinj",
+      "lat": 45.0752,
+      "lng": 13.6387,
+      "startPrice": 95,
+      "duration": 180,
+      "partnerType": "hotel",
+      "freeRooms": 18,
+      "totalRooms": 72,
+      "dates": ["2026-08-05", "2026-08-10", "2026-08-16", "2026-08-21", "2026-08-27"],
+      "images": ["/assets/media/auction-split-hero.jpg", "https://picsum.photos/seed/adriatic-rovinj/1200/760"],
+      "description": "Veći istarski hotel s wellness inventarom i prostorom za nadmetanje iznad čvrstog minimuma.",
+      "amenities": ["Wellness", "Bazen", "Bicikli", "Parking"],
+      "featured": true
+    },
+    {
+      "id": "op-kvarner-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Kvarner Grand Opatija",
+      "city": "Opatija",
+      "street": "Maršala Tita 102, Opatija",
+      "lat": 45.3348,
+      "lng": 14.3064,
+      "startPrice": 90,
+      "duration": 120,
+      "partnerType": "hotel",
+      "freeRooms": 16,
+      "totalRooms": 64,
+      "dates": ["2026-08-04", "2026-08-11", "2026-08-18", "2026-08-23", "2026-08-29"],
+      "images": ["/assets/media/split-city-hotel.jpg", "https://picsum.photos/seed/kvarner-opatija/1200/760"],
+      "description": "Cjelogodišnji hotel koji pokazuje kako aukcije mogu raditi i izvan klasičnog ljetnog odmora.",
+      "amenities": ["Wellness", "Kongresi", "Šetnica", "Garaža"],
+      "featured": false
+    },
+    {
+      "id": "tg-stone-demo",
+      "partnerId": "partner-hosts",
+      "name": "Trogir Stone House",
+      "city": "Trogir",
+      "street": "Ulica Matije Gupca 14, Trogir",
+      "lat": 43.5164,
+      "lng": 16.2502,
+      "startPrice": 48,
+      "duration": 30,
+      "partnerType": "small",
+      "freeRooms": 3,
+      "totalRooms": 5,
+      "dates": ["2026-08-03", "2026-08-09", "2026-08-14", "2026-08-20", "2026-08-26"],
+      "images": ["/assets/media/bacvice-apartment.jpg", "https://picsum.photos/seed/trogir-stone/1200/760"],
+      "description": "Mali objekt u staroj jezgri s kratkim aukcijama za rupe od jedne ili dvije noći.",
+      "amenities": ["Stara jezgra", "Kuhinja", "Transfer do zračne luke"],
+      "featured": true
+    },
+    {
+      "id": "hv-pharos-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Pharos Bay Hotel Hvar",
+      "city": "Hvar",
+      "street": "Ulica Dinka Kovačevića 10, Hvar",
+      "lat": 43.1717,
+      "lng": 16.4391,
+      "startPrice": 105,
+      "duration": 240,
+      "partnerType": "hotel",
+      "freeRooms": 20,
+      "totalRooms": 96,
+      "dates": ["2026-08-06", "2026-08-12", "2026-08-17", "2026-08-22", "2026-08-28"],
+      "images": ["/assets/media/auction-split-hero.jpg", "https://picsum.photos/seed/pharos-hvar/1200/760"],
+      "description": "Otočni resort primjer s višom hladnom cijenom, duljim nadmetanjem i većim inventarom.",
+      "amenities": ["Bazen", "Beach club", "Polupansion", "Prijevoz prtljage"],
+      "featured": false
+    },
+    {
+      "id": "vz-old-town-demo",
+      "partnerId": "partner-hosts",
+      "name": "Old Town Suites Varaždin",
+      "city": "Varaždin",
+      "street": "Ulica Ivana Padovca 5, Varaždin",
+      "lat": 46.3057,
+      "lng": 16.3366,
+      "startPrice": 42,
+      "duration": 15,
+      "partnerType": "small",
+      "freeRooms": 5,
+      "totalRooms": 8,
+      "dates": ["2026-08-02", "2026-08-08", "2026-08-15", "2026-08-21", "2026-08-27"],
+      "images": ["/assets/media/bacvice-apartment.jpg", "https://picsum.photos/seed/varazdin-suite/1200/760"],
+      "description": "Kontinentalni apartmanski set s najkraćom aukcijom i nižim ulaznim pragom.",
+      "amenities": ["Centar", "Kuhinja", "Radni stol", "Samostalna prijava"],
       "featured": false
     }
   ],
@@ -208,9 +344,53 @@
       "card": "Demo Visa",
       "hotel": "Hotel Marjan Split",
       "hotelId": "st-marjan-demo",
-      "dates": "2026-07-08, 2026-07-09",
+      "dates": "2026-08-02, 2026-08-03",
       "amount": 80,
       "createdAt": "2026-07-07T10:00:00.000Z"
+    },
+    {
+      "id": "confirm-seed-2",
+      "name": "Iva Horvat",
+      "email": "iva.horvat@example.com",
+      "card": "Demo Mastercard",
+      "hotel": "Hotel Pula",
+      "hotelId": "pu-pula-demo",
+      "dates": "2026-08-03",
+      "amount": 55,
+      "createdAt": "2026-07-08T12:20:00.000Z"
+    },
+    {
+      "id": "confirm-seed-3",
+      "name": "Luka Radić",
+      "email": "luka.radic@example.com",
+      "card": "Demo Visa",
+      "hotel": "Forum Heritage Rooms",
+      "hotelId": "zd-forum-demo",
+      "dates": "2026-08-06, 2026-08-12",
+      "amount": 70,
+      "createdAt": "2026-07-09T16:45:00.000Z"
+    },
+    {
+      "id": "confirm-seed-4",
+      "name": "Mia Babić",
+      "email": "mia.babic@example.com",
+      "card": "Demo Amex",
+      "hotel": "Adriatic Garden Rovinj",
+      "hotelId": "ro-adriatic-demo",
+      "dates": "2026-08-10",
+      "amount": 135,
+      "createdAt": "2026-07-10T09:10:00.000Z"
+    },
+    {
+      "id": "confirm-seed-5",
+      "name": "Ivan Kovač",
+      "email": "ivan.kovac@example.com",
+      "card": "Demo Visa",
+      "hotel": "Trogir Stone House",
+      "hotelId": "tg-stone-demo",
+      "dates": "2026-08-09",
+      "amount": 63,
+      "createdAt": "2026-07-10T18:30:00.000Z"
     }
   ],
   "bidsByHotel": {
@@ -221,7 +401,7 @@
         "meta": "Anonimni sudionik",
         "amount": 55,
         "self": false,
-        "dates": ["2026-07-08", "2026-07-09"],
+        "dates": ["2026-08-02", "2026-08-03"],
         "duration": 60,
         "createdAt": "2026-07-07T09:30:00.000Z"
       },
@@ -231,7 +411,7 @@
         "meta": "Demo korisnik",
         "amount": 80,
         "self": true,
-        "dates": ["2026-07-08", "2026-07-09"],
+        "dates": ["2026-08-02", "2026-08-03"],
         "duration": 60,
         "createdAt": "2026-07-07T09:42:00.000Z"
       }
@@ -243,7 +423,7 @@
         "meta": "Anonimni sudionik",
         "amount": 45,
         "self": false,
-        "dates": ["2026-07-08"],
+        "dates": ["2026-08-02"],
         "duration": 45,
         "createdAt": "2026-07-07T09:12:00.000Z"
       }
@@ -255,7 +435,7 @@
         "meta": "Anonimni sudionik",
         "amount": 45,
         "self": false,
-        "dates": ["2026-07-09"],
+        "dates": ["2026-08-03"],
         "duration": 30,
         "createdAt": "2026-07-07T08:50:00.000Z"
       }
@@ -267,10 +447,37 @@
         "meta": "Anonimni sudionik",
         "amount": 60,
         "self": false,
-        "dates": ["2026-07-08"],
+        "dates": ["2026-08-02"],
         "duration": 60,
         "createdAt": "2026-07-07T08:40:00.000Z"
       }
+    ],
+    "ma-osejava-demo": [
+      {"id":"bid-osejava-a","label":"D","meta":"Anonimni sudionik","amount":75,"self":false,"dates":["2026-08-07"],"duration":60,"createdAt":"2026-07-08T11:10:00.000Z"},
+      {"id":"bid-osejava-b","label":"E","meta":"Anonimni sudionik","amount":85,"self":false,"dates":["2026-08-07"],"duration":60,"createdAt":"2026-07-08T11:18:00.000Z"}
+    ],
+    "zd-forum-demo": [
+      {"id":"bid-forum-a","label":"F","meta":"Anonimni sudionik","amount":60,"self":false,"dates":["2026-08-06","2026-08-12"],"duration":45,"createdAt":"2026-07-08T13:00:00.000Z"},
+      {"id":"bid-forum-b","label":"G","meta":"Anonimni sudionik","amount":70,"self":false,"dates":["2026-08-06","2026-08-12"],"duration":45,"createdAt":"2026-07-08T13:07:00.000Z"}
+    ],
+    "ro-adriatic-demo": [
+      {"id":"bid-rovinj-a","label":"H","meta":"Anonimni sudionik","amount":110,"self":false,"dates":["2026-08-10"],"duration":180,"createdAt":"2026-07-09T08:30:00.000Z"},
+      {"id":"bid-rovinj-b","label":"I","meta":"Anonimni sudionik","amount":125,"self":false,"dates":["2026-08-10"],"duration":180,"createdAt":"2026-07-09T09:05:00.000Z"},
+      {"id":"bid-rovinj-c","label":"J","meta":"Anonimni sudionik","amount":135,"self":false,"dates":["2026-08-10"],"duration":180,"createdAt":"2026-07-09T09:42:00.000Z"}
+    ],
+    "op-kvarner-demo": [
+      {"id":"bid-opatija-a","label":"K","meta":"Anonimni sudionik","amount":105,"self":false,"dates":["2026-08-11"],"duration":120,"createdAt":"2026-07-09T14:12:00.000Z"}
+    ],
+    "tg-stone-demo": [
+      {"id":"bid-trogir-a","label":"L","meta":"Anonimni sudionik","amount":53,"self":false,"dates":["2026-08-09"],"duration":30,"createdAt":"2026-07-10T17:00:00.000Z"},
+      {"id":"bid-trogir-b","label":"M","meta":"Anonimni sudionik","amount":63,"self":false,"dates":["2026-08-09"],"duration":30,"createdAt":"2026-07-10T17:08:00.000Z"}
+    ],
+    "hv-pharos-demo": [
+      {"id":"bid-hvar-a","label":"N","meta":"Anonimni sudionik","amount":120,"self":false,"dates":["2026-08-12"],"duration":240,"createdAt":"2026-07-11T10:20:00.000Z"}
+    ],
+    "vz-old-town-demo": [
+      {"id":"bid-varazdin-a","label":"O","meta":"Anonimni sudionik","amount":47,"self":false,"dates":["2026-08-08"],"duration":15,"createdAt":"2026-07-11T12:15:00.000Z"},
+      {"id":"bid-varazdin-b","label":"P","meta":"Anonimni sudionik","amount":57,"self":false,"dates":["2026-08-08"],"duration":15,"createdAt":"2026-07-11T12:20:00.000Z"}
     ]
   },
   "watchedHotels": ["st-marjan-demo"]

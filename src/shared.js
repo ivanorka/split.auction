@@ -1,6 +1,23 @@
 export const byId = id => document.getElementById(id);
 
 let csrfToken = '';
+let apiTransport = 'unknown';
+
+export function getApiTransport(){
+  return apiTransport;
+}
+
+function setApiTransport(value){
+  if(apiTransport === value) return;
+  apiTransport = value;
+  window.dispatchEvent(new CustomEvent('auction-split:transport', { detail:{ transport:value } }));
+}
+
+async function browserDemoApi(path, options){
+  const { staticApi } = await import('./static-api.js');
+  setApiTransport('browser-demo');
+  return staticApi(path, options);
+}
 
 export function setCsrfToken(value){
   csrfToken = String(value || '');
@@ -32,7 +49,7 @@ export function asList(value){
 
 export async function api(path, options = {}){
   const method = String(options.method || 'GET').toUpperCase();
-  const response = await fetch(path, {
+  const requestOptions = {
     ...options,
     credentials:'same-origin',
     headers:{
@@ -40,8 +57,24 @@ export async function api(path, options = {}){
       ...(csrfToken && !['GET', 'HEAD'].includes(method) ? {'x-csrf-token':csrfToken} : {}),
       ...(options.headers || {})
     }
-  });
-  const payload = await response.json().catch(() => ({}));
+  };
+  if(apiTransport === 'browser-demo') return browserDemoApi(path, requestOptions);
+
+  let response;
+  try{
+    response = await fetch(path, requestOptions);
+  }catch{
+    return browserDemoApi(path, requestOptions);
+  }
+  const contentType = response.headers.get('content-type') || '';
+  const raw = await response.text();
+  let payload = {};
+  if(contentType.includes('application/json')){
+    try{ payload = raw ? JSON.parse(raw) : {}; }
+    catch{ payload = {}; }
+  }else if(path.startsWith('/api/') && (response.status === 404 || response.status === 405 || contentType.includes('text/html'))){
+    return browserDemoApi(path, requestOptions);
+  }
   if(!response.ok){
     const error = new Error(payload.error || 'Server nije prihvatio zahtjev.');
     error.status = response.status;
@@ -49,6 +82,7 @@ export async function api(path, options = {}){
     error.payload = payload;
     throw error;
   }
+  setApiTransport('server');
   return payload;
 }
 

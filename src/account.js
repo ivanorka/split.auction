@@ -27,6 +27,10 @@ function roleLabel(user){
   return 'Gostujući račun';
 }
 
+function reservationStatusLabel(status){
+  return ({ confirmed:'Potvrđeno', checked_in:'Gost prijavljen', completed:'Završeno', cancelled:'Otkazano' })[status] || 'Potvrđeno';
+}
+
 function render(payload){
   const { user, bids, reservations, watchedPackages } = payload;
   byId('accountGate').hidden = true;
@@ -49,8 +53,8 @@ function render(payload){
     : '<tr><td colspan="4"><div class="empty-inline">Još nemate poslanih ponuda.</div></td></tr>';
 
   byId('accountReservationsBody').innerHTML = reservations.length
-    ? reservations.map(item => `<tr><td><strong>${escapeHtml(item.bookingCode)}</strong></td><td>${escapeHtml(item.hotel)}<small class="table-note">${escapeHtml(item.packageName || '')}</small></td><td>${escapeHtml(item.dates)}</td><td><strong>${formatMoney(item.amount)}</strong></td><td><span class="status-badge active">Potvrđeno</span></td></tr>`).join('')
-    : '<tr><td colspan="5"><div class="empty-inline">Još nemate potvrđenih rezervacija.</div></td></tr>';
+    ? reservations.map(item => `<tr><td><strong>${escapeHtml(item.bookingCode)}</strong></td><td>${escapeHtml(item.hotel)}<small class="table-note">${escapeHtml(item.packageName || '')}</small></td><td>${escapeHtml(item.dates)}</td><td><strong>${formatMoney(item.amount)}</strong></td><td><span class="status-badge ${item.status !== 'cancelled' ? 'active' : ''}">${reservationStatusLabel(item.status)}</span></td><td class="table-actions">${item.status !== 'cancelled' && item.status !== 'completed' ? `<button class="button tertiary small" type="button" data-cancel-reservation="${escapeAttribute(item.id)}">Otkaži</button>` : ''}</td></tr>`).join('')
+    : '<tr><td colspan="6"><div class="empty-inline">Još nemate potvrđenih rezervacija.</div></td></tr>';
 
   byId('accountWatched').innerHTML = watchedPackages.length
     ? watchedPackages.map(item => `<a href="/demo.html?package=${escapeAttribute(item.package.id)}"><img src="${escapeAttribute(item.hotel.images?.[0] || '/assets/favicon.svg')}" alt=""><span><strong>${escapeHtml(item.hotel.name)}</strong><small>${escapeHtml(item.package.name)} · od ${formatMoney(item.package.coldPrice)}</small></span><i data-lucide="arrow-right"></i></a>`).join('')
@@ -98,10 +102,27 @@ async function changePassword(event){
   finally{ setBusy(button, false); }
 }
 
+async function cancelReservation(button){
+  setBusy(button, true, 'Otkazujem...');
+  try{
+    const payload = await api(`/api/reservations/${encodeURIComponent(button.dataset.cancelReservation)}`, {
+      method:'PATCH',
+      body:JSON.stringify({ status:'cancelled' })
+    });
+    render(payload);
+    notify('Rezervacija je otkazana, a jedinica vraćena u paket.');
+  }catch(error){ notify(error.message, 'error'); }
+  finally{ setBusy(button, false); }
+}
+
 async function init(){
   byId('accountGateLogin').addEventListener('click', () => openAuthDialog('login'));
   byId('profileForm').addEventListener('submit', saveProfile);
   byId('passwordForm').addEventListener('submit', changePassword);
+  byId('accountReservationsBody').addEventListener('click', event => {
+    const button = event.target.closest('[data-cancel-reservation]');
+    if(button) cancelReservation(button);
+  });
   window.addEventListener('auction:auth-changed', loadAccount);
   await initAuthUI();
   await loadAccount();

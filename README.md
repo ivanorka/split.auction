@@ -15,9 +15,23 @@ Demo se otvara na `http://127.0.0.1:5173/`. Lokalni Node server istodobno poslu�
 npm run build       # statički build u dist/
 npm run preview     # pregled dist/ builda
 npm run test:api    # integracijski test autentikacije, ovlasti i aukcijskog toka
+npm run test:build  # provjera Pages podputanje i sigurnosti statičkog seeda
+npm test            # cijeli testni paket
 python3 -m pip install -r requirements.txt
 npm run brochures   # ponovno generira PDF brošure nakon instalacije ReportLaba
 ```
+
+## Načini produkcijskog pokretanja
+
+Projekt više ne pretpostavlja da svaki hosting može pokrenuti Node API.
+
+- `npm start` pokreće puni frontend i pravi Node API na istom originu
+- `DATA_DIR=/var/lib/auction-split npm start` sprema radnu bazu na trajni disk
+- `Dockerfile` pakira isti puni servis i izlaže health check na `/api/health`
+- GitHub Pages workflow gradi projekt s `/split.auction` podputanjom
+- ako statički hosting nema `/api`, frontend automatski aktivira pregledničku prezentacijsku bazu umjesto poruke da API nije dostupan
+
+Prezentacijska baza na statičkom hostingu sprema promjene u lokalni browser i namijenjena je investitorskom prikazu. Puni Node način koristi zajedničku serversku bazu za sve korisnike instance.
 
 ## Proizvodne cjeline
 
@@ -41,6 +55,9 @@ npm run brochures   # ponovno generira PDF brošure nakon instalacije ReportLaba
 - `scripts/server/security.js` - scrypt lozinke, tokeni, kolačići i sigurnosna validacija
 - `scripts/server/database.js` - atomski JSON zapis, migracija i reset demo podataka
 - `scripts/server/api.js` - autentikacija, autorizacija i poslovni API
+- `src/static-api.js` - funkcionalni lokalni API adapter za statičke produkcijske deploye
+- `.github/workflows/pages.yml` - automatski GitHub Pages build i deploy
+- `Dockerfile` - puni produkcijski Node servis s trajnim `DATA_DIR` volumenom
 - `vendor/lucide.min.js` - lokalna kopija Lucide ikona s licencom
 - `assets/auction-split-logo.svg` - puni Auction Split znak za prezentacije i materijale
 - `assets/favicon.svg` - pojednostavljena podijeljena oznaka za aplikaciju i karticu preglednika
@@ -66,6 +83,8 @@ Brzi ulaz nalazi se u modalu za prijavu. Računi su namjerno poznati i služe sa
 | Partner | `partner@auction.split` | `Partner123!` |
 | Administrator | `admin@auction.split` | `Admin123!` |
 
+Dodatni partnerski setovi koriste lozinku `Partner123!`: `manager@auction.split`, `editor@auction.split`, `adriatic@auction.split` i `host@auction.split`.
+
 Gost može licitirati, pratiti aukcije i potvrditi vlastitu vodeću ponudu. Partner vidi samo vlastite objekte i pakete. Administrator vidi cijeli demo portfolio i može vratiti početno stanje.
 
 ## Sigurnosni model
@@ -81,7 +100,7 @@ Gost može licitirati, pratiti aukcije i potvrditi vlastitu vodeću ponudu. Part
 
 ## Demo podaci i API
 
-`data/seed-db.json` je poslovni početni scenarij, `data/auth-seed.json` sadrži hashirane demo račune, a ignorirani `data/demo-db.json` je radna baza. Reset je dostupan samo platformskom administratoru.
+`data/seed-db.json` sadrži 16 smještaja, a migracija iz njega stvara 38 paketa, 18 početnih ponuda i 5 rezervacijskih scenarija. `data/auth-seed.json` sadrži 7 hashiranih demo računa raspoređenih u 3 partnerska portfolija, a ignorirani `data/demo-db.json` je radna baza. Reset je dostupan samo platformskom administratoru.
 
 - `GET /api/health`
 - `GET /api/auth/session`
@@ -98,6 +117,7 @@ Gost može licitirati, pratiti aukcije i potvrditi vlastitu vodeću ponudu. Part
 - `POST /api/bids`
 - `POST /api/watch`
 - `POST /api/reservations`
+- `PATCH /api/reservations/:id`
 - `POST /api/hotels`
 - `PUT /api/hotels/:id`
 - `DELETE /api/hotels/:id`
@@ -110,4 +130,4 @@ Gost može licitirati, pratiti aukcije i potvrditi vlastitu vodeću ponudu. Part
 
 ## Produkcijska granica
 
-Autentikacija, autorizacija, vlasništvo, paketi, ponude, potvrde, pozivnice i audit log stvarno rade u lokalnom demu. Produkcijska verzija i dalje treba transakcijsku bazu, distribuirani vremenski auction engine, stvarnu e-mail verifikaciju i slanje pozivnica, platni procesor, pohranu fotografija, monitoring, backup, regulatornu i pravnu provjeru te testove opterećenja.
+Autentikacija, autorizacija, vlasništvo, paketi, ponude, potvrde, otkazivanje, statusi rezervacija, pozivnice i audit log rade u Node i statičkom prezentacijskom načinu. Za komercijalno puštanje s pravim novcem JSON pohranu treba zamijeniti PostgreSQL bazom, a preglednički adapter isključiti; potrebni su još stvarna e-mail verifikacija, platni procesor, objektna pohrana fotografija, distribuirani vremenski auction engine, monitoring, backup, regulatorna i pravna provjera te testovi opterećenja.

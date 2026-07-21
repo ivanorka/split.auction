@@ -682,6 +682,9 @@ tbody tr:last-child td{border-bottom:0}
 .status-badge.active{background:var(--green-soft);color:var(--green)}
 .table-actions{text-align:right}
 .table-actions .icon-button{width:32px;height:32px}
+.booking-controls{display:grid;grid-template-columns:minmax(120px,1fr) minmax(110px,1fr);gap:6px}
+.table-select{min-height:34px;padding:6px 28px 6px 8px;border:1px solid var(--line);border-radius:5px;background:var(--surface);color:var(--text);font:inherit;font-size:.63rem}
+.table-select:disabled{opacity:.65}
 .table-name-button{padding:0;display:grid;border:0;background:none;text-align:left;cursor:pointer}
 .table-name-button strong{font-size:.73rem}
 .table-name-button small{color:var(--muted);font-size:.61rem}

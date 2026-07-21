@@ -6,7 +6,7 @@ const { dbPath, ensureDatabase } = require('./server/database');
 
 const root = resolve(process.argv[2] || '.');
 const port = Number(process.env.PORT || process.argv[3] || 5173);
-const host = '127.0.0.1';
+const host = process.env.HOST || (process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1');
 
 const mimeTypes = {
   '.html':'text/html; charset=utf-8',

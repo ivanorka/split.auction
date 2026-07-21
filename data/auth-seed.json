@@ -41,6 +41,62 @@
       "emailVerifiedAt": "2026-07-07T08:00:00.000Z",
       "createdAt": "2026-07-07T08:00:00.000Z",
       "lastLoginAt": null
+    },
+    {
+      "id": "user-partner-manager",
+      "name": "Mia Operativa",
+      "email": "manager@auction.split",
+      "phone": "+385 91 444 4444",
+      "role": "partner",
+      "partnerId": "partner-demo",
+      "partnerRole": "manager",
+      "status": "active",
+      "passwordHash": "scrypt$16384$8$1$-JZ8GdDeu9aBL4l3Ij_yoMiM$cb34eecacc64fa852d3433e5c2df1bb551ee893af5cd8f15be030473f17ea217753c9e9e24da3382f2d6ddf52265a6d2a584ad19069213c84e1e79ad21800365",
+      "emailVerifiedAt": "2026-07-07T08:00:00.000Z",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "lastLoginAt": null
+    },
+    {
+      "id": "user-partner-editor",
+      "name": "Luka Sadržaj",
+      "email": "editor@auction.split",
+      "phone": "+385 91 555 5555",
+      "role": "partner",
+      "partnerId": "partner-demo",
+      "partnerRole": "editor",
+      "status": "active",
+      "passwordHash": "scrypt$16384$8$1$OEDToM1BXZxFYawQZu3iHczU$4e60522279904c606080a68c275768fcb1897ee8972c4d62797995b6df32ee1d047c580defe4d289f0a8befd6365b7993bf9b99829ba7225b43dd9b3a8ff8b56",
+      "emailVerifiedAt": "2026-07-07T08:00:00.000Z",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "lastLoginAt": null
+    },
+    {
+      "id": "user-adriatic-owner",
+      "name": "Petra Adriatic",
+      "email": "adriatic@auction.split",
+      "phone": "+385 91 666 6666",
+      "role": "partner",
+      "partnerId": "partner-adriatic",
+      "partnerRole": "owner",
+      "status": "active",
+      "passwordHash": "scrypt$16384$8$1$V-0qryxZzvRo-kXUFAqp3i1m$86eb516b106572e77ec1fc0c196ae4841c6fbf805aa273b451e96780b5bf14b5f0d5208bf6369e36f29275b6e8b44b4d578485b5c51f3bf513eef7e34b2153d7",
+      "emailVerifiedAt": "2026-07-07T08:00:00.000Z",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "lastLoginAt": null
+    },
+    {
+      "id": "user-hosts-owner",
+      "name": "Nikola Host",
+      "email": "host@auction.split",
+      "phone": "+385 91 777 7777",
+      "role": "partner",
+      "partnerId": "partner-hosts",
+      "partnerRole": "owner",
+      "status": "active",
+      "passwordHash": "scrypt$16384$8$1$jJx8fYxEnkYhXXYXkdLIj4n3$878f527e399d4571637fa9b2d069ab32a3cdf79aa84ac0910e1c00f97440c92a49e2b4ff6d37e9e4861564be200b3958617100f6bfc1f30d074a9b331ac9afdb",
+      "emailVerifiedAt": "2026-07-07T08:00:00.000Z",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "lastLoginAt": null
     }
   ],
   "partners": [
@@ -50,6 +106,26 @@
       "partnerType": "hotel",
       "ownerUserId": "user-partner-demo",
       "city": "Split",
+      "taxId": "",
+      "status": "active",
+      "createdAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "partner-adriatic",
+      "businessName": "Adriatic Revenue Hotels",
+      "partnerType": "hotel",
+      "ownerUserId": "user-adriatic-owner",
+      "city": "Rovinj",
+      "taxId": "",
+      "status": "active",
+      "createdAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "partner-hosts",
+      "businessName": "Heritage Hosts Hrvatska",
+      "partnerType": "small",
+      "ownerUserId": "user-hosts-owner",
+      "city": "Zadar",
       "taxId": "",
       "status": "active",
       "createdAt": "2026-07-07T08:00:00.000Z"

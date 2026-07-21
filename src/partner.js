@@ -197,8 +197,25 @@ function renderAuctions(){
 
 function renderBookings(){
   byId('bookingsTableBody').innerHTML = state.reservations.length
-    ? state.reservations.map(reservation => `<tr><td><strong>${escapeHtml(reservation.name)}</strong><small class="table-note">${escapeHtml(reservation.email)}</small></td><td>${escapeHtml(reservation.hotel)}<small class="table-note">${escapeHtml(reservation.packageName || '')}</small></td><td>${escapeHtml(reservation.dates)}</td><td><strong>${formatMoney(reservation.amount)}</strong></td><td><span class="status-badge active"><i data-lucide="badge-check"></i>${escapeHtml(reservation.bookingCode || 'Potvrđeno')}</span></td></tr>`).join('')
+    ? state.reservations.map(reservation => `<tr data-reservation-row="${escapeAttribute(reservation.id)}"><td><strong>${escapeHtml(reservation.name)}</strong><small class="table-note">${escapeHtml(reservation.email)}</small></td><td>${escapeHtml(reservation.hotel)}<small class="table-note">${escapeHtml(reservation.packageName || '')}</small></td><td>${escapeHtml(reservation.dates)}</td><td><strong>${formatMoney(reservation.amount)}</strong><small class="table-note">${escapeHtml(reservation.bookingCode || '')}</small></td><td><div class="booking-controls"><select class="table-select" data-reservation-status ${canManageBookings() ? '' : 'disabled'}><option value="confirmed" ${reservation.status === 'confirmed' ? 'selected' : ''}>Potvrđeno</option><option value="checked_in" ${reservation.status === 'checked_in' ? 'selected' : ''}>Gost prijavljen</option><option value="completed" ${reservation.status === 'completed' ? 'selected' : ''}>Završeno</option><option value="cancelled" ${reservation.status === 'cancelled' ? 'selected' : ''}>Otkazano</option></select><select class="table-select" data-payment-status ${canManageBookings() ? '' : 'disabled'}><option value="demo_authorized" ${reservation.paymentStatus === 'demo_authorized' ? 'selected' : ''}>Autorizirano</option><option value="paid" ${reservation.paymentStatus === 'paid' ? 'selected' : ''}>Plaćeno</option><option value="refunded" ${reservation.paymentStatus === 'refunded' ? 'selected' : ''}>Vraćeno</option></select></div></td></tr>`).join('')
     : '<tr><td colspan="5"><div class="empty-inline">Još nema potvrđenih rezervacija.</div></td></tr>';
+}
+
+async function updateReservation(row){
+  const status = row.querySelector('[data-reservation-status]').value;
+  const paymentStatus = row.querySelector('[data-payment-status]').value;
+  try{
+    const payload = await api(`/api/reservations/${encodeURIComponent(row.dataset.reservationRow)}`, {
+      method:'PATCH',
+      body:JSON.stringify({ status, paymentStatus })
+    });
+    applyServerState(payload);
+    renderAll();
+    notify('Status rezervacije je spremljen.');
+  }catch(error){
+    notify(error.message, 'error');
+    await loadPartnerState();
+  }
 }
 
 function renderTeam(){
@@ -225,6 +242,10 @@ function canManageTeam(){
 }
 
 function canDeleteInventory(){
+  return state.currentUser?.role === 'admin' || ['owner', 'manager'].includes(state.currentUser?.partnerRole);
+}
+
+function canManageBookings(){
   return state.currentUser?.role === 'admin' || ['owner', 'manager'].includes(state.currentUser?.partnerRole);
 }
 
@@ -456,7 +477,8 @@ async function inviteTeamMember(event){
     renderAll();
     const token = payload.invitation?.demoInvitationToken;
     if(token && navigator.clipboard){
-      await navigator.clipboard.writeText(`${window.location.origin}/?invite=${encodeURIComponent(token)}`).catch(() => {});
+      const invitationUrl = new URL(`index.html?invite=${encodeURIComponent(token)}`, window.location.href);
+      await navigator.clipboard.writeText(invitationUrl.href).catch(() => {});
     }
     notify(token ? 'Pozivnica je izrađena, a demo poveznica kopirana.' : 'Pozivnica za člana tima je izrađena.');
   }catch(error){ notify(error.message, 'error'); }
@@ -519,7 +541,7 @@ async function loadPartnerState(){
     const payload = await api('/api/partner/state');
     applyServerState(payload);
     renderAll();
-    byId('partnerBackendStatus').innerHTML = '<span class="status-dot live"></span> Sigurna sesija aktivna';
+    byId('partnerBackendStatus').innerHTML = `<span class="status-dot live"></span> ${payload.transport === 'browser-demo' ? 'Prezentacijska baza aktivna' : 'Sigurna sesija aktivna'}`;
   }catch(error){
     byId('partnerBackendStatus').innerHTML = '<span class="status-dot error"></span> Pristup nije dostupan';
     notify(error.message, 'error');
@@ -548,6 +570,10 @@ function bindEvents(){
   });
   byId('propertyForm').addEventListener('submit', saveProperty);
   byId('packageForm').addEventListener('submit', savePackage);
+  byId('bookingsTableBody').addEventListener('change', event => {
+    const row = event.target.closest('[data-reservation-row]');
+    if(row && event.target.matches('[data-reservation-status], [data-payment-status]')) updateReservation(row);
+  });
   byId('deletePropertyButton').addEventListener('click', deleteProperty);
   byId('deletePackageButton').addEventListener('click', deletePackage);
   byId('adminForm').addEventListener('submit', inviteTeamMember);

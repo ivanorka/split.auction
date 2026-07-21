@@ -9,9 +9,10 @@ const {
 const { join, resolve } = require('node:path');
 
 const projectRoot = resolve(__dirname, '../..');
-const dataDir = join(projectRoot, 'data');
-const seedPath = join(dataDir, 'seed-db.json');
-const authSeedPath = join(dataDir, 'auth-seed.json');
+const seedDir = join(projectRoot, 'data');
+const dataDir = process.env.DATA_DIR ? resolve(process.env.DATA_DIR) : join(projectRoot, 'data');
+const seedPath = join(seedDir, 'seed-db.json');
+const authSeedPath = join(seedDir, 'auth-seed.json');
 const dbPath = join(dataDir, 'demo-db.json');
 
 function clone(value){
@@ -22,8 +23,8 @@ function readJson(filePath){
   return JSON.parse(readFileSync(filePath, 'utf8'));
 }
 
-function defaultPackage(hotel){
-  return {
+function defaultPackages(hotel){
+  const base = {
     id:`pkg-${hotel.id}`,
     hotelId:hotel.id,
     partnerId:hotel.partnerId || 'partner-demo',
@@ -40,6 +41,36 @@ function defaultPackage(hotel){
     createdAt:'2026-07-07T08:00:00.000Z',
     updatedAt:'2026-07-07T08:00:00.000Z'
   };
+  const packages = [base];
+  if((hotel.dates || []).length >= 4){
+    packages.push({
+      ...base,
+      id:`pkg-${hotel.id}-last-minute`,
+      name:hotel.partnerType === 'small' ? 'Last minute cijeli smještaj' : 'Last minute s doručkom',
+      roomType:hotel.partnerType === 'small' ? 'Cijeli smještaj' : 'Comfort dvokrevetna soba',
+      dates:hotel.dates.slice(-3),
+      coldPrice:Math.max(10, Math.round((Number(hotel.startPrice) || 50) * 1.1)),
+      duration:[30, 60, 120, 180][packages.length % 4],
+      units:Math.max(1, Math.ceil((Number(hotel.freeRooms) || 1) / 2)),
+      description:'Kraći prodajni prozor za termine koji bi inače ostali nepopunjeni.'
+    });
+  }
+  if(hotel.featured){
+    packages.push({
+      ...base,
+      id:`pkg-${hotel.id}-premium`,
+      name:'Premium paket u pripremi',
+      roomType:hotel.partnerType === 'small' ? 'Cijeli smještaj s kasnom odjavom' : 'Superior soba',
+      mealPlan:hotel.partnerType === 'small' ? 'Košarica dobrodošlice' : 'Polupansion',
+      dates:hotel.dates.slice(0, 2),
+      coldPrice:Math.max(10, Math.round((Number(hotel.startPrice) || 50) * 1.35)),
+      duration:240,
+      units:Math.max(1, Math.floor((Number(hotel.freeRooms) || 1) / 3)),
+      status:'draft',
+      description:'Primjer paketa koji partner još uređuje prije objave gostima.'
+    });
+  }
+  return packages;
 }
 
 function migrateDatabase(input){
@@ -63,7 +94,7 @@ function migrateDatabase(input){
 
   db.packages = Array.isArray(db.packages) && db.packages.length
     ? db.packages
-    : db.hotels.map(defaultPackage);
+    : db.hotels.flatMap(defaultPackages);
 
   db.bidsByPackage = db.bidsByPackage && typeof db.bidsByPackage === 'object'
     ? db.bidsByPackage

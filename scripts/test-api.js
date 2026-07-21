@@ -58,7 +58,7 @@ async function login(email, password){
 async function resetWithAdmin(){
   let admin = await login('admin@auction.split', 'Admin123!');
   const reset = await request('POST', '/api/reset', {}, admin.cookie, admin.csrf);
-  assert(reset.status === 200 && reset.body.hotels.length === 9, 'admin reset demo baze');
+  assert(reset.status === 200 && reset.body.hotels.length === 16, 'admin reset demo baze');
 }
 
 async function run(){
@@ -76,7 +76,7 @@ async function run(){
   const guest = await login('gost@auction.split', 'Demo123!');
   assert(guest.user.role === 'guest', 'gostujuća uloga');
   const state = await request('GET', '/api/state', undefined, guest.cookie);
-  assert(state.status === 200 && state.body.packages.length === 9, 'javni paketni katalog');
+  assert(state.status === 200 && state.body.packages.length === 32, 'javni paketni katalog');
   const forbiddenPartner = await request('GET', '/api/partner/state', undefined, guest.cookie);
   assert(forbiddenPartner.status === 403, 'gost ne može u Partner centar');
   const missingCsrf = await request('POST', '/api/watch', { packageId:'pkg-st-marjan-demo', watching:true }, guest.cookie);
@@ -97,10 +97,14 @@ async function run(){
   assert(reservation.status === 201 && reservation.body.reservation.bookingCode.startsWith('AS-'), 'potvrda vodeće ponude');
   const activity = await request('GET', '/api/account/activity', undefined, guest.cookie);
   assert(activity.body.reservations.length === 1 && activity.body.bids.length >= 2, 'korisnički račun i aktivnost');
+  const cancelled = await request('PATCH', `/api/reservations/${reservation.body.reservation.id}`, { status:'cancelled' }, guest.cookie, guest.csrf);
+  assert(cancelled.status === 200 && cancelled.body.reservations[0].status === 'cancelled', 'gost otkazuje rezervaciju');
+  const restoredState = await request('GET', '/api/state', undefined, guest.cookie);
+  assert(restoredState.body.packages.find(item => item.id === 'pkg-st-bacvice-apartment').units === 2, 'otkazivanje vraća jedinicu u inventar');
 
   const partner = await login('partner@auction.split', 'Partner123!');
   const partnerState = await request('GET', '/api/partner/state', undefined, partner.cookie);
-  assert(partnerState.status === 200 && partnerState.body.hotels.length === 9, 'partnersko vlasništvo portfolija');
+  assert(partnerState.status === 200 && partnerState.body.hotels.length === 6 && partnerState.body.packages.length === 14, 'partnersko vlasništvo portfolija');
   const createdHotel = await request('POST', '/api/hotels', {
     name:'API Test Hotel', city:'Split', street:'Test 1', partnerType:'hotel', totalRooms:10
   }, partner.cookie, partner.csrf);

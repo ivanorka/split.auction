@@ -789,6 +789,55 @@ async function handleApi(req, res, url){
     return true;
   }
 
+  const reservationMatch = url.pathname.match(/^\/api\/reservations\/([^/]+)$/);
+  if(reservationMatch && req.method === 'PATCH'){
+    if(!requireUser(req, res, context)) return true;
+    const reservation = db.reservations.find(item => item.id === decodeURIComponent(reservationMatch[1]));
+    const auctionPackage = db.packages.find(item => item.id === reservation?.packageId);
+    const hotel = db.hotels.find(item => item.id === reservation?.hotelId);
+    if(!reservation || !auctionPackage || !hotel){
+      sendJson(res, 404, { error:'Rezervacija nije pronađena.' });
+      return true;
+    }
+    const guestOwnsReservation = context.user.role === 'guest' && reservation.userId === context.user.id;
+    const partnerOwnsReservation = ['partner', 'admin'].includes(context.user.role)
+      && (context.user.role === 'admin' || hotel.partnerId === context.user.partnerId);
+    if(!guestOwnsReservation && !partnerOwnsReservation){
+      sendJson(res, 403, { error:'Nemate ovlasti za ovu rezervaciju.', code:'FORBIDDEN' });
+      return true;
+    }
+    const nextStatus = asString(body.status, reservation.status);
+    const allowedStatuses = new Set(['confirmed', 'checked_in', 'completed', 'cancelled']);
+    if(!allowedStatuses.has(nextStatus) || (guestOwnsReservation && nextStatus !== 'cancelled')){
+      sendJson(res, 422, { error:'Odabrani status rezervacije nije dopušten.' });
+      return true;
+    }
+    if(context.user.role === 'partner' && !['owner', 'manager'].includes(context.user.partnerRole)){
+      sendJson(res, 403, { error:'Vaša uloga nema ovlasti mijenjati rezervacije.', code:'FORBIDDEN' });
+      return true;
+    }
+    if(reservation.status !== 'cancelled' && nextStatus === 'cancelled'){
+      auctionPackage.units += 1;
+      if(auctionPackage.status === 'sold_out') auctionPackage.status = 'active';
+    }else if(reservation.status === 'cancelled' && nextStatus !== 'cancelled'){
+      if(auctionPackage.units < 1){
+        sendJson(res, 409, { error:'Paket više nema slobodnih jedinica za ponovno aktiviranje rezervacije.' });
+        return true;
+      }
+      auctionPackage.units -= 1;
+      if(auctionPackage.units === 0) auctionPackage.status = 'sold_out';
+    }
+    reservation.status = nextStatus;
+    if(partnerOwnsReservation && ['demo_authorized', 'paid', 'refunded'].includes(body.paymentStatus)){
+      reservation.paymentStatus = body.paymentStatus;
+    }
+    reservation.updatedAt = now();
+    audit(db, context.user, 'reservation.updated', 'reservation', reservation.id, { status:reservation.status, paymentStatus:reservation.paymentStatus });
+    writeDatabase(db);
+    sendJson(res, 200, context.user.role === 'guest' ? accountActivity(db, context.user) : partnerState(db, context.user));
+    return true;
+  }
+
   if(req.method === 'POST' && url.pathname === '/api/hotels'){
     if(!requirePartnerPermission(req, res, context, ['owner', 'manager', 'editor'])) return true;
     const partnerId = context.user.role === 'admin'

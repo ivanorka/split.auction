@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "node scripts/dev-server.js",
+    "start": "NODE_ENV=production node scripts/dev-server.js",
     "build": "node scripts/build.js",
     "preview": "node scripts/dev-server.js dist",
     "test:api": "node scripts/test-api.js",
+    "test:build": "node scripts/test-build.js",
+    "test": "npm run test:api && npm run test:build",
     "brochures": "python3 scripts/generate_brochures.py"
   },
   "dependencies": {
