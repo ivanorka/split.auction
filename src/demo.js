@@ -500,8 +500,8 @@ async function loadState(){
     renderResults();
     if(state.activePackageId && !byId('auctionModal').hidden) openAuction(state.activePackageId);
   }catch(error){
-    byId('backendIndicator').innerHTML = '<span class="status-dot error"></span> Sustav nije dostupan';
-    notify(`API nije dostupan: ${error.message}`, 'error');
+    byId('backendIndicator').innerHTML = '<span class="status-dot error"></span> Aukcije se trenutačno ne mogu učitati';
+    notify(error.message || 'Aukcije se trenutačno ne mogu učitati. Pokušajte ponovno.', 'error');
   }
 }
 
