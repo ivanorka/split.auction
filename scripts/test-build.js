@@ -32,7 +32,7 @@ function collect(directory){
 }
 collect(dist);
 
-const unprefixedPath = /["'`]\/(?:assets\/|src\/|vendor\/|output\/|favicon\.svg|demo\.html|partner\.html|account\.html|koncept\.html|brosura-)/;
+const unprefixedPath = /["'`]\/(?:assets\/|src\/|vendor\/|output\/|favicon\.svg|demo\.html|partner\.html|account\.html|superadmin\.html|koncept\.html|brosura-)/;
 const offending = files.filter(file => unprefixedPath.test(readFileSync(file, 'utf8')));
 assert(offending.length === 0, 'sve aplikacijske putanje podržavaju Pages podputanju');
 console.log('Static production build suite passed.');

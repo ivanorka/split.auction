@@ -22,6 +22,7 @@ function showGate(){
 }
 
 function roleLabel(user){
+  if(user.role === 'superadmin') return 'Superadmin platforme';
   if(user.role === 'admin') return 'Administrator platforme';
   if(user.role === 'partner') return 'Partnerski račun';
   return 'Gostujući račun';
@@ -29,6 +30,22 @@ function roleLabel(user){
 
 function reservationStatusLabel(status){
   return ({ confirmed:'Potvrđeno', checked_in:'Gost prijavljen', completed:'Završeno', cancelled:'Otkazano' })[status] || 'Potvrđeno';
+}
+
+function paymentStatusLabel(status){
+  return ({
+    awaiting_payment:'Čeka plaćanje',
+    checkout_open:'Plaćanje otvoreno',
+    paid:'Plaćeno',
+    refunded:'Povrat izvršen',
+    demo_authorized:'Demo autorizacija'
+  })[status] || 'Čeka plaćanje';
+}
+
+function paymentAction(reservation){
+  if(['cancelled', 'completed'].includes(reservation.status)) return '';
+  if(reservation.paymentStatus === 'paid') return '<span class="status-badge active">Plaćeno</span>';
+  return `<button class="button primary small" type="button" data-pay-reservation="${escapeAttribute(reservation.id)}"><i data-lucide="credit-card"></i> Plati ${formatMoney(reservation.amount)}</button>`;
 }
 
 function render(payload){
@@ -53,7 +70,7 @@ function render(payload){
     : '<tr><td colspan="4"><div class="empty-inline">Još nemate poslanih ponuda.</div></td></tr>';
 
   byId('accountReservationsBody').innerHTML = reservations.length
-    ? reservations.map(item => `<tr><td><strong>${escapeHtml(item.bookingCode)}</strong></td><td>${escapeHtml(item.hotel)}<small class="table-note">${escapeHtml(item.packageName || '')}</small></td><td>${escapeHtml(item.dates)}</td><td><strong>${formatMoney(item.amount)}</strong></td><td><span class="status-badge ${item.status !== 'cancelled' ? 'active' : ''}">${reservationStatusLabel(item.status)}</span></td><td class="table-actions">${item.status !== 'cancelled' && item.status !== 'completed' ? `<button class="button tertiary small" type="button" data-cancel-reservation="${escapeAttribute(item.id)}">Otkaži</button>` : ''}</td></tr>`).join('')
+    ? reservations.map(item => `<tr><td><strong>${escapeHtml(item.bookingCode)}</strong></td><td>${escapeHtml(item.hotel)}<small class="table-note">${escapeHtml(item.packageName || '')}</small></td><td>${escapeHtml(item.dates)}</td><td><strong>${formatMoney(item.amount)}</strong></td><td><span class="status-badge ${item.status !== 'cancelled' ? 'active' : ''}">${reservationStatusLabel(item.status)}</span><small class="table-note payment-status">${paymentStatusLabel(item.paymentStatus)}</small></td><td class="table-actions">${paymentAction(item)}${item.status !== 'cancelled' && item.status !== 'completed' ? `<button class="button tertiary small" type="button" data-cancel-reservation="${escapeAttribute(item.id)}">Otkaži</button>` : ''}</td></tr>`).join('')
     : '<tr><td colspan="6"><div class="empty-inline">Još nemate potvrđenih rezervacija.</div></td></tr>';
 
   byId('accountWatched').innerHTML = watchedPackages.length
@@ -115,6 +132,23 @@ async function cancelReservation(button){
   finally{ setBusy(button, false); }
 }
 
+async function startPayment(button){
+  setBusy(button, true, 'Otvaram sigurno plaćanje...');
+  try{
+    const payload = await api('/api/payments/checkout', {
+      method:'POST',
+      body:JSON.stringify({ reservationId:button.dataset.payReservation })
+    });
+    window.location.assign(payload.checkoutUrl);
+  }catch(error){
+    const message = error.code === 'STRIPE_NOT_CONFIGURED'
+      ? 'Stripe sandbox je spreman u aplikaciji. Dodajte testni Stripe ključ za otvaranje naplate.'
+      : error.message;
+    notify(message, 'error');
+    setBusy(button, false);
+  }
+}
+
 async function init(){
   byId('accountGateLogin').addEventListener('click', () => openAuthDialog('login'));
   byId('profileForm').addEventListener('submit', saveProfile);
@@ -122,6 +156,8 @@ async function init(){
   byId('accountReservationsBody').addEventListener('click', event => {
     const button = event.target.closest('[data-cancel-reservation]');
     if(button) cancelReservation(button);
+    const paymentButton = event.target.closest('[data-pay-reservation]');
+    if(paymentButton) startPayment(paymentButton);
   });
   window.addEventListener('auction:auth-changed', loadAccount);
   await initAuthUI();

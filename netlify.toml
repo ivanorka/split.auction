@@ -3,6 +3,11 @@
   publish = "dist"
   functions = "netlify/functions"
 
+[build.environment]
+  APP_URL = "https://split.auction"
+  EMAIL_FROM = "Auction Split <notifications@mail.split.auction>"
+  NOTIFICATION_EMAIL = "ivanxiaomicroatia@gmail.com"
+
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/api"

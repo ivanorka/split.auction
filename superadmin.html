@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Auction Split superadmin upravljanje korisnicima i pristupima.">
+  <title>Superadmin | Auction Split</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles.css">
+  <script src="/vendor/lucide.min.js" defer></script>
+  <script type="module" src="/src/site.js"></script>
+  <script type="module" src="/src/superadmin.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="site-brand" href="/" aria-label="Auction Split početna"><img class="brand-mark" src="/assets/favicon.svg" alt=""><span><strong>Auction Split</strong></span></a>
+      <button class="menu-toggle icon-button" type="button" data-menu-toggle aria-expanded="false" aria-controls="siteNavigation"><i data-lucide="menu"></i><span class="sr-only">Otvori izbornik</span></button>
+      <nav class="site-navigation" id="siteNavigation" data-site-navigation aria-label="Glavna navigacija"><a href="/demo.html">Aukcije</a><a href="/account.html">Moj račun</a><a class="active" href="/superadmin.html">Superadmin</a></nav>
+    </div>
+  </header>
+
+  <main class="superadmin-page">
+    <section class="account-gate content-width" id="superAdminGate" hidden>
+      <span class="gate-icon"><i data-lucide="shield"></i></span>
+      <h1>Superadmin pristup</h1>
+      <p>Ovaj prostor dostupan je samo vlasniku platforme.</p>
+      <button class="button primary" id="superAdminGateLogin" type="button"><i data-lucide="log-in"></i> Prijava</button>
+    </section>
+
+    <section id="superAdminApp" hidden>
+      <header class="account-heading content-width">
+        <div><span class="eyebrow">God mode</span><h1>Upravljanje korisnicima</h1><p>Računi, pristupi i partnerska povezivanja na jednom mjestu.</p></div>
+        <div class="superadmin-header-actions"><span class="superadmin-identity"><i data-lucide="shield-check"></i><span id="superAdminIdentity">Superadmin</span></span><button class="button secondary" id="superAdminLogout" type="button"><i data-lucide="log-out"></i> Odjava</button></div>
+      </header>
+
+      <section class="content-width account-metrics superadmin-metrics" aria-label="Brzi filtri korisnika">
+        <button class="metric-filter active" type="button" data-user-filter="all"><i data-lucide="users-round"></i><span>Svi korisnici<strong id="superAdminTotalUsers">0</strong></span></button>
+        <button class="metric-filter" type="button" data-user-filter="active"><i data-lucide="user-check"></i><span>Aktivni<strong id="superAdminActiveUsers">0</strong></span></button>
+        <button class="metric-filter" type="button" data-user-filter="guest"><i data-lucide="user-round"></i><span>Gosti<strong id="superAdminGuests">0</strong></span></button>
+        <button class="metric-filter" type="button" data-user-filter="partner"><i data-lucide="building-2"></i><span>Partneri<strong id="superAdminPartners">0</strong></span></button>
+      </section>
+
+      <section class="content-width superadmin-layout">
+        <section class="workspace-panel superadmin-list-panel">
+          <div class="panel-heading superadmin-list-heading"><div><span class="eyebrow">Korisnici</span><h2 id="superAdminListTitle">Svi računi</h2></div><div class="superadmin-list-tools"><label class="table-search"><i data-lucide="search"></i><input id="superAdminSearch" type="search" placeholder="Pretraži ime ili e-mail"></label><select class="table-filter" id="superAdminStatusFilter" aria-label="Filtriraj po statusu"><option value="all">Svi statusi</option><option value="active">Aktivni</option><option value="deactivated">Deaktivirani</option></select><button class="button secondary small" id="superAdminCreateUser" type="button"><i data-lucide="user-plus"></i> Novi korisnik</button></div></div>
+          <div class="responsive-table"><table><thead><tr><th>Korisnik</th><th>Uloga</th><th>Partner</th><th>Status</th><th></th></tr></thead><tbody id="superAdminUsers"></tbody></table></div>
+        </section>
+
+        <aside class="workspace-panel superadmin-editor" id="superAdminEditor">
+          <div class="panel-heading"><div><span class="eyebrow">Uređivanje</span><h2 id="superAdminEditorTitle">Odaberite korisnika</h2></div></div>
+          <p class="empty-inline" id="superAdminEditorEmpty">Odaberite račun iz tablice ili dodajte novi.</p>
+          <form class="form-grid" id="superAdminUserForm" hidden>
+            <input name="id" type="hidden">
+            <div class="full-field superadmin-password-field" id="superAdminPasswordField" hidden><label><span id="superAdminPasswordLabel">Početna lozinka</span><input name="password" type="password" minlength="8" autocomplete="new-password"><small id="superAdminPasswordHint">Najmanje 8 znakova, slovo i broj.</small></label><button class="button tertiary small" id="superAdminResetPassword" type="button" hidden><i data-lucide="key-round"></i> Resetiraj lozinku</button><p class="field-hint" id="superAdminTemporaryPassword" hidden></p></div>
+            <label class="full-field"><span>Ime i prezime</span><input name="name" autocomplete="name" required></label>
+            <label class="full-field"><span>E-mail</span><input name="email" type="email" autocomplete="email" required></label>
+            <label class="full-field"><span>Telefon</span><input name="phone" type="tel" autocomplete="tel"></label>
+            <label><span>Uloga</span><select name="role"><option value="guest">Gost</option><option value="partner">Partner</option><option value="admin">Administrator</option></select></label>
+            <label><span>Status</span><select name="status"><option value="active">Aktivan</option><option value="deactivated">Deaktiviran</option></select></label>
+            <div class="superadmin-partner-fields full-field" id="superAdminPartnerFields" hidden>
+              <label><span>Partner</span><select name="partnerId"></select></label>
+              <label><span>Partnerska razina</span><select name="partnerRole"><option value="owner">Vlasnik</option><option value="manager">Manager</option><option value="editor">Urednik</option><option value="viewer">Pregled</option></select></label>
+            </div>
+            <button class="button primary full-field" id="superAdminSave" type="submit"><i data-lucide="save"></i> Spremi korisnika</button>
+          </form>
+        </aside>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

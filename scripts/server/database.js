@@ -105,6 +105,7 @@ function migrateDatabase(input){
   db.passwordResets = Array.isArray(db.passwordResets) ? db.passwordResets : [];
   db.invitations = Array.isArray(db.invitations) ? db.invitations : [];
   db.auditLog = Array.isArray(db.auditLog) ? db.auditLog : [];
+  db.notifications = Array.isArray(db.notifications) ? db.notifications : [];
 
   db.hotels = db.hotels.map(hotel => {
     const images = Array.isArray(hotel.images) ? hotel.images.filter(Boolean).slice(0, 20) : [];

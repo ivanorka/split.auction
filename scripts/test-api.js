@@ -1,5 +1,6 @@
 const { spawn } = require('node:child_process');
 const http = require('node:http');
+const { notificationConfiguration, notify } = require('./server/notifications');
 
 const port = Number(process.env.TEST_PORT || 5199);
 const host = '127.0.0.1';
@@ -62,6 +63,42 @@ async function resetWithAdmin(){
 }
 
 async function run(){
+  const disabledMail = notificationConfiguration({});
+  assert(disabledMail.provider === 'disabled' && !disabledMail.ready, 'lokalni mail bez ključa ne pokušava slanje');
+  const resendMail = notificationConfiguration({
+    RESEND_API_KEY:'re_test_key',
+    EMAIL_FROM:'Auction Split <notifications@example.test>'
+  });
+  assert(resendMail.provider === 'resend' && resendMail.ready, 'Resend je primarni kanal za lokalno i produkcijsko slanje');
+  const previousResendKey = process.env.RESEND_API_KEY;
+  const previousFrom = process.env.EMAIL_FROM;
+  const originalFetch = global.fetch;
+  let resendRequest;
+  process.env.RESEND_API_KEY = 're_test_key';
+  process.env.EMAIL_FROM = 'Auction Split <notifications@example.test>';
+  global.fetch = async (url, options) => {
+    resendRequest = { url, options };
+    return {
+      ok:true,
+      status:200,
+      json:async () => ({ id:'email-test-id' })
+    };
+  };
+  const mailDb = {};
+  const sentNotification = await notify(mailDb, {
+    type:'test',
+    user:{ id:'test-user', email:'test@example.test', name:'Test korisnik' },
+    subject:'Test obavijest',
+    title:'Test naslov',
+    body:'Test sadržaj'
+  });
+  global.fetch = originalFetch;
+  if(previousResendKey === undefined) delete process.env.RESEND_API_KEY;
+  else process.env.RESEND_API_KEY = previousResendKey;
+  if(previousFrom === undefined) delete process.env.EMAIL_FROM;
+  else process.env.EMAIL_FROM = previousFrom;
+  assert(sentNotification.status === 'sent' && sentNotification.messageId === 'email-test-id' && resendRequest.url === 'https://api.resend.com/emails', 'lokalni mail šalje strukturiranu Resend poruku bez stvarne dostave');
+
   server = spawn(process.execPath, ['scripts/dev-server.js'], {
     cwd:process.cwd(),
     env:{ ...process.env, PORT:String(port), USE_LOCAL_DEMO_DB:'1' },
@@ -95,6 +132,8 @@ async function run(){
     card:'Demo Visa ···· 4242'
   }, guest.cookie, guest.csrf);
   assert(reservation.status === 201 && reservation.body.reservation.bookingCode.startsWith('AS-'), 'potvrda vodeće ponude');
+  const checkout = await request('POST', '/api/payments/checkout', { reservationId:reservation.body.reservation.id }, guest.cookie, guest.csrf);
+  assert(checkout.status === 503 && checkout.body.code === 'STRIPE_NOT_CONFIGURED', 'Stripe Checkout čeka siguran sandbox ključ');
   const activity = await request('GET', '/api/account/activity', undefined, guest.cookie);
   assert(activity.body.reservations.length === 1 && activity.body.bids.length >= 2, 'korisnički račun i aktivnost');
   const cancelled = await request('PATCH', `/api/reservations/${reservation.body.reservation.id}`, { status:'cancelled' }, guest.cookie, guest.csrf);

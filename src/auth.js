@@ -39,6 +39,7 @@ function initials(name){
 }
 
 function roleLabel(user){
+  if(user?.role === 'superadmin') return 'Superadmin platforme';
   if(user?.role === 'admin') return 'Administrator platforme';
   if(user?.role === 'partner') return user.partnerRole === 'owner' ? 'Vlasnik smještaja' : 'Partnerski tim';
   return 'Gost';
@@ -74,6 +75,19 @@ function authMarkup(){
             </div>
           </div>
           <p class="auth-switch">Nemate račun? <button type="button" data-auth-view="register">Otvorite račun</button></p>
+        </div>
+
+        <div class="auth-view" data-auth-panel="superadmin" hidden>
+          <div class="superadmin-login-mark"><i data-lucide="shield-check"></i></div>
+          <span class="eyebrow">Zaštićeni pristup</span>
+          <h2>Superadmin prijava</h2>
+          <p>Pristup upravljanju korisnicima i ovlastima platforme.</p>
+          <form class="form-grid auth-form" id="superAdminLoginForm" data-required-role="superadmin">
+            <label class="full-field"><span>Superadmin e-mail</span><input name="email" type="email" autocomplete="email" required data-autofocus></label>
+            <label class="full-field"><span>Lozinka</span><input name="password" type="password" autocomplete="current-password" required></label>
+            <button class="button primary full-field" type="submit"><i data-lucide="shield-check"></i> Otvori Superadmin</button>
+          </form>
+          <p class="auth-switch"><button type="button" data-auth-view="login"><i data-lucide="arrow-left"></i> Povratak na standardnu prijavu</button></p>
         </div>
 
         <div class="auth-view" data-auth-panel="register" hidden>
@@ -133,6 +147,7 @@ function authMarkup(){
           <div class="account-action-list">
             <a href="/account.html"><i data-lucide="circle-user-round"></i><span><strong>Moj račun</strong><small>Ponude, praćenje i rezervacije</small></span><i data-lucide="chevron-right"></i></a>
             <a href="/partner.html" id="authPartnerLink" hidden><i data-lucide="layout-dashboard"></i><span><strong>Partner centar</strong><small>Smještaji, paketi i tim</small></span><i data-lucide="chevron-right"></i></a>
+            <a href="/superadmin.html" id="authSuperAdminLink" hidden><i data-lucide="shield"></i><span><strong>Superadmin</strong><small>Korisnici i pristup platformi</small></span><i data-lucide="chevron-right"></i></a>
           </div>
           <button class="button secondary wide" id="logoutButton" type="button"><i data-lucide="log-out"></i> Odjava</button>
         </div>
@@ -184,6 +199,10 @@ export function openAuthDialog(view = 'login', accountType = ''){
   refreshIcons();
 }
 
+export function openSuperAdminLogin(){
+  openAuthDialog('superadmin');
+}
+
 export function openDemoLogin(role = 'guest'){
   const [email, password] = demoCredentials[role] || demoCredentials.guest;
   openAuthDialog('login');
@@ -223,6 +242,7 @@ function renderSession(){
     document.getElementById('authAccountName').textContent = session.user.name;
     document.getElementById('authAccountEmail').textContent = session.user.email;
     document.getElementById('authPartnerLink').hidden = !['partner', 'admin'].includes(session.user.role);
+    document.getElementById('authSuperAdminLink').hidden = session.user.role !== 'superadmin';
   }
   refreshIcons();
 }
@@ -230,12 +250,12 @@ function renderSession(){
 async function submitLogin(event){
   event.preventDefault();
   const form = event.currentTarget;
-  const button = document.getElementById('loginButton');
+  const button = form.querySelector('[type="submit"]');
   setBusy(button, true, 'Prijavljujem...');
   try{
     const payload = await api('/api/auth/login', {
       method:'POST',
-      body:JSON.stringify({ email:form.email.value, password:form.password.value })
+      body:JSON.stringify({ email:form.email.value, password:form.password.value, requiredRole:form.dataset.requiredRole || '' })
     });
     applySession(payload);
     closeModal(document.getElementById('authModal'));
@@ -356,6 +376,7 @@ function bindAuthEvents(){
   });
 
   document.getElementById('loginForm').addEventListener('submit', submitLogin);
+  document.getElementById('superAdminLoginForm').addEventListener('submit', submitLogin);
   document.getElementById('registerForm').addEventListener('submit', submitRegistration);
   document.getElementById('forgotForm').addEventListener('submit', submitForgot);
   document.getElementById('resetForm').addEventListener('submit', submitReset);

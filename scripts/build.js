@@ -28,7 +28,7 @@ if(existsSync(resolve('output'))){
 
 const basePath = String(process.env.BASE_PATH || '').replace(/\/$/, '');
 if(basePath){
-  const appPathPattern = /(["'`])\/(?=(?:assets\/|src\/|vendor\/|output\/|favicon\.svg|index\.html|demo\.html|account\.html|partner\.html|koncept\.html|brosura-korisnici\.html|brosura-partneri\.html|["'`]))/g;
+  const appPathPattern = /(["'`])\/(?=(?:assets\/|src\/|vendor\/|output\/|favicon\.svg|index\.html|demo\.html|account\.html|partner\.html|superadmin\.html|koncept\.html|brosura-korisnici\.html|brosura-partneri\.html|["'`]))/g;
   const rewriteDirectory = directory => {
     readdirSync(directory).forEach(name => {
       const filePath = join(directory, name);

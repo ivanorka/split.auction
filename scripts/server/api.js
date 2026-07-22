@@ -18,10 +18,14 @@ const {
   resetDatabase,
   writeDatabase
 } = require('./database');
+const { createCheckoutSession, paymentConfiguration } = require('./payments');
+const { notify, notifyMany } = require('./notifications');
 
 const authAttempts = new Map();
 const allowedPartnerRoles = new Set(['owner', 'manager', 'editor', 'viewer']);
 const allowedPackageStatuses = new Set(['draft', 'active', 'paused', 'sold_out', 'archived']);
+const manageableRoles = new Set(['guest', 'partner', 'admin']);
+const manageableUserStatuses = new Set(['active', 'deactivated', 'suspended']);
 
 function securityHeaders(){
   return {
@@ -403,6 +407,36 @@ function accountActivity(db, user){
   return { user:publicUser(user), bids, reservations, watchedPackages };
 }
 
+function partnerRecipients(db, partnerId){
+  return db.users.filter(user => user.role === 'partner' && user.partnerId === partnerId && user.status === 'active');
+}
+
+function operationsRecipient(){
+  const email = normalizeEmail(process.env.NOTIFICATION_EMAIL);
+  return email ? { id:'auction-split-operations', name:'Auction Split tim', email } : null;
+}
+
+function superAdminState(db, user){
+  return {
+    currentUser:publicUser(user),
+    users:db.users.map(publicUser).sort((first, second) => new Date(second.createdAt) - new Date(first.createdAt)),
+    partners:db.partners.map(partner => ({
+      id:partner.id,
+      businessName:partner.businessName,
+      city:partner.city,
+      status:partner.status,
+      partnerType:partner.partnerType
+    })).sort((first, second) => first.businessName.localeCompare(second.businessName)),
+    metrics:{
+      totalUsers:db.users.length,
+      activeUsers:db.users.filter(item => item.status === 'active').length,
+      guests:db.users.filter(item => item.role === 'guest').length,
+      partners:db.users.filter(item => item.role === 'partner').length
+    },
+    serverTime:now()
+  };
+}
+
 async function handlePublicAuth(req, res, url, db, body){
   if(req.method === 'POST' && url.pathname === '/api/auth/register'){
     const email = normalizeEmail(body.email);
@@ -486,6 +520,24 @@ async function handlePublicAuth(req, res, url, db, body){
     }
     const createdSession = createSession(db, user, req);
     audit(db, user, 'auth.register', 'user', user.id, { role:user.role });
+    await notify(db, {
+      type:'account.registered',
+      user,
+      subject:'Dobro došli u Auction Split',
+      title:'Vaš račun je spreman',
+      body:'Registracija je uspješno dovršena. Sada možete pratiti aukcije, poslati ponudu i upravljati svojim rezervacijama.',
+      ctaLabel:'Otvori račun'
+    });
+    await notify(db, {
+      type:'account.registered.operations',
+      user:operationsRecipient(),
+      subject:'Novi račun na Auction Split',
+      title:'Kreiran je novi korisnički račun',
+      body:`${user.name} otvorio je ${user.role === 'partner' ? 'partnerski' : 'gostujući'} račun.`,
+      detail:user.email,
+      ctaLabel:'Otvori Superadmin',
+      ctaPath:'/superadmin.html'
+    });
     await writeDatabase(db);
     sendJson(res, 201, sessionResponse(db, { user, session:createdSession.session }), {
       'set-cookie':sessionCookie(createdSession.rawToken, req)
@@ -504,6 +556,10 @@ async function handlePublicAuth(req, res, url, db, body){
     const verified = user && user.status === 'active' && await verifyPassword(body.password, user.passwordHash);
     if(!verified){
       sendJson(res, 401, { error:'E-mail ili lozinka nisu ispravni.' });
+      return true;
+    }
+    if(body.requiredRole === 'superadmin' && user.role !== 'superadmin'){
+      sendJson(res, 403, { error:'Ovaj račun nema Superadmin ovlast.', code:'FORBIDDEN' });
       return true;
     }
     user.lastLoginAt = now();
@@ -624,6 +680,15 @@ async function handleApi(req, res, url){
     return true;
   }
 
+  if(req.method === 'GET' && url.pathname === '/api/superadmin/state'){
+    if(!context.user || context.user.role !== 'superadmin'){
+      sendJson(res, 403, { error:'Superadmin pristup nije dostupan.', code:'FORBIDDEN' });
+      return true;
+    }
+    sendJson(res, 200, superAdminState(db, context.user));
+    return true;
+  }
+
   let body;
   try{ body = await readBody(req); }
   catch{
@@ -673,6 +738,14 @@ async function handleApi(req, res, url){
     context.user.passwordHash = await hashPassword(body.newPassword);
     db.sessions = db.sessions.filter(item => item.id === context.session.id || item.userId !== context.user.id);
     audit(db, context.user, 'account.password_changed', 'user', context.user.id);
+    await notify(db, {
+      type:'account.password_changed',
+      user:context.user,
+      subject:'Lozinka je promijenjena',
+      title:'Promijenili ste lozinku',
+      body:'Lozinka za vaš Auction Split račun upravo je promijenjena. Ako to niste bili vi, javite se podršci.',
+      ctaLabel:'Otvori račun'
+    });
     await writeDatabase(db);
     sendJson(res, 200, { message:'Lozinka je uspješno promijenjena.' });
     return true;
@@ -716,8 +789,36 @@ async function handleApi(req, res, url){
       createdAt:now()
     };
     db.bidsByPackage[auctionPackage.id] ||= [];
+    const previousBidderIds = new Set(db.bidsByPackage[auctionPackage.id].map(item => item.userId).filter(userId => userId && userId !== context.user.id));
     db.bidsByPackage[auctionPackage.id].push(bid);
     audit(db, context.user, 'auction.bid_placed', 'package', auctionPackage.id, { amount });
+    await notify(db, {
+      type:'auction.bid_confirmed',
+      user:context.user,
+      subject:`Ponuda zaprimljena · ${hotel.name}`,
+      title:'Vaša ponuda je zaprimljena',
+      body:`Poslali ste ponudu od ${amount} € za ${auctionPackage.name}. Pratit ćemo tijek aukcije i javiti vam važne promjene.`,
+      detail:`Odabrani termin: ${selectedDates.join(', ')}`,
+      ctaLabel:'Pogledaj aukciju',
+      ctaPath:`/demo.html?package=${encodeURIComponent(auctionPackage.id)}`
+    });
+    await notifyMany(db, db.users.filter(user => previousBidderIds.has(user.id) && user.status === 'active'), {
+      type:'auction.bid_activity',
+      subject:`Nova ponuda · ${hotel.name}`,
+      title:'Aukcija koju pratite ima novu ponudu',
+      body:`Na paket ${auctionPackage.name} stigla je nova ponuda. Provjerite trenutačno stanje svoje aukcije.`,
+      ctaLabel:'Otvori aukciju',
+      ctaPath:`/demo.html?package=${encodeURIComponent(auctionPackage.id)}`
+    });
+    await notifyMany(db, [...partnerRecipients(db, hotel.partnerId), operationsRecipient()], {
+      type:'auction.bid_partner',
+      subject:`Nova ponuda · ${hotel.name}`,
+      title:'Stigla je nova ponuda',
+      body:`Za paket ${auctionPackage.name} zaprimljena je ponuda od ${amount} € .`,
+      detail:`Termin: ${selectedDates.join(', ')}`,
+      ctaLabel:'Otvori Partner centar',
+      ctaPath:'/partner.html'
+    });
     await writeDatabase(db);
     sendJson(res, 201, { bid:{ ...bid, self:true, label:'Vi', meta:'Vaša ponuda' }, state:publicState(db, context.user) });
     return true;
@@ -777,15 +878,231 @@ async function handleApi(req, res, url){
       dates:winningBid.dates.join(', '),
       amount:winningAmount,
       status:'confirmed',
-      paymentStatus:'demo_authorized',
+      paymentStatus:'awaiting_payment',
       createdAt:now()
     };
     db.reservations.unshift(reservation);
     auctionPackage.units = Math.max(0, auctionPackage.units - 1);
     if(auctionPackage.units === 0) auctionPackage.status = 'sold_out';
     audit(db, context.user, 'reservation.confirmed', 'reservation', reservation.id, { amount:reservation.amount });
+    await notify(db, {
+      type:'reservation.confirmed',
+      user:context.user,
+      subject:`Rezervacija potvrđena · ${hotel.name}`,
+      title:'Pobjednička rezervacija je potvrđena',
+      body:`Potvrdili ste ${auctionPackage.name} za ${hotel.name}. Sljedeći korak je sigurno plaćanje.`,
+      detail:`Kod rezervacije: ${reservation.bookingCode} · Iznos: ${reservation.amount} €`,
+      ctaLabel:'Otvori rezervaciju'
+    });
+    await notifyMany(db, [...partnerRecipients(db, hotel.partnerId), operationsRecipient()], {
+      type:'reservation.confirmed_partner',
+      subject:`Potvrđena rezervacija · ${hotel.name}`,
+      title:'Aukcija je pretvorena u rezervaciju',
+      body:`Gost je potvrdio paket ${auctionPackage.name}.`,
+      detail:`${reservation.bookingCode} · ${reservation.amount} €`,
+      ctaLabel:'Otvori Partner centar',
+      ctaPath:'/partner.html'
+    });
     await writeDatabase(db);
     sendJson(res, 201, { confirmation:reservation, reservation, state:publicState(db, context.user) });
+    return true;
+  }
+
+  if(req.method === 'GET' && url.pathname === '/api/payments/config'){
+    sendJson(res, 200, paymentConfiguration());
+    return true;
+  }
+
+  if(req.method === 'POST' && url.pathname === '/api/payments/checkout'){
+    if(!requireUser(req, res, context, ['guest'])) return true;
+    const reservation = db.reservations.find(item => item.id === asString(body.reservationId));
+    if(!reservation || reservation.userId !== context.user.id){
+      sendJson(res, 404, { error:'Rezervacija nije pronađena.' });
+      return true;
+    }
+    if(reservation.status === 'cancelled' || reservation.status === 'completed'){
+      sendJson(res, 409, { error:'Za ovu rezervaciju plaćanje više nije dostupno.' });
+      return true;
+    }
+    if(reservation.paymentStatus === 'paid'){
+      sendJson(res, 409, { error:'Ova rezervacija je već plaćena.' });
+      return true;
+    }
+    const auctionPackage = db.packages.find(item => item.id === reservation.packageId);
+    const hotel = db.hotels.find(item => item.id === reservation.hotelId);
+    if(!auctionPackage || !hotel){
+      sendJson(res, 404, { error:'Podaci rezervacije više nisu dostupni.' });
+      return true;
+    }
+    let checkout;
+    try{
+      checkout = await createCheckoutSession({ req, reservation, hotel, auctionPackage, customer:context.user });
+    }catch(error){
+      if(error.code === 'STRIPE_NOT_CONFIGURED'){
+        sendJson(res, 503, { error:error.message, code:error.code });
+        return true;
+      }
+      throw error;
+    }
+    reservation.paymentStatus = 'checkout_open';
+    reservation.paymentProvider = 'stripe';
+    reservation.checkoutSessionId = checkout.id;
+    reservation.checkoutOpenedAt = now();
+    audit(db, context.user, 'payment.checkout_created', 'reservation', reservation.id, { provider:'stripe', mode:checkout.mode });
+    await notify(db, {
+      type:'payment.checkout_opened',
+      user:context.user,
+      subject:`Plaćanje otvoreno · ${reservation.bookingCode}`,
+      title:'Sigurno plaćanje je otvoreno',
+      body:`Otvorili ste Stripe Checkout za rezervaciju u objektu ${hotel.name}.`,
+      detail:`Iznos za plaćanje: ${reservation.amount} €`,
+      ctaLabel:'Otvori račun'
+    });
+    await writeDatabase(db);
+    sendJson(res, 201, { checkoutUrl:checkout.url, reservation });
+    return true;
+  }
+
+  if(req.method === 'POST' && url.pathname === '/api/superadmin/users'){
+    if(!requireUser(req, res, context, ['superadmin'])) return true;
+    const email = normalizeEmail(body.email);
+    const role = manageableRoles.has(body.role) ? body.role : 'guest';
+    const status = manageableUserStatuses.has(body.status) ? body.status : 'active';
+    const name = asString(body.name).slice(0, 100);
+    if(!name || !validEmail(email)){
+      sendJson(res, 422, { error:'Ime i valjana e-mail adresa su obavezni.' });
+      return true;
+    }
+    if(db.users.some(item => normalizeEmail(item.email) === email)){
+      sendJson(res, 409, { error:'Račun s ovom e-mail adresom već postoji.' });
+      return true;
+    }
+    const passwordErrors = passwordValidation(body.password);
+    if(passwordErrors.length){
+      sendJson(res, 422, { error:passwordErrors[0] });
+      return true;
+    }
+    const partnerId = role === 'partner' ? asString(body.partnerId) : null;
+    const partnerRole = role === 'partner' ? asString(body.partnerRole) : null;
+    if(role === 'partner' && (!db.partners.some(item => item.id === partnerId) || !allowedPartnerRoles.has(partnerRole))){
+      sendJson(res, 422, { error:'Partner i razina pristupa partnera moraju biti valjani.' });
+      return true;
+    }
+    const user = {
+      id:randomUUID(),
+      name,
+      email,
+      phone:asString(body.phone).slice(0, 40),
+      role,
+      partnerId,
+      partnerRole,
+      status,
+      passwordHash:await hashPassword(body.password),
+      emailVerifiedAt:now(),
+      createdAt:now(),
+      lastLoginAt:null
+    };
+    db.users.push(user);
+    audit(db, context.user, 'superadmin.user_created', 'user', user.id, { role, status, partnerId });
+    await notify(db, {
+      type:'account.created_by_admin',
+      user,
+      subject:'Vaš Auction Split račun je spreman',
+      title:'Račun je kreiran',
+      body:'Administrator je otvorio vaš Auction Split račun. Koristite početnu lozinku koju ste dobili sigurnim kanalom.',
+      ctaLabel:'Prijavi se',
+      ctaPath:'/'
+    });
+    await writeDatabase(db);
+    sendJson(res, 201, superAdminState(db, context.user));
+    return true;
+  }
+
+  const superAdminUserMatch = url.pathname.match(/^\/api\/superadmin\/users\/([^/]+)$/);
+  const superAdminPasswordResetMatch = url.pathname.match(/^\/api\/superadmin\/users\/([^/]+)\/password-reset$/);
+  if(superAdminPasswordResetMatch && req.method === 'POST'){
+    if(!requireUser(req, res, context, ['superadmin'])) return true;
+    const user = db.users.find(item => item.id === decodeURIComponent(superAdminPasswordResetMatch[1]));
+    if(!user){
+      sendJson(res, 404, { error:'Korisnik nije pronađen.' });
+      return true;
+    }
+    if(user.role === 'superadmin'){
+      sendJson(res, 403, { error:'God-mode lozinku promijenite kroz vlastiti račun.', code:'SUPERADMIN_PROTECTED' });
+      return true;
+    }
+    const temporaryPassword = `AS-${createToken(9)}-a1`;
+    user.passwordHash = await hashPassword(temporaryPassword);
+    user.passwordChangedAt = now();
+    user.updatedAt = now();
+    db.sessions = db.sessions.filter(session => session.userId !== user.id);
+    audit(db, context.user, 'superadmin.user_password_reset', 'user', user.id);
+    await notify(db, {
+      type:'account.password_reset_by_admin',
+      user,
+      subject:'Administrator je resetirao vašu lozinku',
+      title:'Lozinka je resetirana',
+      body:'Administrator je postavio novu privremenu lozinku za vaš račun. Preuzmite je sigurnim kanalom i promijenite nakon prijave.',
+      ctaLabel:'Prijavi se',
+      ctaPath:'/'
+    });
+    await writeDatabase(db);
+    sendJson(res, 200, { state:superAdminState(db, context.user), temporaryPassword });
+    return true;
+  }
+  if(superAdminUserMatch && req.method === 'PATCH'){
+    if(!requireUser(req, res, context, ['superadmin'])) return true;
+    const user = db.users.find(item => item.id === decodeURIComponent(superAdminUserMatch[1]));
+    if(!user){
+      sendJson(res, 404, { error:'Korisnik nije pronađen.' });
+      return true;
+    }
+    const email = normalizeEmail(body.email || user.email);
+    const role = manageableRoles.has(body.role) ? body.role : user.role;
+    const status = manageableUserStatuses.has(body.status) ? body.status : user.status;
+    const sensitiveSuperAdminChange = user.role === 'superadmin'
+      && (email !== user.email || role !== user.role || status !== user.status);
+    if(sensitiveSuperAdminChange || role === 'superadmin'){
+      sendJson(res, 403, { error:'God-mode račun nije moguće mijenjati kroz upravljanje korisnicima.', code:'SUPERADMIN_PROTECTED' });
+      return true;
+    }
+    if(!validEmail(email)){
+      sendJson(res, 422, { error:'Unesite valjanu e-mail adresu.' });
+      return true;
+    }
+    if(db.users.some(item => item.id !== user.id && normalizeEmail(item.email) === email)){
+      sendJson(res, 409, { error:'Račun s ovom e-mail adresom već postoji.' });
+      return true;
+    }
+    const partnerId = role === 'partner' ? asString(body.partnerId) : null;
+    const partnerRole = role === 'partner' ? asString(body.partnerRole) : null;
+    if(role === 'partner' && (!db.partners.some(item => item.id === partnerId) || !allowedPartnerRoles.has(partnerRole))){
+      sendJson(res, 422, { error:'Partner i razina pristupa partnera moraju biti valjani.' });
+      return true;
+    }
+    user.name = asString(body.name, user.name).slice(0, 100) || user.name;
+    user.email = email;
+    user.phone = asString(body.phone, user.phone).slice(0, 40);
+    user.role = role;
+    user.status = status;
+    user.partnerId = partnerId;
+    user.partnerRole = partnerRole;
+    const nextPassword = asString(body.password);
+    if(nextPassword){
+      const passwordErrors = passwordValidation(nextPassword);
+      if(passwordErrors.length){
+        sendJson(res, 422, { error:passwordErrors[0] });
+        return true;
+      }
+      user.passwordHash = await hashPassword(nextPassword);
+      user.passwordChangedAt = now();
+      db.sessions = db.sessions.filter(session => session.userId !== user.id);
+    }
+    user.updatedAt = now();
+    if(status !== 'active') db.sessions = db.sessions.filter(session => session.userId !== user.id);
+    audit(db, context.user, 'superadmin.user_updated', 'user', user.id, { role, status, partnerId });
+    await writeDatabase(db);
+    sendJson(res, 200, superAdminState(db, context.user));
     return true;
   }
 
@@ -807,6 +1124,8 @@ async function handleApi(req, res, url){
       return true;
     }
     const nextStatus = asString(body.status, reservation.status);
+    const previousStatus = reservation.status;
+    const previousPaymentStatus = reservation.paymentStatus;
     const allowedStatuses = new Set(['confirmed', 'checked_in', 'completed', 'cancelled']);
     if(!allowedStatuses.has(nextStatus) || (guestOwnsReservation && nextStatus !== 'cancelled')){
       sendJson(res, 422, { error:'Odabrani status rezervacije nije dopušten.' });
@@ -828,11 +1147,42 @@ async function handleApi(req, res, url){
       if(auctionPackage.units === 0) auctionPackage.status = 'sold_out';
     }
     reservation.status = nextStatus;
-    if(partnerOwnsReservation && ['demo_authorized', 'paid', 'refunded'].includes(body.paymentStatus)){
+    if(partnerOwnsReservation && ['awaiting_payment', 'checkout_open', 'demo_authorized', 'paid', 'refunded'].includes(body.paymentStatus)){
       reservation.paymentStatus = body.paymentStatus;
     }
     reservation.updatedAt = now();
     audit(db, context.user, 'reservation.updated', 'reservation', reservation.id, { status:reservation.status, paymentStatus:reservation.paymentStatus });
+    const reservationUser = db.users.find(user => user.id === reservation.userId);
+    if(previousStatus !== 'cancelled' && reservation.status === 'cancelled'){
+      await notify(db, {
+        type:'reservation.cancelled',
+        user:reservationUser,
+        subject:`Rezervacija otkazana · ${hotel.name}`,
+        title:'Rezervacija je otkazana',
+        body:`Rezervacija ${reservation.bookingCode} za ${hotel.name} je otkazana.`,
+        detail:'Kapacitet je vraćen u aukcijski paket.',
+        ctaLabel:'Otvori račun'
+      });
+      await notifyMany(db, [...partnerRecipients(db, hotel.partnerId), operationsRecipient()], {
+        type:'reservation.cancelled_partner',
+        subject:`Otkazana rezervacija · ${hotel.name}`,
+        title:'Rezervacija je otkazana',
+        body:`Rezervacija ${reservation.bookingCode} vraćena je u raspoloživi kapacitet.`,
+        ctaLabel:'Otvori Partner centar',
+        ctaPath:'/partner.html'
+      });
+    }
+    if(previousPaymentStatus !== 'paid' && reservation.paymentStatus === 'paid'){
+      await notify(db, {
+        type:'payment.paid',
+        user:reservationUser,
+        subject:`Plaćanje potvrđeno · ${reservation.bookingCode}`,
+        title:'Plaćanje je potvrđeno',
+        body:`Plaćanje za rezervaciju u objektu ${hotel.name} evidentirano je kao uspješno.`,
+        detail:`Iznos: ${reservation.amount} €`,
+        ctaLabel:'Otvori račun'
+      });
+    }
     await writeDatabase(db);
     sendJson(res, 200, context.user.role === 'guest' ? accountActivity(db, context.user) : partnerState(db, context.user));
     return true;
@@ -993,6 +1343,16 @@ async function handleApi(req, res, url){
     };
     db.invitations.push(invitation);
     audit(db, context.user, 'team.invitation_created', 'invitation', invitation.id, { email, role });
+    await notify(db, {
+      type:'partner.invitation',
+      user:{ id:invitation.id, name:invitation.name, email:invitation.email },
+      subject:'Pozvani ste u Partner centar',
+      title:'Stigla vam je partnerska pozivnica',
+      body:'Pozvani ste da se pridružite partnerskom timu na Auction Split platformi.',
+      detail:`Razina pristupa: ${role}`,
+      ctaLabel:'Otvori Auction Split',
+      ctaPath:process.env.NODE_ENV === 'production' ? '/' : `/?invite=${encodeURIComponent(token)}`
+    });
     await writeDatabase(db);
     sendJson(res, 201, {
       invitation:{ ...invitation, tokenHash:undefined, demoInvitationToken:process.env.NODE_ENV === 'production' ? undefined : token },
