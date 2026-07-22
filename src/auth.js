@@ -49,6 +49,10 @@ function authMarkup(){
           <span class="eyebrow">Dobro došli</span>
           <h2 id="authTitle">Prijavite se</h2>
           <p>Pratite ponude kao gost ili upravljajte inventarom kao partner.</p>
+          <div class="auth-guide-links" aria-label="Vodiči za platformu">
+            <a href="/brosura-korisnici.html"><i data-lucide="user-round"></i><span>Za goste</span></a>
+            <a href="/brosura-partneri.html"><i data-lucide="building-2"></i><span>Za partnere</span></a>
+          </div>
           <form class="form-grid auth-form" id="loginForm">
             <label class="full-field"><span>E-mail</span><input name="email" type="email" autocomplete="email" required data-autofocus></label>
             <label class="full-field"><span>Lozinka</span><input name="password" type="password" autocomplete="current-password" required></label>
@@ -138,18 +142,29 @@ function ensureAuthUi(){
   }
 }
 
-function showView(view){
+function setRegistrationAccountType(accountType){
+  if(!accountType) return;
+  const input = document.querySelector(`#registerForm [name="accountType"][value="${escapeAttribute(accountType)}"]`);
+  if(!input) return;
+  input.checked = true;
+  const partner = accountType === 'partner';
+  document.getElementById('partnerRegistrationFields').hidden = !partner;
+  document.getElementById('registerForm').businessName.required = partner && !document.getElementById('registerForm').invitationToken.value;
+}
+
+function showView(view, accountType = ''){
   document.querySelectorAll('[data-auth-panel]').forEach(panel => {
     panel.hidden = panel.dataset.authPanel !== view;
   });
+  if(view === 'register') setRegistrationAccountType(accountType);
   const focusTarget = document.querySelector(`[data-auth-panel="${escapeAttribute(view)}"] input:not([type="hidden"]), [data-auth-panel="${escapeAttribute(view)}"] button`);
   window.setTimeout(() => focusTarget?.focus(), 0);
 }
 
-export function openAuthDialog(view = 'login'){
+export function openAuthDialog(view = 'login', accountType = ''){
   ensureAuthUi();
   if(view === 'account' && !session.user) view = 'login';
-  showView(view);
+  showView(view, accountType);
   openModal(document.getElementById('authModal'));
   refreshIcons();
 }
@@ -292,6 +307,11 @@ function bindAuthEvents(){
     const trigger = event.target.closest('[data-auth-trigger]');
     if(trigger){
       openAuthDialog(session.user ? 'account' : 'login');
+      return;
+    }
+    const openAuth = event.target.closest('[data-auth-open]');
+    if(openAuth){
+      openAuthDialog(openAuth.dataset.authOpen || 'login', openAuth.dataset.authAccount || '');
       return;
     }
     const view = event.target.closest('[data-auth-view]');

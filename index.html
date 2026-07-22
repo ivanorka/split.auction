@@ -25,12 +25,16 @@
         <i data-lucide="menu"></i><span class="sr-only">Otvori izbornik</span>
       </button>
       <nav class="site-navigation" id="siteNavigation" data-site-navigation aria-label="Glavna navigacija">
-        <a class="active" href="/">Početna</a>
         <a href="/demo.html">Aukcije</a>
-        <a href="/koncept.html">Kako radi</a>
-        <a href="/brosura-korisnici.html">Za goste</a>
-        <a href="/brosura-partneri.html">Za partnere</a>
-        <a href="/partner.html">Partner centar</a>
+        <div class="nav-guides" data-guides-wrap>
+          <button class="nav-guides-toggle" type="button" data-guides-toggle aria-expanded="false" aria-controls="guidesMenu"><span>Upute</span><i data-lucide="chevron-down"></i></button>
+          <div class="nav-guides-menu" id="guidesMenu" data-guides-menu hidden>
+            <a href="/koncept.html"><i data-lucide="circle-help"></i><span><strong>Kako radi</strong><small>Od praznog termina do potvrđene rezervacije.</small></span></a>
+            <a href="/brosura-korisnici.html"><i data-lucide="user-round"></i><span><strong>Za goste</strong><small>Vodič kroz odabir termina i ponude.</small></span></a>
+            <a href="/brosura-partneri.html"><i data-lucide="building-2"></i><span><strong>Za partnere</strong><small>Hladna cijena, paketi i prihod.</small></span></a>
+            <a href="/output/pdf/auction-split-brosura.pdf" download><i data-lucide="file-down"></i><span><strong>PDF brošura</strong><small>Sažetak platforme za dijeljenje.</small></span></a>
+          </div>
+        </div>
       </nav>
       <a class="button primary desktop-action" href="/demo.html">Istraži aukcije</a>
     </div>
@@ -130,13 +134,13 @@
         <span class="eyebrow">Za hotele i apartmane</span>
         <h2>Novi prihod za kapacitet koji bi ostao prazan.</h2>
         <p>Partner zadržava kontrolu nad cijenom, datumima, fotografijama i pravilima aukcije.</p>
-        <a class="button secondary" href="/partner.html">Otvori Partner centar</a>
+        <button class="button secondary" type="button" data-auth-open="register" data-auth-account="partner"><i data-lucide="building-2"></i> Pridruži se kao partner</button>
       </div>
     </section>
 
     <section class="content-band investor-band">
       <div><span class="eyebrow">Za investitorsku prezentaciju</span><h2>Jedan demo, oba lica platforme.</h2><p>Gost može pronaći termin, poslati ponudu i potvrditi pobjedu. Partner istodobno vidi inventar, prihod, ponude i može uređivati smještaj u povezanoj demo bazi.</p></div>
-      <div class="investor-actions"><a class="button primary" href="/demo.html">Pokreni gostujući demo</a><a class="button secondary" href="/partner.html">Prikaži Partner centar</a></div>
+      <div class="investor-actions"><a class="button primary" href="/demo.html">Pokreni gostujući demo</a><button class="button secondary" type="button" data-auth-open="login">Prijava za partnere</button></div>
     </section>
   </main>
 

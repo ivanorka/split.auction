@@ -19,6 +19,27 @@ function initNavigation(){
     toggle.setAttribute('aria-expanded','false');
     navigation.classList.remove('open');
   });
+
+  const guidesToggle = navigation.querySelector('[data-guides-toggle]');
+  const guidesMenu = navigation.querySelector('[data-guides-menu]');
+  if(guidesToggle && guidesMenu){
+    const closeGuides = () => {
+      guidesToggle.setAttribute('aria-expanded', 'false');
+      guidesMenu.hidden = true;
+    };
+    guidesToggle.addEventListener('click', event => {
+      event.stopPropagation();
+      const open = guidesToggle.getAttribute('aria-expanded') === 'true';
+      guidesToggle.setAttribute('aria-expanded', String(!open));
+      guidesMenu.hidden = open;
+    });
+    document.addEventListener('click', event => {
+      if(!event.target.closest('[data-guides-wrap]')) closeGuides();
+    });
+    document.addEventListener('keydown', event => {
+      if(event.key === 'Escape') closeGuides();
+    });
+  }
 }
 
 function initModalDismiss(){

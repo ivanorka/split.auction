@@ -28,14 +28,17 @@
         <i data-lucide="menu"></i><span class="sr-only">Otvori izbornik</span>
       </button>
       <nav class="site-navigation" id="siteNavigation" data-site-navigation aria-label="Glavna navigacija">
-        <a href="/">Početna</a>
         <a class="active" href="/demo.html">Aukcije</a>
-        <a href="/koncept.html">Kako radi</a>
-        <a href="/brosura-korisnici.html">Za goste</a>
-        <a href="/brosura-partneri.html">Za partnere</a>
-        <a href="/partner.html">Partner centar</a>
+        <div class="nav-guides" data-guides-wrap>
+          <button class="nav-guides-toggle" type="button" data-guides-toggle aria-expanded="false" aria-controls="guidesMenu"><span>Upute</span><i data-lucide="chevron-down"></i></button>
+          <div class="nav-guides-menu" id="guidesMenu" data-guides-menu hidden>
+            <a href="/koncept.html"><i data-lucide="circle-help"></i><span><strong>Kako radi</strong><small>Od praznog termina do potvrđene rezervacije.</small></span></a>
+            <a href="/brosura-korisnici.html"><i data-lucide="user-round"></i><span><strong>Za goste</strong><small>Vodič kroz odabir termina i ponude.</small></span></a>
+            <a href="/brosura-partneri.html"><i data-lucide="building-2"></i><span><strong>Za partnere</strong><small>Hladna cijena, paketi i prihod.</small></span></a>
+            <a href="/output/pdf/auction-split-brosura.pdf" download><i data-lucide="file-down"></i><span><strong>PDF brošura</strong><small>Sažetak platforme za dijeljenje.</small></span></a>
+          </div>
+        </div>
       </nav>
-      <a class="button secondary desktop-action" href="/partner.html"><i data-lucide="layout-dashboard"></i> Partner centar</a>
     </div>
   </header>
 

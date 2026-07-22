@@ -8,6 +8,7 @@ from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
+    Image,
     PageBreak,
     Paragraph,
     SimpleDocTemplate,
@@ -289,7 +290,64 @@ def partner_story():
     return story
 
 
+def platform_story():
+    hero = Image(str(ROOT / "assets" / "media" / "auction-split-hero.jpg"), width=174 * mm, height=76 * mm)
+    hero.hAlign = "LEFT"
+    story = [
+        hero,
+        Spacer(1, 16),
+        p("BROŠURA PLATFORME", "Kicker"),
+        p("Auction Split pretvara slobodan smještaj u transparentnu priliku za putovanje i prihod.", "HeroTitle"),
+        p(
+            "Platforma povezuje goste koji žele jasniji budžet s hotelima i apartmanima koji žele popuniti hladni pogon. "
+            "Partner postavlja granicu, gost bira početnu ponudu, a Auction Split zarađuje samo kada aukcija stvori novu vrijednost.",
+            "Body",
+        ),
+        Spacer(1, 10),
+        metrics_table(
+            [
+                ("Za gosta", "Jasna ponuda", "Termin, trenutačna cijena i sljedeći korak vidljivi su prije svakog bida."),
+                ("Za partnera", "Kontroliran minimum", "Hladna cijena i dostupnost ostaju pod kontrolom smještaja."),
+                ("Za platformu", "Samo rast", "Prihod nastaje isključivo iz razlike koju aukcija stvori."),
+            ]
+        ),
+        PageBreak(),
+        p("Kako radi", "SectionTitle"),
+        card_table(
+            [
+                ("01", "Partner objavi prazan termin", "Dodaje smještaj, slobodne datume, broj jedinica i hladnu cijenu ispod koje ne želi prodati."),
+                ("02", "Gost postavi početnu ponudu", "Pretraga prikazuje pakete prema odredištu, terminu i budžetu koji gost želi istražiti."),
+                ("03", "Aukcija vodi sljedeći korak", "Trenutačna vodeća cijena i sljedeća ponuda prikazane su jasno. Svaki novi bid kreće od trenutačne cijene plus 5 EUR."),
+                ("04", "Pobjednik potvrđuje rezervaciju", "Nakon pobjede potvrda s paketom, terminom i iznosom ostaje spremljena u korisničkom računu."),
+            ]
+        ),
+        Spacer(1, 16),
+        p("Fer ekonomika", "SectionTitle"),
+        metrics_table(
+            [
+                ("Hotel", "70 / 30", "Hotel dobiva hladnu cijenu plus 70% novostvorene razlike."),
+                ("Apartman", "60 / 40", "Manji smještaji rade prema posebnom operativnom omjeru."),
+                ("Oglas", "0 EUR", "Nema članarine ni plaćenog isticanja prije rezultata."),
+            ]
+        ),
+        PageBreak(),
+        p("Jedan sustav, dva jasna puta", "SectionTitle"),
+        card_table(
+            [
+                ("GOST", "Pronađi termin", "Kalendar, filtri, anonimne ponude, praćenje aukcije i potvrda rezervacije."),
+                ("PARTNER", "Upravljaj ponudom", "Smještaji, paketi, hladne cijene, inventar, potvrde i partnerski tim."),
+                ("PILOT", "Split", "Pilot u gradu Splitu testira model za širenje prema drugim destinacijama."),
+                ("SLJEDEĆI KORAK", "auction.split", "Istražite aktivne aukcije, pročitajte vodiče ili otvorite račun gosta odnosno partnera."),
+            ]
+        ),
+        Spacer(1, 16),
+        p("Auction Split ne pokušava sniziti vrijednost smještaja. Cilj je da kapacitet koji bi ostao prazan dobije kontroliranu priliku za novi prihod, a gost transparentan način da dođe do termina.", "BodyStrong"),
+    ]
+    return story
+
+
 if __name__ == "__main__":
+    build_pdf("auction-split-brosura.pdf", platform_story())
     build_pdf("auction-split-brosura-korisnici.pdf", guest_story())
     build_pdf("auction-split-brosura-partneri.pdf", partner_story())
     print(f"Generated PDFs in {OUT}")
