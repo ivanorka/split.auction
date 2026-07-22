@@ -696,7 +696,7 @@ async function handleApi(req, res, url){
       return true;
     }
     const openingBid = clamp(Math.round(asNumber(body.openingBid, auctionPackage.coldPrice)), 10, 50000);
-    const minimum = Math.max(highestPackageBid(db, auctionPackage) + 5, auctionPackage.coldPrice, openingBid);
+    const minimum = highestPackageBid(db, auctionPackage) + 5;
     const amount = Math.round(asNumber(body.amount));
     if(!Number.isFinite(amount) || amount < minimum || amount > 50000){
       sendJson(res, 422, {

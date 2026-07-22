@@ -68,7 +68,7 @@ Prezentacijska baza na statičkom hostingu sprema promjene u lokalni browser i n
 - partner kreira smještaj i jedan ili više aukcijskih paketa
 - svaki paket ima vlastite datume, sobu, obrok, hladnu cijenu, jedinice i status
 - gost određuje svoju početnu ponudu i trajanje od 15 minuta do 24 sata
-- sljedeća ponuda ne može biti niža od hotelova minimuma, gostova praga ni trenutačne ponude + 5 EUR
+- sljedeća ponuda uvijek kreće od trenutačne najviše ponude + 5 EUR
 - hotel dobiva hladnu cijenu plus 70% razlike, platforma 30%
 - manji smještaj dobiva hladnu cijenu plus 60% razlike, platforma 40%
 - nema fiksne naknade za oglašavanje

@@ -85,11 +85,11 @@ async function run(){
   const bid = await request('POST', '/api/bids', {
     packageId:'pkg-st-marjan-demo',
     amount:85,
-    openingBid:40,
+    openingBid:140,
     dates:['2026-08-02'],
     duration:60
   }, guest.cookie, guest.csrf);
-  assert(bid.status === 201 && bid.body.bid.amount === 85, 'autorizirana ponuda');
+  assert(bid.status === 201 && bid.body.bid.amount === 85, 'sljedeća ponuda prati trenutačnu cijenu, ne prag pretrage');
   const reservation = await request('POST', '/api/reservations', {
     packageId:'pkg-st-marjan-demo',
     card:'Demo Visa ···· 4242'

@@ -110,11 +110,7 @@ function availableDates(auctionPackage){
 }
 
 function nextBid(auctionPackage){
-  return Math.max(
-    highestPackageBid(state, auctionPackage) + 5,
-    Number(auctionPackage.coldPrice),
-    state.openingBid
-  );
+  return highestPackageBid(state, auctionPackage) + 5;
 }
 
 function populateControls(){
@@ -278,7 +274,14 @@ function auctionModalMarkup({hotel, package:auctionPackage}){
         </div>
         <form id="bidForm" class="bid-form" data-package-id="${escapeAttribute(auctionPackage.id)}">
           <label for="bidAmount">Vaša sljedeća ponuda</label>
-          <div class="money-input"><input id="bidAmount" name="amount" type="number" min="${minimum}" step="5" value="${minimum}" required data-autofocus><span>€</span></div>
+          <div class="money-input">
+            <input id="bidAmount" name="amount" type="number" min="${minimum}" max="50000" step="5" value="${minimum}" required data-autofocus>
+            <div class="money-stepper" aria-label="Kontrole iznosa ponude">
+              <button type="button" data-bid-step="5" aria-label="Povećaj ponudu za 5 eura" title="Povećaj ponudu za 5 eura"><i data-lucide="chevron-up"></i></button>
+              <button type="button" data-bid-step="-5" aria-label="Smanji ponudu za 5 eura" title="Smanji ponudu za 5 eura"><i data-lucide="chevron-down"></i></button>
+            </div>
+            <span>€</span>
+          </div>
           <small>${user ? `Prijavljeni ste kao ${escapeHtml(user.name)}.` : 'Za slanje ponude potrebna je prijava gosta.'} Minimalno ${formatMoney(minimum)}.</small>
           <button class="button primary wide" id="submitBidButton" type="submit">${user ? 'Pošalji ponudu' : 'Prijava i ponuda'} <i data-lucide="gavel"></i></button>
         </form>
@@ -485,6 +488,18 @@ function bindEvents(){
   });
   byId('auctionModalBody').addEventListener('submit', event => {
     if(event.target.id === 'bidForm') submitBid(event);
+  });
+  byId('auctionModalBody').addEventListener('click', event => {
+    const button = event.target.closest('[data-bid-step]');
+    if(!button) return;
+    const input = byId('bidAmount');
+    if(!input) return;
+    const step = Number(button.dataset.bidStep) || 5;
+    const minimum = Number(input.min) || 0;
+    const maximum = Number(input.max) || 50000;
+    const current = Number(input.value) || minimum;
+    input.value = String(Math.max(minimum, Math.min(maximum, current + step)));
+    input.focus();
   });
   window.addEventListener('auction:auth-changed', loadState);
 }

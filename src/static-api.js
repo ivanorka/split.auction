@@ -387,7 +387,7 @@ export async function staticApi(path, options = {}){
     const selectedDates = datesOf(body.dates);
     if(!selectedDates.length || selectedDates.some(date => !auctionPackage.dates.includes(date))) throw apiError('Odaberite barem jedan slobodan datum iz paketa.', 422);
     const openingBid = clamp(Math.round(numberOf(body.openingBid, auctionPackage.coldPrice)), 10, 50000);
-    const minimum = Math.max(highestBid(db, auctionPackage) + 5, auctionPackage.coldPrice, openingBid);
+    const minimum = highestBid(db, auctionPackage) + 5;
     const amount = Math.round(numberOf(body.amount));
     if(amount < minimum || amount > 50000) throw apiError(amount > 50000 ? 'Ponuda ne može biti veća od 50.000 €.' : `Minimalna sljedeća ponuda je ${minimum} €.`, 422);
     const bid = { id:uid('bid'), userId:user.id, packageId:auctionPackage.id, amount, openingBid, dates:selectedDates, duration:clamp(Math.round(numberOf(body.duration, auctionPackage.duration)), 15, 1440), createdAt:now() };
