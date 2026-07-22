@@ -1,0 +1,4 @@
+interface:
+  display_name: "01 · Transactional Email Notifications"
+  short_description: "Pouzdane transactional email obavijesti."
+  default_prompt: "Postavi transactional email obavijesti za ovaj projekt, s Resendom, premium predlošcima i provjerom dostave."
