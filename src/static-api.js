@@ -35,11 +35,18 @@ async function loadSeed(){
   return clone(staticSeed);
 }
 
+function isUsableDemoDatabase(value, seed){
+  return value?.staticSeedVersion === seed.staticSeedVersion
+    && Array.isArray(value.hotels) && value.hotels.length > 0
+    && Array.isArray(value.packages) && value.packages.length > 0
+    && Array.isArray(value.users) && value.users.length > 0;
+}
+
 async function readDb(){
   const seed = await loadSeed();
   try{
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if(saved?.staticSeedVersion === seed.staticSeedVersion) return saved;
+    if(isUsableDemoDatabase(saved, seed)) return saved;
   }catch{}
   localStorage.setItem(STORAGE_KEY, JSON.stringify(seed));
   return seed;
