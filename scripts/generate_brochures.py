@@ -7,6 +7,8 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfgen import canvas
+from reportlab.lib.utils import ImageReader
 from reportlab.platypus import (
     Image,
     PageBreak,
@@ -346,8 +348,247 @@ def platform_story():
     return story
 
 
+INK = colors.HexColor("#13221F")
+MIST = colors.HexColor("#F2F5F3")
+CORAL = colors.HexColor("#E24B57")
+TEAL = colors.HexColor("#087C71")
+SAGE = colors.HexColor("#DDEAE5")
+
+
+def cover_image(c, image_path, x, y, width, height):
+    image = ImageReader(str(image_path))
+    image_width, image_height = image.getSize()
+    scale = max(width / image_width, height / image_height)
+    draw_width = image_width * scale
+    draw_height = image_height * scale
+    clip = c.beginPath()
+    clip.rect(x, y, width, height)
+    c.saveState()
+    c.clipPath(clip, stroke=0, fill=0)
+    c.drawImage(image, x + (width - draw_width) / 2, y + (height - draw_height) / 2, draw_width, draw_height, mask="auto")
+    c.restoreState()
+
+
+def premium_paragraph(c, text, x, y, width, style):
+    paragraph = Paragraph(text, style)
+    _, height = paragraph.wrap(width, 1000)
+    paragraph.drawOn(c, x, y - height)
+    return y - height
+
+
+def premium_styles():
+    return {
+        "eyebrow": ParagraphStyle("PremiumEyebrow", fontName="SplitAuction-Bold", fontSize=8, leading=10, textColor=TEAL, uppercase=True),
+        "title-dark": ParagraphStyle("PremiumTitleDark", fontName="SplitAuction-Bold", fontSize=31, leading=35, textColor=INK),
+        "title-light": ParagraphStyle("PremiumTitleLight", fontName="SplitAuction-Bold", fontSize=34, leading=38, textColor=colors.white),
+        "body": ParagraphStyle("PremiumBody", fontName="SplitAuction", fontSize=10.5, leading=15, textColor=MUTED),
+        "body-light": ParagraphStyle("PremiumBodyLight", fontName="SplitAuction", fontSize=10.5, leading=15, textColor=colors.HexColor("#DDE8E4")),
+        "card-title": ParagraphStyle("PremiumCardTitle", fontName="SplitAuction-Bold", fontSize=12, leading=15, textColor=INK),
+        "card-body": ParagraphStyle("PremiumCardBody", fontName="SplitAuction", fontSize=8.6, leading=12, textColor=MUTED),
+        "card-light": ParagraphStyle("PremiumCardLight", fontName="SplitAuction-Bold", fontSize=11.5, leading=14, textColor=colors.white),
+        "quote": ParagraphStyle("PremiumQuote", fontName="SplitAuction-Bold", fontSize=16, leading=21, textColor=INK),
+    }
+
+
+PS = premium_styles()
+
+
+def premium_header(c, page, inverse=False):
+    color = colors.white if inverse else INK
+    c.setFillColor(color)
+    c.setFont("SplitAuction-Bold", 10)
+    c.drawString(18 * mm, PAGE_H - 15 * mm, "Auction Split")
+    c.setFont("SplitAuction", 8)
+    c.drawString(52 * mm, PAGE_H - 15 * mm, "auction.split")
+    c.setFillColor(CORAL if inverse else TEAL)
+    c.rect(PAGE_W - 31 * mm, PAGE_H - 18 * mm, 13 * mm, 4 * mm, fill=1, stroke=0)
+    c.setFillColor(color)
+    c.setFont("SplitAuction", 8)
+    c.drawRightString(PAGE_W - 18 * mm, 12 * mm, f"0{page}")
+
+
+def premium_card(c, x, y, width, height, number, title, body, accent=CORAL):
+    c.setFillColor(colors.white)
+    c.roundRect(x, y, width, height, 5 * mm, fill=1, stroke=0)
+    c.setFillColor(accent)
+    c.roundRect(x + 7 * mm, y + height - 17 * mm, 22 * mm, 10 * mm, 4 * mm, fill=1, stroke=0)
+    c.setFillColor(colors.white)
+    c.setFont("SplitAuction-Bold", 7.5)
+    c.drawCentredString(x + 18 * mm, y + height - 13.3 * mm, number)
+    premium_paragraph(c, title, x + 7 * mm, y + height - 24 * mm, width - 14 * mm, PS["card-title"])
+    premium_paragraph(c, body, x + 7 * mm, y + height - 43 * mm, width - 14 * mm, PS["card-body"])
+
+
+def build_premium_platform_brochure(filename):
+    target = OUT / filename
+    c = canvas.Canvas(str(target), pagesize=A4)
+    hero = ROOT / "assets" / "media" / "auction-split-hero.jpg"
+    apartment = ROOT / "assets" / "media" / "bacvice-apartment.jpg"
+    hotel = ROOT / "assets" / "media" / "split-city-hotel.jpg"
+
+    # 01 Cover
+    cover_image(c, hero, 0, 0, PAGE_W, PAGE_H)
+    c.setFillColor(INK)
+    c.rect(0, 0, PAGE_W * 0.57, PAGE_H, fill=1, stroke=0)
+    premium_header(c, 1, inverse=True)
+    c.setFillColor(CORAL)
+    c.roundRect(18 * mm, PAGE_H - 58 * mm, 38 * mm, 8 * mm, 3 * mm, fill=1, stroke=0)
+    c.setFillColor(colors.white)
+    c.setFont("SplitAuction-Bold", 7.5)
+    c.drawCentredString(37 * mm, PAGE_H - 55 * mm, "BROŠURA PLATFORME")
+    premium_paragraph(c, "Slobodan termin.<br/>Nova vrijednost.", 18 * mm, PAGE_H - 80 * mm, 91 * mm, PS["title-light"])
+    premium_paragraph(c, "Auction Split povezuje slobodan smještaj s gostima koji žele jasniji i transparentniji način rezervacije.", 18 * mm, PAGE_H - 166 * mm, 88 * mm, PS["body-light"])
+    c.setFillColor(colors.HexColor("#BFD8D2"))
+    c.setFont("SplitAuction-Bold", 9)
+    c.drawString(18 * mm, 28 * mm, "PILOT: SPLIT")
+    c.setFont("SplitAuction", 9)
+    c.drawString(18 * mm, 21 * mm, "Za gosta. Za partnera. Za kapacitet koji ne smije ostati prazan.")
+    c.showPage()
+
+    # 02 Concept
+    c.setFillColor(MIST)
+    c.rect(0, 0, PAGE_W, PAGE_H, fill=1, stroke=0)
+    premium_header(c, 2)
+    c.setFillColor(TEAL)
+    c.setFont("SplitAuction-Bold", 8)
+    c.drawString(18 * mm, PAGE_H - 35 * mm, "KONCEPT")
+    premium_paragraph(c, "Prazan kapacitet nije popust.<br/>To je neiskorištena prilika.", 18 * mm, PAGE_H - 47 * mm, 115 * mm, PS["title-dark"])
+    premium_paragraph(c, "Partner određuje hladnu cijenu ispod koje ne želi prodati. Gost bira termin i prati jasnu aukciju. Platforma zarađuje samo iz vrijednosti koja nastane iznad partnerova minimuma.", 18 * mm, PAGE_H - 107 * mm, 102 * mm, PS["body"])
+    cover_image(c, hotel, 18 * mm, 96 * mm, 174 * mm, 72 * mm)
+    c.setFillColor(colors.white)
+    c.roundRect(18 * mm, 43 * mm, 174 * mm, 40 * mm, 5 * mm, fill=1, stroke=0)
+    columns = [("0 €", "bez plaćenog oglasa"), ("70 / 30", "hotel model podjele"), ("60 / 40", "apartman model podjele")]
+    for index, (metric, note) in enumerate(columns):
+        x = 28 * mm + index * 55 * mm
+        c.setFillColor(CORAL)
+        c.setFont("SplitAuction-Bold", 21)
+        c.drawString(x, 65 * mm, metric)
+        c.setFillColor(MUTED)
+        c.setFont("SplitAuction", 8)
+        c.drawString(x, 57 * mm, note)
+    c.showPage()
+
+    # 03 How it works
+    c.setFillColor(INK)
+    c.rect(0, 0, PAGE_W, PAGE_H, fill=1, stroke=0)
+    premium_header(c, 3, inverse=True)
+    c.setFillColor(colors.white)
+    c.setFont("SplitAuction-Bold", 8)
+    c.drawString(18 * mm, PAGE_H - 35 * mm, "KAKO RADI")
+    premium_paragraph(c, "Četiri jasna koraka.<br/>Jedan kontrolirani tok.", 18 * mm, PAGE_H - 47 * mm, 125 * mm, PS["title-light"])
+    steps = [
+        ("01", "Objavite prazan termin", "Partner unosi smještaj, slobodne datume i hladnu cijenu."),
+        ("02", "Gost postavlja uvjete", "Odredište, termin i početna ponuda usmjeravaju pretragu."),
+        ("03", "Aukcija vodi cijenu", "Svaka sljedeća ponuda ide od trenutačne cijene plus 5 EUR."),
+        ("04", "Potvrdite pobjedu", "Pobjednik potvrđuje rezervaciju, a sustav pamti cijeli tijek."),
+    ]
+    for index, (number, title, body) in enumerate(steps):
+        column = index % 2
+        row = index // 2
+        x = 18 * mm + column * 88 * mm
+        y = 111 * mm - row * 63 * mm
+        c.setFillColor(colors.HexColor("#1E3430"))
+        c.roundRect(x, y, 82 * mm, 53 * mm, 5 * mm, fill=1, stroke=0)
+        c.setFillColor(CORAL if index in (0, 3) else colors.HexColor("#9CD7C9"))
+        c.setFont("SplitAuction-Bold", 9)
+        c.drawString(x + 7 * mm, y + 42 * mm, number)
+        c.setFillColor(colors.white)
+        premium_paragraph(c, title, x + 7 * mm, y + 35 * mm, 66 * mm, PS["card-light"])
+        premium_paragraph(c, body, x + 7 * mm, y + 20 * mm, 66 * mm, PS["body-light"])
+    c.showPage()
+
+    # 04 Guest
+    c.setFillColor(colors.white)
+    c.rect(0, 0, PAGE_W, PAGE_H, fill=1, stroke=0)
+    premium_header(c, 4)
+    cover_image(c, apartment, 0, PAGE_H - 120 * mm, PAGE_W, 120 * mm)
+    c.setFillColor(colors.white)
+    c.roundRect(18 * mm, PAGE_H - 151 * mm, 118 * mm, 52 * mm, 5 * mm, fill=1, stroke=0)
+    c.setFillColor(TEAL)
+    c.setFont("SplitAuction-Bold", 8)
+    c.drawString(26 * mm, PAGE_H - 115 * mm, "ZA GOSTA")
+    premium_paragraph(c, "Manje lutanja.<br/>Više kontrole.", 26 * mm, PAGE_H - 124 * mm, 100 * mm, PS["title-dark"])
+    premium_paragraph(c, "Gost vidi smještaj, trenutačnu cijenu, sljedeći dopušteni korak i vlastiti status bez skrivenih troškova.", 18 * mm, PAGE_H - 168 * mm, 126 * mm, PS["body"])
+    guest_cards = [
+        ("01", "Odaberi termin", "Kalendar prikazuje dane sa slobodnim kapacitetom."),
+        ("02", "Postavi ponudu", "Početna ponuda služi za lakši odabir smještaja."),
+        ("03", "Prati aukciju", "Sljedeća cijena i status prikazani su u realnom vremenu."),
+    ]
+    for index, card in enumerate(guest_cards):
+        premium_card(c, 18 * mm + index * 58 * mm, 34 * mm, 54 * mm, 72 * mm, *card, accent=TEAL)
+    c.showPage()
+
+    # 05 Partner
+    c.setFillColor(MIST)
+    c.rect(0, 0, PAGE_W, PAGE_H, fill=1, stroke=0)
+    premium_header(c, 5)
+    c.setFillColor(CORAL)
+    c.rect(0, PAGE_H - 81 * mm, PAGE_W, 81 * mm, fill=1, stroke=0)
+    c.setFillColor(colors.white)
+    c.setFont("SplitAuction-Bold", 8)
+    c.drawString(18 * mm, PAGE_H - 34 * mm, "ZA PARTNERA")
+    premium_paragraph(c, "Kontrola ostaje<br/>kod smještaja.", 18 * mm, PAGE_H - 45 * mm, 112 * mm, PS["title-light"])
+    cover_image(c, hotel, 120 * mm, PAGE_H - 74 * mm, 72 * mm, 51 * mm)
+    premium_paragraph(c, "Partner sam upravlja hladnom cijenom, inventarom, sadržajem paketa i datumima. Platforma ne naplaćuje oglas - dijeli samo rast koji aukcija stvori.", 18 * mm, PAGE_H - 104 * mm, 134 * mm, PS["body"])
+    c.setFillColor(colors.white)
+    c.roundRect(18 * mm, 86 * mm, 174 * mm, 55 * mm, 5 * mm, fill=1, stroke=0)
+    numbers = [("50 €", "hladna cijena"), ("80 €", "završna ponuda"), ("30 €", "nova razlika")]
+    for index, (value, label) in enumerate(numbers):
+        x = 30 * mm + index * 55 * mm
+        c.setFillColor(CORAL if index == 2 else INK)
+        c.setFont("SplitAuction-Bold", 23)
+        c.drawString(x, 116 * mm, value)
+        c.setFillColor(MUTED)
+        c.setFont("SplitAuction", 8)
+        c.drawString(x, 107 * mm, label)
+    c.setFillColor(TEAL)
+    c.setFont("SplitAuction-Bold", 12)
+    c.drawString(30 * mm, 94 * mm, "Hotel prima 71 €")
+    c.setFillColor(MUTED)
+    c.setFont("SplitAuction", 9)
+    c.drawString(30 * mm, 87 * mm, "50 € hladna cijena + 21 € udio iz razlike")
+    c.setFillColor(INK)
+    c.setFont("SplitAuction-Bold", 15)
+    c.drawString(18 * mm, 62 * mm, "Bez članarine. Bez plaćenog isticanja.")
+    premium_paragraph(c, "Samo kapacitet koji bi ostao prazan dobiva novu priliku za prihod.", 18 * mm, 54 * mm, 112 * mm, PS["body"])
+    c.showPage()
+
+    # 06 Closing
+    c.setFillColor(TEAL)
+    c.rect(0, 0, PAGE_W, PAGE_H, fill=1, stroke=0)
+    premium_header(c, 6, inverse=True)
+    c.setFillColor(colors.white)
+    c.setFont("SplitAuction-Bold", 8)
+    c.drawString(18 * mm, PAGE_H - 35 * mm, "SLJEDEĆI KORAK")
+    premium_paragraph(c, "Jedna platforma.<br/>Dva jasna puta.", 18 * mm, PAGE_H - 47 * mm, 120 * mm, PS["title-light"])
+    c.setFillColor(colors.white)
+    c.roundRect(18 * mm, 94 * mm, 84 * mm, 78 * mm, 5 * mm, fill=1, stroke=0)
+    c.roundRect(108 * mm, 94 * mm, 84 * mm, 78 * mm, 5 * mm, fill=1, stroke=0)
+    c.setFillColor(INK)
+    c.setFont("SplitAuction-Bold", 8)
+    c.drawString(27 * mm, 156 * mm, "GOST")
+    c.drawString(117 * mm, 156 * mm, "PARTNER")
+    premium_paragraph(c, "Pronađite aktivnu aukciju i odlučite za koji termin želite licitirati.", 27 * mm, 148 * mm, 64 * mm, PS["card-body"])
+    premium_paragraph(c, "Otvorite partnerski račun i pretvorite prazan kapacitet u ponudu.", 117 * mm, 148 * mm, 64 * mm, PS["card-body"])
+    c.setFillColor(CORAL)
+    c.roundRect(27 * mm, 106 * mm, 48 * mm, 12 * mm, 4 * mm, fill=1, stroke=0)
+    c.roundRect(117 * mm, 106 * mm, 48 * mm, 12 * mm, 4 * mm, fill=1, stroke=0)
+    c.setFillColor(colors.white)
+    c.setFont("SplitAuction-Bold", 8)
+    c.drawCentredString(51 * mm, 110.5 * mm, "ISTRAŽI AUKCIJE")
+    c.drawCentredString(141 * mm, 110.5 * mm, "OTVORI RAČUN")
+    c.setFillColor(colors.HexColor("#C9E6DF"))
+    c.setFont("SplitAuction", 11)
+    c.drawCentredString(PAGE_W / 2, 52 * mm, "auction.split")
+    c.setFont("SplitAuction-Bold", 17)
+    c.setFillColor(colors.white)
+    c.drawCentredString(PAGE_W / 2, 39 * mm, "Slobodan termin. Nova vrijednost.")
+    c.save()
+
+
+
 if __name__ == "__main__":
-    build_pdf("auction-split-brosura.pdf", platform_story())
+    build_premium_platform_brochure("auction-split-brosura.pdf")
     build_pdf("auction-split-brosura-korisnici.pdf", guest_story())
     build_pdf("auction-split-brosura-partneri.pdf", partner_story())
     print(f"Generated PDFs in {OUT}")
