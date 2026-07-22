@@ -1,5 +1,14 @@
 export const byId = id => document.getElementById(id);
 
+const localeKey = 'auction-split:locale';
+export function getLocale(){
+  return localStorage.getItem(localeKey) || 'hr-HR';
+}
+export function setLocale(locale){
+  localStorage.setItem(localeKey, locale);
+  document.documentElement.lang = locale;
+}
+
 let csrfToken = '';
 let apiTransport = 'unknown';
 
@@ -87,7 +96,7 @@ export async function api(path, options = {}){
 }
 
 export function formatMoney(value, digits = 0){
-  return new Intl.NumberFormat('hr-HR', {
+  return new Intl.NumberFormat(getLocale(), {
     style:'currency',
     currency:'EUR',
     minimumFractionDigits:digits,
@@ -98,13 +107,13 @@ export function formatMoney(value, digits = 0){
 export function formatShortDate(iso){
   const [year, month, day] = String(iso).split('-').map(Number);
   if(!year || !month || !day) return String(iso || '');
-  return new Intl.DateTimeFormat('hr-HR', {day:'numeric',month:'short'}).format(new Date(year, month - 1, day));
+  return new Intl.DateTimeFormat(getLocale(), {day:'numeric',month:'short'}).format(new Date(year, month - 1, day));
 }
 
 export function formatFullDate(iso){
   const [year, month, day] = String(iso).split('-').map(Number);
   if(!year || !month || !day) return String(iso || '');
-  return new Intl.DateTimeFormat('hr-HR', {weekday:'short',day:'numeric',month:'long'}).format(new Date(year, month - 1, day));
+  return new Intl.DateTimeFormat(getLocale(), {weekday:'short',day:'numeric',month:'long'}).format(new Date(year, month - 1, day));
 }
 
 export function formatDuration(minutes){

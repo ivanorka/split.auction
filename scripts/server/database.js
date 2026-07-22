@@ -106,11 +106,19 @@ function migrateDatabase(input){
   db.invitations = Array.isArray(db.invitations) ? db.invitations : [];
   db.auditLog = Array.isArray(db.auditLog) ? db.auditLog : [];
 
-  db.hotels = db.hotels.map(hotel => ({
-    ...hotel,
-    partnerId:hotel.partnerId || 'partner-demo',
-    status:hotel.status || 'active'
-  }));
+  db.hotels = db.hotels.map(hotel => {
+    const images = Array.isArray(hotel.images) ? hotel.images.filter(Boolean).slice(0, 20) : [];
+    const gallery = [...images];
+    for(let index = gallery.length; index < 20; index += 1){
+      gallery.push(`https://picsum.photos/seed/${encodeURIComponent(hotel.id || hotel.name || 'auction-split')}-gallery-${index + 1}/1200/760`);
+    }
+    return {
+      ...hotel,
+      images:gallery,
+      partnerId:hotel.partnerId || 'partner-demo',
+      status:hotel.status || 'active'
+    };
+  });
 
   db.packages = Array.isArray(db.packages) && db.packages.length
     ? db.packages

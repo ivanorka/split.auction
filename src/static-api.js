@@ -238,7 +238,7 @@ function normalizeHotel(input, existing, partnerId){
     freeRooms:clamp(Math.round(numberOf(input.freeRooms, existing.freeRooms || 1)), 0, totalRooms),
     totalRooms,
     dates:Object.hasOwn(input, 'dates') ? datesOf(input.dates) : existing.dates || [],
-    images:Object.hasOwn(input, 'images') ? listOf(input.images).slice(0, 12) : existing.images || [],
+    images:Object.hasOwn(input, 'images') ? listOf(input.images).slice(0, 20) : existing.images || [],
     description:clean(input.description || existing.description).slice(0, 1600),
     amenities:Object.hasOwn(input, 'amenities') ? listOf(input.amenities).slice(0, 30) : existing.amenities || [],
     featured:Boolean(input.featured ?? existing.featured),
@@ -387,7 +387,7 @@ export async function staticApi(path, options = {}){
     const selectedDates = datesOf(body.dates);
     if(!selectedDates.length || selectedDates.some(date => !auctionPackage.dates.includes(date))) throw apiError('Odaberite barem jedan slobodan datum iz paketa.', 422);
     const openingBid = clamp(Math.round(numberOf(body.openingBid, auctionPackage.coldPrice)), 10, 50000);
-    const minimum = highestBid(db, auctionPackage) + 5;
+    const minimum = highestBid(db, auctionPackage) + 1;
     const amount = Math.round(numberOf(body.amount));
     if(amount < minimum || amount > 50000) throw apiError(amount > 50000 ? 'Ponuda ne može biti veća od 50.000 €.' : `Minimalna sljedeća ponuda je ${minimum} €.`, 422);
     const bid = { id:uid('bid'), userId:user.id, packageId:auctionPackage.id, amount, openingBid, dates:selectedDates, duration:clamp(Math.round(numberOf(body.duration, auctionPackage.duration)), 15, 1440), createdAt:now() };

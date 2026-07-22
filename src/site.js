@@ -1,5 +1,33 @@
 import {refreshIcons} from './shared.js';
 import {initAuthUI} from './auth.js';
+import {getLocale, setLocale} from './shared.js';
+import {supportedLocales, croatianCities} from './locale.js';
+
+function initLocale(){
+  document.documentElement.lang = getLocale();
+  document.querySelectorAll('[data-city-select]').forEach(select => {
+    const selected = select.value || select.dataset.selectedCity || '';
+    const allLabel = select.dataset.allCitiesLabel || 'Cijela Hrvatska';
+    select.innerHTML = [
+      `<option value="">${allLabel}</option>`,
+      ...croatianCities.map(city => `<option value="${city}">${city}</option>`)
+    ].join('');
+    select.value = croatianCities.includes(selected) ? selected : '';
+  });
+  document.querySelectorAll('.site-header-inner').forEach(header => {
+    if(header.querySelector('[data-locale-select]')) return;
+    const label = document.createElement('label');
+    label.className = 'locale-control desktop-action';
+    label.innerHTML = `<i data-lucide="languages"></i><span class="sr-only">Jezik</span><select data-locale-select aria-label="Odaberite jezik">${supportedLocales.map(locale => `<option value="${locale.code}">${locale.short}</option>`).join('')}</select>`;
+    const select = label.querySelector('select');
+    select.value = getLocale();
+    select.addEventListener('change', () => {
+      setLocale(select.value);
+      window.location.reload();
+    });
+    header.append(label);
+  });
+}
 
 function initNavigation(){
   const toggle = document.querySelector('[data-menu-toggle]');
@@ -78,13 +106,14 @@ function initNumberSteppers(){
     if(!input) return;
     const minimum = Number(input.min) || 0;
     const maximum = Number(input.max) || Number.MAX_SAFE_INTEGER;
-    const step = Number(button.dataset.numberStep) || 5;
+    const step = Number(button.dataset.numberStep) || 1;
     const current = Number(input.value) || minimum;
     input.value = String(Math.max(minimum, Math.min(maximum, current + step)));
     input.focus();
   });
 }
 
+initLocale();
 initNavigation();
 initModalDismiss();
 initNumberSteppers();

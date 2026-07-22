@@ -42,6 +42,12 @@ const state = {
 const defaultDates = ['2026-08-24', '2026-08-25'];
 const defaultImages = ['/assets/media/split-city-hotel.jpg'];
 
+function updateGalleryImageCount(){
+  const form = byId('propertyForm');
+  const count = asList(form.images.value).slice(0, 20).length;
+  byId('galleryImageCount').textContent = `${count} / 20 fotografija`;
+}
+
 function applyServerState(payload){
   state.hotels = Array.isArray(payload.hotels) ? payload.hotels : [];
   state.packages = Array.isArray(payload.packages) ? payload.packages : [];
@@ -304,7 +310,8 @@ function resetPropertyForm(){
   form.lng.value = '16.4402';
   form.partnerType.value = 'hotel';
   form.totalRooms.value = '21';
-  form.images.value = defaultImages.join(', ');
+  form.images.value = defaultImages.join('\n');
+  updateGalleryImageCount();
   form.description.value = 'Slobodan demo kapacitet spreman za aukciju.';
   form.amenities.value = 'Doručak, Wi-Fi, Parking';
   form.status.value = 'active';
@@ -319,7 +326,8 @@ function populatePropertyForm(hotel){
   ['name', 'city', 'street', 'lat', 'lng', 'partnerType', 'totalRooms', 'description', 'status'].forEach(key => {
     form[key].value = hotel[key] ?? '';
   });
-  form.images.value = (hotel.images || []).join(', ');
+  form.images.value = (hotel.images || []).join('\n');
+  updateGalleryImageCount();
   form.amenities.value = (hotel.amenities || []).join(', ');
   form.featured.checked = Boolean(hotel.featured);
   byId('propertyModalTitle').textContent = `Uredi: ${hotel.name}`;
@@ -332,7 +340,7 @@ function propertyPayload(form){
     name:form.name.value, city:form.city.value, street:form.street.value,
     lat:Number(form.lat.value), lng:Number(form.lng.value),
     partnerType:form.partnerType.value, totalRooms:Number(form.totalRooms.value),
-    images:asList(form.images.value), description:form.description.value,
+    images:asList(form.images.value).slice(0, 20), description:form.description.value,
     amenities:asList(form.amenities.value), featured:form.featured.checked, status:form.status.value
   };
 }
@@ -569,6 +577,7 @@ function bindEvents(){
     refreshIcons();
   });
   byId('propertyForm').addEventListener('submit', saveProperty);
+  byId('propertyForm').images.addEventListener('input', updateGalleryImageCount);
   byId('packageForm').addEventListener('submit', savePackage);
   byId('bookingsTableBody').addEventListener('change', event => {
     const row = event.target.closest('[data-reservation-row]');

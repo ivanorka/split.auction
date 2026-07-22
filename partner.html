@@ -147,14 +147,14 @@
       <div class="property-modal-heading"><div><span class="eyebrow">Konfiguracija inventara</span><h2 id="propertyModalTitle">Dodaj smještaj</h2></div><button class="modal-close inline icon-button" type="button" data-close-modal title="Zatvori"><i data-lucide="x"></i><span class="sr-only">Zatvori</span></button></div>
       <form class="form-grid property-form" id="propertyForm">
         <label class="full-field"><span>Naziv smještaja</span><input name="name" required data-autofocus></label>
-        <label><span>Grad</span><input name="city" required></label>
+        <label><span>Grad</span><select name="city" data-city-select required></select></label>
         <label><span>Adresa</span><input name="street" required></label>
         <label><span>Latitude</span><input name="lat" type="number" step="0.0001" required></label>
         <label><span>Longitude</span><input name="lng" type="number" step="0.0001" required></label>
         <label><span>Partnerski model</span><select name="partnerType"><option value="hotel">Hotel · 70/30</option><option value="small">Apartman · 60/40</option></select></label>
         <label><span>Status profila</span><select name="status"><option value="active">Aktivan</option><option value="draft">Skica</option><option value="archived">Arhiviran</option></select></label>
         <label><span>Ukupno jedinica</span><input name="totalRooms" type="number" min="1" max="21" required></label>
-        <label class="full-field"><span>URL fotografija (odvojeni zarezom)</span><textarea name="images" rows="3"></textarea></label>
+        <label class="full-field"><span>Galerija fotografija (najviše 20 URL-ova, svaki u novom retku)</span><textarea name="images" rows="6" maxlength="12000" placeholder="https://.../fotografija-1.jpg"></textarea><small class="field-hint" id="galleryImageCount">0 / 20 fotografija</small></label>
         <label class="full-field"><span>Opis za gosta</span><textarea name="description" rows="3"></textarea></label>
         <label class="full-field"><span>Sadržaji (odvojeni zarezom)</span><input name="amenities"></label>
         <label class="checkbox-field full-field"><input name="featured" type="checkbox"><span>Istakni kao preporučeni demo smještaj</span></label>

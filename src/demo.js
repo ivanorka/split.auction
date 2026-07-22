@@ -21,6 +21,7 @@ import {
   initAuthUI,
   requireAuthenticatedUser
 } from './auth.js';
+import {croatianCities} from './locale.js';
 
 const state = {
   hotels:[],
@@ -52,7 +53,7 @@ function parseQuery(){
   const params = new URLSearchParams(window.location.search);
   const bid = Number(params.get('bid'));
   const duration = Number(params.get('duration'));
-  if(Number.isFinite(bid) && bid >= 10 && bid <= 600) state.openingBid = Math.round(bid / 5) * 5;
+  if(Number.isFinite(bid) && bid >= 10 && bid <= 600) state.openingBid = Math.round(bid);
   if(durationOptions.includes(duration)) state.duration = duration;
   state.city = params.get('city') || '';
   state.requestedHotelId = params.get('hotel') || '';
@@ -110,13 +111,13 @@ function availableDates(auctionPackage){
 }
 
 function nextBid(auctionPackage){
-  return highestPackageBid(state, auctionPackage) + 5;
+  return highestPackageBid(state, auctionPackage) + 1;
 }
 
 function populateControls(){
   const activeHotelIds = new Set(state.packages.map(item => item.hotelId));
-  const cities = [...new Set(state.hotels.filter(hotel => activeHotelIds.has(hotel.id)).map(hotel => hotel.city).filter(Boolean))]
-    .sort((first, second) => first.localeCompare(second, 'hr'));
+  const activeCities = new Set(state.hotels.filter(hotel => activeHotelIds.has(hotel.id)).map(hotel => hotel.city).filter(Boolean));
+  const cities = [...new Set([...croatianCities, ...activeCities])];
   byId('destinationSelect').innerHTML = [
     '<option value="">Cijela Hrvatska</option>',
     ...cities.map(city => `<option value="${escapeAttribute(city)}">${escapeHtml(city)}</option>`)
@@ -275,9 +276,9 @@ function auctionModalMarkup({hotel, package:auctionPackage}){
         <form id="bidForm" class="bid-form" data-package-id="${escapeAttribute(auctionPackage.id)}">
           <label for="bidAmount">Vaša sljedeća ponuda</label>
           <div class="money-input">
-            <input id="bidAmount" name="amount" type="number" min="${minimum}" max="50000" step="5" value="${minimum}" required data-autofocus>
+            <input id="bidAmount" name="amount" type="number" min="${minimum}" max="50000" step="1" value="${minimum}" required data-autofocus>
             <div class="money-stepper" aria-label="Kontrole iznosa ponude">
-              <button type="button" data-bid-step="5" aria-label="Povećaj ponudu za 5 eura" title="Povećaj ponudu za 5 eura"><i data-lucide="chevron-up"></i></button>
+              <button type="button" data-bid-step="1" aria-label="Povećaj ponudu za 1 euro" title="Povećaj ponudu za 1 euro"><i data-lucide="chevron-up"></i></button>
               <button type="button" data-bid-step="-5" aria-label="Smanji ponudu za 5 eura" title="Smanji ponudu za 5 eura"><i data-lucide="chevron-down"></i></button>
             </div>
             <span>€</span>

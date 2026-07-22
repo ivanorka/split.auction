@@ -233,7 +233,7 @@ function normalizeHotel(input, existing = {}, partnerId){
     freeRooms,
     totalRooms,
     dates:Object.prototype.hasOwnProperty.call(input, 'dates') ? asDates(input.dates) : existing.dates || [],
-    images:Object.prototype.hasOwnProperty.call(input, 'images') ? asList(input.images).slice(0, 12) : existing.images || [],
+    images:Object.prototype.hasOwnProperty.call(input, 'images') ? asList(input.images).slice(0, 20) : existing.images || [],
     description:asString(input.description, existing.description || '').slice(0, 1600),
     amenities:Object.prototype.hasOwnProperty.call(input, 'amenities') ? asList(input.amenities).slice(0, 30) : existing.amenities || [],
     featured:Boolean(input.featured ?? existing.featured),
@@ -696,7 +696,7 @@ async function handleApi(req, res, url){
       return true;
     }
     const openingBid = clamp(Math.round(asNumber(body.openingBid, auctionPackage.coldPrice)), 10, 50000);
-    const minimum = highestPackageBid(db, auctionPackage) + 5;
+    const minimum = highestPackageBid(db, auctionPackage) + 1;
     const amount = Math.round(asNumber(body.amount));
     if(!Number.isFinite(amount) || amount < minimum || amount > 50000){
       sendJson(res, 422, {

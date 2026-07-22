@@ -84,12 +84,12 @@ async function run(){
 
   const bid = await request('POST', '/api/bids', {
     packageId:'pkg-st-marjan-demo',
-    amount:85,
+    amount:81,
     openingBid:140,
     dates:['2026-08-02'],
     duration:60
   }, guest.cookie, guest.csrf);
-  assert(bid.status === 201 && bid.body.bid.amount === 85, 'sljedeća ponuda prati trenutačnu cijenu, ne prag pretrage');
+  assert(bid.status === 201 && bid.body.bid.amount === 81, 'sljedeća ponuda raste za samo 1 euro, ne prema pragu pretrage');
   const reservation = await request('POST', '/api/reservations', {
     packageId:'pkg-st-marjan-demo',
     card:'Demo Visa ···· 4242'
@@ -106,9 +106,10 @@ async function run(){
   const partnerState = await request('GET', '/api/partner/state', undefined, partner.cookie);
   assert(partnerState.status === 200 && partnerState.body.hotels.length === 6 && partnerState.body.packages.length === 14, 'partnersko vlasništvo portfolija');
   const createdHotel = await request('POST', '/api/hotels', {
-    name:'API Test Hotel', city:'Split', street:'Test 1', partnerType:'hotel', totalRooms:10
+    name:'API Test Hotel', city:'Split', street:'Test 1', partnerType:'hotel', totalRooms:10,
+    images:Array.from({length:21}, (_, index) => `https://example.test/hotel-${index + 1}.jpg`)
   }, partner.cookie, partner.csrf);
-  assert(createdHotel.status === 201, 'partnersko stvaranje smještaja');
+  assert(createdHotel.status === 201 && createdHotel.body.hotel.images.length === 20, 'partner može spremiti galeriju do 20 fotografija');
   const hotelId = createdHotel.body.hotel.id;
   const createdPackage = await request('POST', '/api/packages', {
     hotelId,

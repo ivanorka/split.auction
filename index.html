@@ -53,18 +53,12 @@
           <label class="search-field">
             <i data-lucide="map-pin"></i>
             <span><small>Odredište</small>
-              <select name="city" aria-label="Odredište">
-                <option value="">Cijela Hrvatska</option>
-                <option value="Split" selected>Split</option>
-                <option value="Dubrovnik">Dubrovnik</option>
-                <option value="Pula">Pula</option>
-                <option value="Zagreb">Zagreb</option>
-              </select>
+              <select name="city" data-city-select data-selected-city="Split" aria-label="Odredište"></select>
             </span>
           </label>
           <label class="search-field">
             <i data-lucide="badge-euro"></i>
-            <span><small>Početna ponuda</small><span class="hero-number-input"><input id="heroBid" name="bid" type="number" min="10" max="600" step="5" value="40" aria-label="Početna ponuda u eurima"><span class="hero-number-stepper" aria-label="Kontrole početne ponude"><button type="button" data-number-step="5" data-number-target="heroBid" aria-label="Povećaj početnu ponudu za 5 eura" title="Povećaj za 5 €"><i data-lucide="chevron-up"></i></button><button type="button" data-number-step="-5" data-number-target="heroBid" aria-label="Smanji početnu ponudu za 5 eura" title="Smanji za 5 €"><i data-lucide="chevron-down"></i></button></span></span></span>
+            <span><small>Početna ponuda</small><span class="hero-number-input"><input id="heroBid" name="bid" type="number" min="10" max="600" step="1" value="40" aria-label="Početna ponuda u eurima"><span class="hero-number-stepper" aria-label="Kontrole početne ponude"><button type="button" data-number-step="1" data-number-target="heroBid" aria-label="Povećaj početnu ponudu za 1 euro" title="Povećaj za 1 €"><i data-lucide="chevron-up"></i></button><button type="button" data-number-step="-1" data-number-target="heroBid" aria-label="Smanji početnu ponudu za 1 euro" title="Smanji za 1 €"><i data-lucide="chevron-down"></i></button></span></span></span>
           </label>
           <label class="search-field">
             <i data-lucide="timer"></i>
@@ -142,6 +136,7 @@
       <div class="investor-actions"><a class="button primary" href="/demo.html">Pokreni gostujući demo</a><button class="button secondary" type="button" data-auth-open="login">Prijava za partnere</button></div>
     </section>
   </main>
+  <section class="payment-band" aria-label="Podržani načini plaćanja"><div class="content-width payment-band-inner"><span><i data-lucide="shield-check"></i> Sigurna autorizacija plaćanja</span><div class="payment-methods"><strong>Visa</strong><strong>Mastercard</strong><strong>Maestro</strong><strong>Apple Pay</strong><strong>Google Pay</strong><strong>SEPA</strong></div></div></section>
 
   <footer class="site-footer">
     <a class="site-brand footer-brand" href="/"><img class="brand-mark" src="/assets/favicon.svg" alt=""><span><strong>Auction Split</strong></span></a>

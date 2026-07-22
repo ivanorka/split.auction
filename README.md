@@ -71,8 +71,12 @@ Prezentacijska baza na statičkom hostingu sprema promjene u lokalni browser i n
 
 - partner kreira smještaj i jedan ili više aukcijskih paketa
 - svaki paket ima vlastite datume, sobu, obrok, hladnu cijenu, jedinice i status
+- partner ručno unosi do 20 URL fotografija po smještaju; demo portfelj ima galerije za svaki objekt
+- pretrage i partnerski unos koriste zajednički popis hrvatskih gradova
+- korisnik može odabrati hrvatski ili međunarodni prikaz sučelja, valute i datuma
 - gost određuje svoju početnu ponudu i trajanje od 15 minuta do 24 sata
-- sljedeća ponuda uvijek kreće od trenutačne najviše ponude + 5 EUR
+- sljedeća ponuda uvijek kreće od trenutačne najviše ponude + 1 EUR
+- Visa, Mastercard, Maestro, Apple Pay, Google Pay i SEPA istaknuti su u rezervacijskom toku
 - hotel dobiva hladnu cijenu plus 70% razlike, platforma 30%
 - manji smještaj dobiva hladnu cijenu plus 60% razlike, platforma 40%
 - nema fiksne naknade za oglašavanje
