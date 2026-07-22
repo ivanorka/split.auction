@@ -309,6 +309,14 @@ p{color:var(--text-soft)}
   font-size:.9rem;
   font-weight:700;
 }
+.hero-number-input{min-width:0;display:flex!important;align-items:stretch;border:1px solid var(--line);border-radius:7px;background:rgba(255,255,255,.78);overflow:hidden}
+.hero-number-input input{min-width:0;flex:1;padding:1px 8px;border:0!important;appearance:textfield;background:transparent!important}
+.hero-number-input input::-webkit-inner-spin-button,.hero-number-input input::-webkit-outer-spin-button{appearance:none;margin:0}
+.hero-number-stepper{width:38px!important;display:grid!important;grid-template-rows:1fr 1fr!important;border-left:1px solid var(--line);background:var(--surface-subtle)}
+.hero-number-stepper button{display:grid;place-items:center;padding:0;border:0;background:transparent;color:var(--teal);cursor:pointer}
+.hero-number-stepper button+button{border-top:1px solid var(--line)}
+.hero-number-stepper button:hover,.hero-number-stepper button:focus-visible{background:var(--teal-soft);outline:0}
+.hero-number-stepper svg{width:18px;height:18px;stroke-width:2.7}
 .hero-search-button{min-width:180px}
 .confidence-band{
   min-height:88px;

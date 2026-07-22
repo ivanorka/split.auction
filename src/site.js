@@ -70,7 +70,23 @@ function initModalDismiss(){
   });
 }
 
+function initNumberSteppers(){
+  document.addEventListener('click', event => {
+    const button = event.target.closest('[data-number-step]');
+    if(!button) return;
+    const input = document.getElementById(button.dataset.numberTarget);
+    if(!input) return;
+    const minimum = Number(input.min) || 0;
+    const maximum = Number(input.max) || Number.MAX_SAFE_INTEGER;
+    const step = Number(button.dataset.numberStep) || 5;
+    const current = Number(input.value) || minimum;
+    input.value = String(Math.max(minimum, Math.min(maximum, current + step)));
+    input.focus();
+  });
+}
+
 initNavigation();
 initModalDismiss();
+initNumberSteppers();
 refreshIcons();
 initAuthUI();
