@@ -17,6 +17,8 @@ const dist = resolve('dist');
 const seed = JSON.parse(readFileSync(join(dist, 'assets/static-api-seed.json'), 'utf8'));
 assert(seed.hotels.length === 16 && seed.packages.length === 38, 'prošireni statički seed');
 assert(seed.users.length === 7 && seed.users.every(user => !user.passwordHash && !user.passwordDigest), 'statički seed nema hash lozinki');
+const embeddedSeed = readFileSync(join(dist, 'src/static-api-seed.js'), 'utf8');
+assert(embeddedSeed.includes('export const staticSeed =') && embeddedSeed.includes('Hotel Marjan Split'), 'seed je ugrađen u aplikaciju');
 assert(existsSync(join(dist, '.nojekyll')), 'GitHub Pages marker');
 assert(!existsSync(join(dist, 'data')) && !existsSync(join(dist, 'scripts')), 'serverski podaci nisu u statičkom buildu');
 

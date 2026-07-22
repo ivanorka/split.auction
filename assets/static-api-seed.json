@@ -1,0 +1,2204 @@
+{
+  "hotels": [
+    {
+      "id": "st-marjan-demo",
+      "name": "Hotel Marjan Split",
+      "city": "Split",
+      "street": "Obala kneza Branimira 8, Split",
+      "lat": 43.5089,
+      "lng": 16.4391,
+      "startPrice": 50,
+      "duration": 60,
+      "partnerType": "hotel",
+      "freeRooms": 12,
+      "totalRooms": 21,
+      "dates": [
+        "2026-08-02",
+        "2026-08-03",
+        "2026-08-06",
+        "2026-08-12",
+        "2026-08-18",
+        "2026-08-24"
+      ],
+      "images": [
+        "/assets/media/split-city-hotel.jpg",
+        "https://picsum.photos/seed/hotel-marjan-lobby/1200/760",
+        "https://picsum.photos/seed/hotel-marjan-view/1200/760"
+      ],
+      "description": "Demo hotel s velikim brojem praznih soba u hladnijim terminima. Idealno za pokazati primjer 50 € hladne cijene i aukcije koja raste do 80 €.",
+      "amenities": [
+        "Pogled na more",
+        "Doručak",
+        "Parking",
+        "Wellness"
+      ],
+      "featured": true,
+      "partnerId": "partner-demo",
+      "status": "active"
+    },
+    {
+      "id": "st-park-demo",
+      "name": "Hotel Park Split",
+      "city": "Split",
+      "street": "Hatzeov perivoj 3, Split",
+      "lat": 43.5013,
+      "lng": 16.4438,
+      "startPrice": 85,
+      "duration": 120,
+      "partnerType": "hotel",
+      "freeRooms": 8,
+      "totalRooms": 21,
+      "dates": [
+        "2026-08-03",
+        "2026-08-04",
+        "2026-08-09",
+        "2026-08-15",
+        "2026-08-21"
+      ],
+      "images": [
+        "/assets/media/auction-split-hero.jpg",
+        "https://picsum.photos/seed/hotel-park-split-pool/1200/760"
+      ],
+      "description": "Klasičan gradski hotel za goste koji žele bolju lokaciju i kraću aukciju.",
+      "amenities": [
+        "Plaža blizu",
+        "Restoran",
+        "Recepcija 24/7"
+      ],
+      "featured": false,
+      "partnerId": "partner-demo",
+      "status": "active"
+    },
+    {
+      "id": "st-bacvice-apartment",
+      "name": "Apartman Bačvice Loft",
+      "city": "Split",
+      "street": "Prilaz braće Kaliterna 6, Split",
+      "lat": 43.5041,
+      "lng": 16.4488,
+      "startPrice": 40,
+      "duration": 45,
+      "partnerType": "small",
+      "freeRooms": 2,
+      "totalRooms": 4,
+      "dates": [
+        "2026-08-02",
+        "2026-08-05",
+        "2026-08-10",
+        "2026-08-16",
+        "2026-08-23"
+      ],
+      "images": [
+        "/assets/media/bacvice-apartment.jpg",
+        "https://picsum.photos/seed/bacvice-loft-balcony/1200/760"
+      ],
+      "description": "Manji smještaj s modelom 60/40, dobar za pokazati kako se nakon hotela mogu priključiti apartmani.",
+      "amenities": [
+        "Kuhinja",
+        "Blizu plaže",
+        "Samostalni ulaz"
+      ],
+      "featured": true,
+      "partnerId": "partner-demo",
+      "status": "active"
+    },
+    {
+      "id": "st-radisson-demo",
+      "name": "Radisson Blu Resort Split",
+      "city": "Split",
+      "street": "Put Trstenika 19, Split",
+      "lat": 43.5037,
+      "lng": 16.4707,
+      "startPrice": 120,
+      "duration": 180,
+      "partnerType": "hotel",
+      "freeRooms": 15,
+      "totalRooms": 21,
+      "dates": [
+        "2026-08-04",
+        "2026-08-06",
+        "2026-08-12",
+        "2026-08-18",
+        "2026-08-28"
+      ],
+      "images": [
+        "/assets/media/auction-split-hero.jpg",
+        "https://picsum.photos/seed/radisson-split-spa/1200/760"
+      ],
+      "description": "Veći hotel s više slobodnih soba i većom razlikom između hladne cijene i moguće završne ponude.",
+      "amenities": [
+        "Spa",
+        "Bazen",
+        "Obiteljske sobe"
+      ],
+      "featured": false,
+      "partnerId": "partner-demo",
+      "status": "active"
+    },
+    {
+      "id": "zg-ambasador-demo",
+      "name": "Hotel Ambasador Zagreb",
+      "city": "Zagreb",
+      "street": "Trg hrvatskih velikana 1, Zagreb",
+      "lat": 45.813,
+      "lng": 15.977,
+      "startPrice": 70,
+      "duration": 90,
+      "partnerType": "hotel",
+      "freeRooms": 11,
+      "totalRooms": 21,
+      "dates": [
+        "2026-08-03",
+        "2026-08-08",
+        "2026-08-14",
+        "2026-08-20",
+        "2026-08-25"
+      ],
+      "images": [
+        "/assets/media/split-city-hotel.jpg",
+        "https://picsum.photos/seed/ambasador-zagreb-lobby/1200/760"
+      ],
+      "description": "Zagrebački demo hotel za pokazati širenje platforme izvan obale.",
+      "amenities": [
+        "Centar grada",
+        "Poslovni gosti",
+        "Doručak"
+      ],
+      "featured": false,
+      "partnerId": "partner-demo",
+      "status": "active"
+    },
+    {
+      "id": "os-hotel-demo",
+      "name": "Hotel Osijek",
+      "city": "Osijek",
+      "street": "Šamačka 4, Osijek",
+      "lat": 45.559,
+      "lng": 18.675,
+      "startPrice": 50,
+      "duration": 60,
+      "partnerType": "hotel",
+      "freeRooms": 13,
+      "totalRooms": 21,
+      "dates": [
+        "2026-08-02",
+        "2026-08-07",
+        "2026-08-13",
+        "2026-08-19",
+        "2026-08-27"
+      ],
+      "images": [
+        "/assets/media/split-city-hotel.jpg",
+        "https://picsum.photos/seed/hotel-osijek-river/1200/760"
+      ],
+      "description": "Kontinentalni primjer s nižom hladnom cijenom i većim potencijalom punjenja praznog kapaciteta.",
+      "amenities": [
+        "Rijeka Drava",
+        "Parking",
+        "Kongresna dvorana"
+      ],
+      "featured": false,
+      "partnerId": "partner-demo",
+      "status": "active"
+    },
+    {
+      "id": "pu-pula-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Hotel Pula",
+      "city": "Pula",
+      "street": "Sisplac 31, Pula",
+      "lat": 44.8616,
+      "lng": 13.8366,
+      "startPrice": 40,
+      "duration": 30,
+      "partnerType": "hotel",
+      "freeRooms": 7,
+      "totalRooms": 21,
+      "dates": [
+        "2026-08-03",
+        "2026-08-06",
+        "2026-08-11",
+        "2026-08-17",
+        "2026-08-22"
+      ],
+      "images": [
+        "/assets/media/auction-split-hero.jpg",
+        "https://picsum.photos/seed/hotel-pula-sea/1200/760"
+      ],
+      "description": "Primjer hotela koji može odmah prihvatiti gostovu početnu ponudu od 40 €.",
+      "amenities": [
+        "More blizu",
+        "Kratka aukcija",
+        "Parking"
+      ],
+      "featured": true,
+      "status": "active"
+    },
+    {
+      "id": "du-lapad-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Hotel Lapad Dubrovnik",
+      "city": "Dubrovnik",
+      "street": "Lapadska obala 37, Dubrovnik",
+      "lat": 42.6583,
+      "lng": 18.0835,
+      "startPrice": 110,
+      "duration": 120,
+      "partnerType": "hotel",
+      "freeRooms": 9,
+      "totalRooms": 21,
+      "dates": [
+        "2026-08-04",
+        "2026-08-09",
+        "2026-08-15",
+        "2026-08-22",
+        "2026-08-29"
+      ],
+      "images": [
+        "/assets/media/auction-split-hero.jpg",
+        "https://picsum.photos/seed/hotel-lapad-terrace/1200/760"
+      ],
+      "description": "Dubrovnik kao jača destinacija, koristan za pokazati da aukcija ne mora rušiti cijenu nego puni rupe.",
+      "amenities": [
+        "Terasa",
+        "Bazen",
+        "Luka blizu"
+      ],
+      "featured": false,
+      "status": "active"
+    },
+    {
+      "id": "si-amadria-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Amadria Park Hotel Ivan",
+      "city": "Šibenik",
+      "street": "Hoteli Solaris 86, Šibenik",
+      "lat": 43.6832,
+      "lng": 15.8867,
+      "startPrice": 75,
+      "duration": 75,
+      "partnerType": "hotel",
+      "freeRooms": 10,
+      "totalRooms": 21,
+      "dates": [
+        "2026-08-02",
+        "2026-08-10",
+        "2026-08-16",
+        "2026-08-20",
+        "2026-08-26"
+      ],
+      "images": [
+        "/assets/media/auction-split-hero.jpg",
+        "https://picsum.photos/seed/amadria-ivan-resort/1200/760"
+      ],
+      "description": "Resort primjer za obiteljske goste i destinacije koje imaju slobodne datume izvan špice.",
+      "amenities": [
+        "Resort",
+        "Obiteljski sadržaji",
+        "Plaža"
+      ],
+      "featured": false,
+      "status": "active"
+    },
+    {
+      "id": "ma-osejava-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Hotel Osejava Makarska",
+      "city": "Makarska",
+      "street": "Šetalište fra Jure Radića 12, Makarska",
+      "lat": 43.2938,
+      "lng": 17.0154,
+      "startPrice": 65,
+      "duration": 60,
+      "partnerType": "hotel",
+      "freeRooms": 14,
+      "totalRooms": 48,
+      "dates": [
+        "2026-08-03",
+        "2026-08-07",
+        "2026-08-13",
+        "2026-08-19",
+        "2026-08-25",
+        "2026-08-30"
+      ],
+      "images": [
+        "/assets/media/split-city-hotel.jpg",
+        "https://picsum.photos/seed/osejava-makarska/1200/760"
+      ],
+      "description": "Boutique hotel uz rivu s paketima za kraće boravke između glavnih smjena gostiju.",
+      "amenities": [
+        "Riva",
+        "Doručak",
+        "Transfer",
+        "Terasa"
+      ],
+      "featured": true,
+      "status": "active"
+    },
+    {
+      "id": "zd-forum-demo",
+      "partnerId": "partner-hosts",
+      "name": "Forum Heritage Rooms",
+      "city": "Zadar",
+      "street": "Široka ulica 18, Zadar",
+      "lat": 44.1155,
+      "lng": 15.2249,
+      "startPrice": 55,
+      "duration": 45,
+      "partnerType": "small",
+      "freeRooms": 4,
+      "totalRooms": 7,
+      "dates": [
+        "2026-08-02",
+        "2026-08-06",
+        "2026-08-12",
+        "2026-08-17",
+        "2026-08-24"
+      ],
+      "images": [
+        "/assets/media/bacvice-apartment.jpg",
+        "https://picsum.photos/seed/forum-zadar/1200/760"
+      ],
+      "description": "Mali gradski smještaj za demonstraciju 60/40 modela i fleksibilnih city-break termina.",
+      "amenities": [
+        "Stari grad",
+        "Samostalna prijava",
+        "Klima",
+        "Wi-Fi"
+      ],
+      "featured": false,
+      "status": "active"
+    },
+    {
+      "id": "ro-adriatic-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Adriatic Garden Rovinj",
+      "city": "Rovinj",
+      "street": "Ulica Luja Adamovića 9, Rovinj",
+      "lat": 45.0752,
+      "lng": 13.6387,
+      "startPrice": 95,
+      "duration": 180,
+      "partnerType": "hotel",
+      "freeRooms": 18,
+      "totalRooms": 72,
+      "dates": [
+        "2026-08-05",
+        "2026-08-10",
+        "2026-08-16",
+        "2026-08-21",
+        "2026-08-27"
+      ],
+      "images": [
+        "/assets/media/auction-split-hero.jpg",
+        "https://picsum.photos/seed/adriatic-rovinj/1200/760"
+      ],
+      "description": "Veći istarski hotel s wellness inventarom i prostorom za nadmetanje iznad čvrstog minimuma.",
+      "amenities": [
+        "Wellness",
+        "Bazen",
+        "Bicikli",
+        "Parking"
+      ],
+      "featured": true,
+      "status": "active"
+    },
+    {
+      "id": "op-kvarner-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Kvarner Grand Opatija",
+      "city": "Opatija",
+      "street": "Maršala Tita 102, Opatija",
+      "lat": 45.3348,
+      "lng": 14.3064,
+      "startPrice": 90,
+      "duration": 120,
+      "partnerType": "hotel",
+      "freeRooms": 16,
+      "totalRooms": 64,
+      "dates": [
+        "2026-08-04",
+        "2026-08-11",
+        "2026-08-18",
+        "2026-08-23",
+        "2026-08-29"
+      ],
+      "images": [
+        "/assets/media/split-city-hotel.jpg",
+        "https://picsum.photos/seed/kvarner-opatija/1200/760"
+      ],
+      "description": "Cjelogodišnji hotel koji pokazuje kako aukcije mogu raditi i izvan klasičnog ljetnog odmora.",
+      "amenities": [
+        "Wellness",
+        "Kongresi",
+        "Šetnica",
+        "Garaža"
+      ],
+      "featured": false,
+      "status": "active"
+    },
+    {
+      "id": "tg-stone-demo",
+      "partnerId": "partner-hosts",
+      "name": "Trogir Stone House",
+      "city": "Trogir",
+      "street": "Ulica Matije Gupca 14, Trogir",
+      "lat": 43.5164,
+      "lng": 16.2502,
+      "startPrice": 48,
+      "duration": 30,
+      "partnerType": "small",
+      "freeRooms": 3,
+      "totalRooms": 5,
+      "dates": [
+        "2026-08-03",
+        "2026-08-09",
+        "2026-08-14",
+        "2026-08-20",
+        "2026-08-26"
+      ],
+      "images": [
+        "/assets/media/bacvice-apartment.jpg",
+        "https://picsum.photos/seed/trogir-stone/1200/760"
+      ],
+      "description": "Mali objekt u staroj jezgri s kratkim aukcijama za rupe od jedne ili dvije noći.",
+      "amenities": [
+        "Stara jezgra",
+        "Kuhinja",
+        "Transfer do zračne luke"
+      ],
+      "featured": true,
+      "status": "active"
+    },
+    {
+      "id": "hv-pharos-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Pharos Bay Hotel Hvar",
+      "city": "Hvar",
+      "street": "Ulica Dinka Kovačevića 10, Hvar",
+      "lat": 43.1717,
+      "lng": 16.4391,
+      "startPrice": 105,
+      "duration": 240,
+      "partnerType": "hotel",
+      "freeRooms": 20,
+      "totalRooms": 96,
+      "dates": [
+        "2026-08-06",
+        "2026-08-12",
+        "2026-08-17",
+        "2026-08-22",
+        "2026-08-28"
+      ],
+      "images": [
+        "/assets/media/auction-split-hero.jpg",
+        "https://picsum.photos/seed/pharos-hvar/1200/760"
+      ],
+      "description": "Otočni resort primjer s višom hladnom cijenom, duljim nadmetanjem i većim inventarom.",
+      "amenities": [
+        "Bazen",
+        "Beach club",
+        "Polupansion",
+        "Prijevoz prtljage"
+      ],
+      "featured": false,
+      "status": "active"
+    },
+    {
+      "id": "vz-old-town-demo",
+      "partnerId": "partner-hosts",
+      "name": "Old Town Suites Varaždin",
+      "city": "Varaždin",
+      "street": "Ulica Ivana Padovca 5, Varaždin",
+      "lat": 46.3057,
+      "lng": 16.3366,
+      "startPrice": 42,
+      "duration": 15,
+      "partnerType": "small",
+      "freeRooms": 5,
+      "totalRooms": 8,
+      "dates": [
+        "2026-08-02",
+        "2026-08-08",
+        "2026-08-15",
+        "2026-08-21",
+        "2026-08-27"
+      ],
+      "images": [
+        "/assets/media/bacvice-apartment.jpg",
+        "https://picsum.photos/seed/varazdin-suite/1200/760"
+      ],
+      "description": "Kontinentalni apartmanski set s najkraćom aukcijom i nižim ulaznim pragom.",
+      "amenities": [
+        "Centar",
+        "Kuhinja",
+        "Radni stol",
+        "Samostalna prijava"
+      ],
+      "featured": false,
+      "status": "active"
+    }
+  ],
+  "admins": [
+    {
+      "id": "admin-owner",
+      "name": "Maximilian Split",
+      "email": "maximilian.split@gmail.com",
+      "role": "Vlasnik sustava",
+      "phone": "+385 91 000 0000"
+    }
+  ],
+  "confirms": [
+    {
+      "id": "confirm-seed-1",
+      "name": "Marko Perić",
+      "email": "marko.peric@example.com",
+      "card": "Demo Visa",
+      "hotel": "Hotel Marjan Split",
+      "hotelId": "st-marjan-demo",
+      "dates": "2026-08-02, 2026-08-03",
+      "amount": 80,
+      "createdAt": "2026-07-07T10:00:00.000Z"
+    },
+    {
+      "id": "confirm-seed-2",
+      "name": "Iva Horvat",
+      "email": "iva.horvat@example.com",
+      "card": "Demo Mastercard",
+      "hotel": "Hotel Pula",
+      "hotelId": "pu-pula-demo",
+      "dates": "2026-08-03",
+      "amount": 55,
+      "createdAt": "2026-07-08T12:20:00.000Z"
+    },
+    {
+      "id": "confirm-seed-3",
+      "name": "Luka Radić",
+      "email": "luka.radic@example.com",
+      "card": "Demo Visa",
+      "hotel": "Forum Heritage Rooms",
+      "hotelId": "zd-forum-demo",
+      "dates": "2026-08-06, 2026-08-12",
+      "amount": 70,
+      "createdAt": "2026-07-09T16:45:00.000Z"
+    },
+    {
+      "id": "confirm-seed-4",
+      "name": "Mia Babić",
+      "email": "mia.babic@example.com",
+      "card": "Demo Amex",
+      "hotel": "Adriatic Garden Rovinj",
+      "hotelId": "ro-adriatic-demo",
+      "dates": "2026-08-10",
+      "amount": 135,
+      "createdAt": "2026-07-10T09:10:00.000Z"
+    },
+    {
+      "id": "confirm-seed-5",
+      "name": "Ivan Kovač",
+      "email": "ivan.kovac@example.com",
+      "card": "Demo Visa",
+      "hotel": "Trogir Stone House",
+      "hotelId": "tg-stone-demo",
+      "dates": "2026-08-09",
+      "amount": 63,
+      "createdAt": "2026-07-10T18:30:00.000Z"
+    }
+  ],
+  "bidsByHotel": {
+    "st-marjan-demo": [
+      {
+        "id": "bid-marjan-a",
+        "label": "A",
+        "meta": "Anonimni sudionik",
+        "amount": 55,
+        "self": false,
+        "dates": [
+          "2026-08-02",
+          "2026-08-03"
+        ],
+        "duration": 60,
+        "createdAt": "2026-07-07T09:30:00.000Z"
+      },
+      {
+        "id": "bid-marjan-b",
+        "label": "Vi",
+        "meta": "Demo korisnik",
+        "amount": 80,
+        "self": true,
+        "dates": [
+          "2026-08-02",
+          "2026-08-03"
+        ],
+        "duration": 60,
+        "createdAt": "2026-07-07T09:42:00.000Z"
+      }
+    ],
+    "st-bacvice-apartment": [
+      {
+        "id": "bid-bacvice-a",
+        "label": "B",
+        "meta": "Anonimni sudionik",
+        "amount": 45,
+        "self": false,
+        "dates": [
+          "2026-08-02"
+        ],
+        "duration": 45,
+        "createdAt": "2026-07-07T09:12:00.000Z"
+      }
+    ],
+    "pu-pula-demo": [
+      {
+        "id": "bid-pula-a",
+        "label": "A",
+        "meta": "Anonimni sudionik",
+        "amount": 45,
+        "self": false,
+        "dates": [
+          "2026-08-03"
+        ],
+        "duration": 30,
+        "createdAt": "2026-07-07T08:50:00.000Z"
+      }
+    ],
+    "os-hotel-demo": [
+      {
+        "id": "bid-osijek-a",
+        "label": "C",
+        "meta": "Anonimni sudionik",
+        "amount": 60,
+        "self": false,
+        "dates": [
+          "2026-08-02"
+        ],
+        "duration": 60,
+        "createdAt": "2026-07-07T08:40:00.000Z"
+      }
+    ],
+    "ma-osejava-demo": [
+      {
+        "id": "bid-osejava-a",
+        "label": "D",
+        "meta": "Anonimni sudionik",
+        "amount": 75,
+        "self": false,
+        "dates": [
+          "2026-08-07"
+        ],
+        "duration": 60,
+        "createdAt": "2026-07-08T11:10:00.000Z"
+      },
+      {
+        "id": "bid-osejava-b",
+        "label": "E",
+        "meta": "Anonimni sudionik",
+        "amount": 85,
+        "self": false,
+        "dates": [
+          "2026-08-07"
+        ],
+        "duration": 60,
+        "createdAt": "2026-07-08T11:18:00.000Z"
+      }
+    ],
+    "zd-forum-demo": [
+      {
+        "id": "bid-forum-a",
+        "label": "F",
+        "meta": "Anonimni sudionik",
+        "amount": 60,
+        "self": false,
+        "dates": [
+          "2026-08-06",
+          "2026-08-12"
+        ],
+        "duration": 45,
+        "createdAt": "2026-07-08T13:00:00.000Z"
+      },
+      {
+        "id": "bid-forum-b",
+        "label": "G",
+        "meta": "Anonimni sudionik",
+        "amount": 70,
+        "self": false,
+        "dates": [
+          "2026-08-06",
+          "2026-08-12"
+        ],
+        "duration": 45,
+        "createdAt": "2026-07-08T13:07:00.000Z"
+      }
+    ],
+    "ro-adriatic-demo": [
+      {
+        "id": "bid-rovinj-a",
+        "label": "H",
+        "meta": "Anonimni sudionik",
+        "amount": 110,
+        "self": false,
+        "dates": [
+          "2026-08-10"
+        ],
+        "duration": 180,
+        "createdAt": "2026-07-09T08:30:00.000Z"
+      },
+      {
+        "id": "bid-rovinj-b",
+        "label": "I",
+        "meta": "Anonimni sudionik",
+        "amount": 125,
+        "self": false,
+        "dates": [
+          "2026-08-10"
+        ],
+        "duration": 180,
+        "createdAt": "2026-07-09T09:05:00.000Z"
+      },
+      {
+        "id": "bid-rovinj-c",
+        "label": "J",
+        "meta": "Anonimni sudionik",
+        "amount": 135,
+        "self": false,
+        "dates": [
+          "2026-08-10"
+        ],
+        "duration": 180,
+        "createdAt": "2026-07-09T09:42:00.000Z"
+      }
+    ],
+    "op-kvarner-demo": [
+      {
+        "id": "bid-opatija-a",
+        "label": "K",
+        "meta": "Anonimni sudionik",
+        "amount": 105,
+        "self": false,
+        "dates": [
+          "2026-08-11"
+        ],
+        "duration": 120,
+        "createdAt": "2026-07-09T14:12:00.000Z"
+      }
+    ],
+    "tg-stone-demo": [
+      {
+        "id": "bid-trogir-a",
+        "label": "L",
+        "meta": "Anonimni sudionik",
+        "amount": 53,
+        "self": false,
+        "dates": [
+          "2026-08-09"
+        ],
+        "duration": 30,
+        "createdAt": "2026-07-10T17:00:00.000Z"
+      },
+      {
+        "id": "bid-trogir-b",
+        "label": "M",
+        "meta": "Anonimni sudionik",
+        "amount": 63,
+        "self": false,
+        "dates": [
+          "2026-08-09"
+        ],
+        "duration": 30,
+        "createdAt": "2026-07-10T17:08:00.000Z"
+      }
+    ],
+    "hv-pharos-demo": [
+      {
+        "id": "bid-hvar-a",
+        "label": "N",
+        "meta": "Anonimni sudionik",
+        "amount": 120,
+        "self": false,
+        "dates": [
+          "2026-08-12"
+        ],
+        "duration": 240,
+        "createdAt": "2026-07-11T10:20:00.000Z"
+      }
+    ],
+    "vz-old-town-demo": [
+      {
+        "id": "bid-varazdin-a",
+        "label": "O",
+        "meta": "Anonimni sudionik",
+        "amount": 47,
+        "self": false,
+        "dates": [
+          "2026-08-08"
+        ],
+        "duration": 15,
+        "createdAt": "2026-07-11T12:15:00.000Z"
+      },
+      {
+        "id": "bid-varazdin-b",
+        "label": "P",
+        "meta": "Anonimni sudionik",
+        "amount": 57,
+        "self": false,
+        "dates": [
+          "2026-08-08"
+        ],
+        "duration": 15,
+        "createdAt": "2026-07-11T12:20:00.000Z"
+      }
+    ]
+  },
+  "watchedHotels": [
+    "st-marjan-demo"
+  ],
+  "schemaVersion": 2,
+  "users": [
+    {
+      "id": "user-guest-demo",
+      "name": "Demo Gost",
+      "email": "gost@auction.split",
+      "phone": "+385 91 111 1111",
+      "role": "guest",
+      "partnerId": null,
+      "partnerRole": null,
+      "status": "active",
+      "emailVerifiedAt": "2026-07-07T08:00:00.000Z",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "lastLoginAt": null
+    },
+    {
+      "id": "user-partner-demo",
+      "name": "Ana Partner",
+      "email": "partner@auction.split",
+      "phone": "+385 91 222 2222",
+      "role": "partner",
+      "partnerId": "partner-demo",
+      "partnerRole": "owner",
+      "status": "active",
+      "emailVerifiedAt": "2026-07-07T08:00:00.000Z",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "lastLoginAt": null
+    },
+    {
+      "id": "user-admin-demo",
+      "name": "Administrator Platforme",
+      "email": "admin@auction.split",
+      "phone": "+385 91 333 3333",
+      "role": "admin",
+      "partnerId": null,
+      "partnerRole": null,
+      "status": "active",
+      "emailVerifiedAt": "2026-07-07T08:00:00.000Z",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "lastLoginAt": null
+    },
+    {
+      "id": "user-partner-manager",
+      "name": "Mia Operativa",
+      "email": "manager@auction.split",
+      "phone": "+385 91 444 4444",
+      "role": "partner",
+      "partnerId": "partner-demo",
+      "partnerRole": "manager",
+      "status": "active",
+      "emailVerifiedAt": "2026-07-07T08:00:00.000Z",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "lastLoginAt": null
+    },
+    {
+      "id": "user-partner-editor",
+      "name": "Luka Sadržaj",
+      "email": "editor@auction.split",
+      "phone": "+385 91 555 5555",
+      "role": "partner",
+      "partnerId": "partner-demo",
+      "partnerRole": "editor",
+      "status": "active",
+      "emailVerifiedAt": "2026-07-07T08:00:00.000Z",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "lastLoginAt": null
+    },
+    {
+      "id": "user-adriatic-owner",
+      "name": "Petra Adriatic",
+      "email": "adriatic@auction.split",
+      "phone": "+385 91 666 6666",
+      "role": "partner",
+      "partnerId": "partner-adriatic",
+      "partnerRole": "owner",
+      "status": "active",
+      "emailVerifiedAt": "2026-07-07T08:00:00.000Z",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "lastLoginAt": null
+    },
+    {
+      "id": "user-hosts-owner",
+      "name": "Nikola Host",
+      "email": "host@auction.split",
+      "phone": "+385 91 777 7777",
+      "role": "partner",
+      "partnerId": "partner-hosts",
+      "partnerRole": "owner",
+      "status": "active",
+      "emailVerifiedAt": "2026-07-07T08:00:00.000Z",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "lastLoginAt": null
+    }
+  ],
+  "partners": [
+    {
+      "id": "partner-demo",
+      "businessName": "Auction Split Demo Portfolio",
+      "partnerType": "hotel",
+      "ownerUserId": "user-partner-demo",
+      "city": "Split",
+      "taxId": "",
+      "status": "active",
+      "createdAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "partner-adriatic",
+      "businessName": "Adriatic Revenue Hotels",
+      "partnerType": "hotel",
+      "ownerUserId": "user-adriatic-owner",
+      "city": "Rovinj",
+      "taxId": "",
+      "status": "active",
+      "createdAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "partner-hosts",
+      "businessName": "Heritage Hosts Hrvatska",
+      "partnerType": "small",
+      "ownerUserId": "user-hosts-owner",
+      "city": "Zadar",
+      "taxId": "",
+      "status": "active",
+      "createdAt": "2026-07-07T08:00:00.000Z"
+    }
+  ],
+  "sessions": [],
+  "passwordResets": [],
+  "invitations": [],
+  "auditLog": [],
+  "packages": [
+    {
+      "id": "pkg-st-marjan-demo",
+      "hotelId": "st-marjan-demo",
+      "partnerId": "partner-demo",
+      "name": "Fleksibilna soba",
+      "roomType": "Standardna dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-02",
+        "2026-08-03",
+        "2026-08-06",
+        "2026-08-12",
+        "2026-08-18",
+        "2026-08-24"
+      ],
+      "coldPrice": 50,
+      "duration": 60,
+      "units": 12,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Paket slobodnog kapaciteta spreman za aukciju.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-st-marjan-demo-last-minute",
+      "hotelId": "st-marjan-demo",
+      "partnerId": "partner-demo",
+      "name": "Last minute s doručkom",
+      "roomType": "Comfort dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-12",
+        "2026-08-18",
+        "2026-08-24"
+      ],
+      "coldPrice": 55,
+      "duration": 60,
+      "units": 6,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Kraći prodajni prozor za termine koji bi inače ostali nepopunjeni.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-st-marjan-demo-premium",
+      "hotelId": "st-marjan-demo",
+      "partnerId": "partner-demo",
+      "name": "Premium paket u pripremi",
+      "roomType": "Superior soba",
+      "mealPlan": "Polupansion",
+      "dates": [
+        "2026-08-02",
+        "2026-08-03"
+      ],
+      "coldPrice": 68,
+      "duration": 240,
+      "units": 4,
+      "maxGuests": 2,
+      "status": "draft",
+      "description": "Primjer paketa koji partner još uređuje prije objave gostima.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-st-park-demo",
+      "hotelId": "st-park-demo",
+      "partnerId": "partner-demo",
+      "name": "Fleksibilna soba",
+      "roomType": "Standardna dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-03",
+        "2026-08-04",
+        "2026-08-09",
+        "2026-08-15",
+        "2026-08-21"
+      ],
+      "coldPrice": 85,
+      "duration": 120,
+      "units": 8,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Paket slobodnog kapaciteta spreman za aukciju.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-st-park-demo-last-minute",
+      "hotelId": "st-park-demo",
+      "partnerId": "partner-demo",
+      "name": "Last minute s doručkom",
+      "roomType": "Comfort dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-09",
+        "2026-08-15",
+        "2026-08-21"
+      ],
+      "coldPrice": 94,
+      "duration": 60,
+      "units": 4,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Kraći prodajni prozor za termine koji bi inače ostali nepopunjeni.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-st-bacvice-apartment",
+      "hotelId": "st-bacvice-apartment",
+      "partnerId": "partner-demo",
+      "name": "Fleksibilna soba",
+      "roomType": "Cijeli apartman",
+      "mealPlan": "Bez obroka",
+      "dates": [
+        "2026-08-02",
+        "2026-08-05",
+        "2026-08-10",
+        "2026-08-16",
+        "2026-08-23"
+      ],
+      "coldPrice": 40,
+      "duration": 45,
+      "units": 2,
+      "maxGuests": 4,
+      "status": "active",
+      "description": "Paket slobodnog kapaciteta spreman za aukciju.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-st-bacvice-apartment-last-minute",
+      "hotelId": "st-bacvice-apartment",
+      "partnerId": "partner-demo",
+      "name": "Last minute cijeli smještaj",
+      "roomType": "Cijeli smještaj",
+      "mealPlan": "Bez obroka",
+      "dates": [
+        "2026-08-10",
+        "2026-08-16",
+        "2026-08-23"
+      ],
+      "coldPrice": 44,
+      "duration": 60,
+      "units": 1,
+      "maxGuests": 4,
+      "status": "active",
+      "description": "Kraći prodajni prozor za termine koji bi inače ostali nepopunjeni.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-st-bacvice-apartment-premium",
+      "hotelId": "st-bacvice-apartment",
+      "partnerId": "partner-demo",
+      "name": "Premium paket u pripremi",
+      "roomType": "Cijeli smještaj s kasnom odjavom",
+      "mealPlan": "Košarica dobrodošlice",
+      "dates": [
+        "2026-08-02",
+        "2026-08-05"
+      ],
+      "coldPrice": 54,
+      "duration": 240,
+      "units": 1,
+      "maxGuests": 4,
+      "status": "draft",
+      "description": "Primjer paketa koji partner još uređuje prije objave gostima.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-st-radisson-demo",
+      "hotelId": "st-radisson-demo",
+      "partnerId": "partner-demo",
+      "name": "Fleksibilna soba",
+      "roomType": "Standardna dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-04",
+        "2026-08-06",
+        "2026-08-12",
+        "2026-08-18",
+        "2026-08-28"
+      ],
+      "coldPrice": 120,
+      "duration": 180,
+      "units": 15,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Paket slobodnog kapaciteta spreman za aukciju.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-st-radisson-demo-last-minute",
+      "hotelId": "st-radisson-demo",
+      "partnerId": "partner-demo",
+      "name": "Last minute s doručkom",
+      "roomType": "Comfort dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-12",
+        "2026-08-18",
+        "2026-08-28"
+      ],
+      "coldPrice": 132,
+      "duration": 60,
+      "units": 8,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Kraći prodajni prozor za termine koji bi inače ostali nepopunjeni.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-zg-ambasador-demo",
+      "hotelId": "zg-ambasador-demo",
+      "partnerId": "partner-demo",
+      "name": "Fleksibilna soba",
+      "roomType": "Standardna dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-03",
+        "2026-08-08",
+        "2026-08-14",
+        "2026-08-20",
+        "2026-08-25"
+      ],
+      "coldPrice": 70,
+      "duration": 90,
+      "units": 11,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Paket slobodnog kapaciteta spreman za aukciju.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-zg-ambasador-demo-last-minute",
+      "hotelId": "zg-ambasador-demo",
+      "partnerId": "partner-demo",
+      "name": "Last minute s doručkom",
+      "roomType": "Comfort dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-14",
+        "2026-08-20",
+        "2026-08-25"
+      ],
+      "coldPrice": 77,
+      "duration": 60,
+      "units": 6,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Kraći prodajni prozor za termine koji bi inače ostali nepopunjeni.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-os-hotel-demo",
+      "hotelId": "os-hotel-demo",
+      "partnerId": "partner-demo",
+      "name": "Fleksibilna soba",
+      "roomType": "Standardna dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-02",
+        "2026-08-07",
+        "2026-08-13",
+        "2026-08-19",
+        "2026-08-27"
+      ],
+      "coldPrice": 50,
+      "duration": 60,
+      "units": 13,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Paket slobodnog kapaciteta spreman za aukciju.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-os-hotel-demo-last-minute",
+      "hotelId": "os-hotel-demo",
+      "partnerId": "partner-demo",
+      "name": "Last minute s doručkom",
+      "roomType": "Comfort dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-13",
+        "2026-08-19",
+        "2026-08-27"
+      ],
+      "coldPrice": 55,
+      "duration": 60,
+      "units": 7,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Kraći prodajni prozor za termine koji bi inače ostali nepopunjeni.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-pu-pula-demo",
+      "hotelId": "pu-pula-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Fleksibilna soba",
+      "roomType": "Standardna dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-03",
+        "2026-08-06",
+        "2026-08-11",
+        "2026-08-17",
+        "2026-08-22"
+      ],
+      "coldPrice": 40,
+      "duration": 30,
+      "units": 7,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Paket slobodnog kapaciteta spreman za aukciju.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-pu-pula-demo-last-minute",
+      "hotelId": "pu-pula-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Last minute s doručkom",
+      "roomType": "Comfort dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-11",
+        "2026-08-17",
+        "2026-08-22"
+      ],
+      "coldPrice": 44,
+      "duration": 60,
+      "units": 4,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Kraći prodajni prozor za termine koji bi inače ostali nepopunjeni.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-pu-pula-demo-premium",
+      "hotelId": "pu-pula-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Premium paket u pripremi",
+      "roomType": "Superior soba",
+      "mealPlan": "Polupansion",
+      "dates": [
+        "2026-08-03",
+        "2026-08-06"
+      ],
+      "coldPrice": 54,
+      "duration": 240,
+      "units": 2,
+      "maxGuests": 2,
+      "status": "draft",
+      "description": "Primjer paketa koji partner još uređuje prije objave gostima.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-du-lapad-demo",
+      "hotelId": "du-lapad-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Fleksibilna soba",
+      "roomType": "Standardna dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-04",
+        "2026-08-09",
+        "2026-08-15",
+        "2026-08-22",
+        "2026-08-29"
+      ],
+      "coldPrice": 110,
+      "duration": 120,
+      "units": 9,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Paket slobodnog kapaciteta spreman za aukciju.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-du-lapad-demo-last-minute",
+      "hotelId": "du-lapad-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Last minute s doručkom",
+      "roomType": "Comfort dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-15",
+        "2026-08-22",
+        "2026-08-29"
+      ],
+      "coldPrice": 121,
+      "duration": 60,
+      "units": 5,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Kraći prodajni prozor za termine koji bi inače ostali nepopunjeni.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-si-amadria-demo",
+      "hotelId": "si-amadria-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Fleksibilna soba",
+      "roomType": "Standardna dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-02",
+        "2026-08-10",
+        "2026-08-16",
+        "2026-08-20",
+        "2026-08-26"
+      ],
+      "coldPrice": 75,
+      "duration": 75,
+      "units": 10,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Paket slobodnog kapaciteta spreman za aukciju.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-si-amadria-demo-last-minute",
+      "hotelId": "si-amadria-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Last minute s doručkom",
+      "roomType": "Comfort dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-16",
+        "2026-08-20",
+        "2026-08-26"
+      ],
+      "coldPrice": 83,
+      "duration": 60,
+      "units": 5,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Kraći prodajni prozor za termine koji bi inače ostali nepopunjeni.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-ma-osejava-demo",
+      "hotelId": "ma-osejava-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Fleksibilna soba",
+      "roomType": "Standardna dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-03",
+        "2026-08-07",
+        "2026-08-13",
+        "2026-08-19",
+        "2026-08-25",
+        "2026-08-30"
+      ],
+      "coldPrice": 65,
+      "duration": 60,
+      "units": 14,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Paket slobodnog kapaciteta spreman za aukciju.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-ma-osejava-demo-last-minute",
+      "hotelId": "ma-osejava-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Last minute s doručkom",
+      "roomType": "Comfort dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-19",
+        "2026-08-25",
+        "2026-08-30"
+      ],
+      "coldPrice": 72,
+      "duration": 60,
+      "units": 7,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Kraći prodajni prozor za termine koji bi inače ostali nepopunjeni.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-ma-osejava-demo-premium",
+      "hotelId": "ma-osejava-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Premium paket u pripremi",
+      "roomType": "Superior soba",
+      "mealPlan": "Polupansion",
+      "dates": [
+        "2026-08-03",
+        "2026-08-07"
+      ],
+      "coldPrice": 88,
+      "duration": 240,
+      "units": 4,
+      "maxGuests": 2,
+      "status": "draft",
+      "description": "Primjer paketa koji partner još uređuje prije objave gostima.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-zd-forum-demo",
+      "hotelId": "zd-forum-demo",
+      "partnerId": "partner-hosts",
+      "name": "Fleksibilna soba",
+      "roomType": "Cijeli apartman",
+      "mealPlan": "Bez obroka",
+      "dates": [
+        "2026-08-02",
+        "2026-08-06",
+        "2026-08-12",
+        "2026-08-17",
+        "2026-08-24"
+      ],
+      "coldPrice": 55,
+      "duration": 45,
+      "units": 4,
+      "maxGuests": 4,
+      "status": "active",
+      "description": "Paket slobodnog kapaciteta spreman za aukciju.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-zd-forum-demo-last-minute",
+      "hotelId": "zd-forum-demo",
+      "partnerId": "partner-hosts",
+      "name": "Last minute cijeli smještaj",
+      "roomType": "Cijeli smještaj",
+      "mealPlan": "Bez obroka",
+      "dates": [
+        "2026-08-12",
+        "2026-08-17",
+        "2026-08-24"
+      ],
+      "coldPrice": 61,
+      "duration": 60,
+      "units": 2,
+      "maxGuests": 4,
+      "status": "active",
+      "description": "Kraći prodajni prozor za termine koji bi inače ostali nepopunjeni.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-ro-adriatic-demo",
+      "hotelId": "ro-adriatic-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Fleksibilna soba",
+      "roomType": "Standardna dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-05",
+        "2026-08-10",
+        "2026-08-16",
+        "2026-08-21",
+        "2026-08-27"
+      ],
+      "coldPrice": 95,
+      "duration": 180,
+      "units": 18,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Paket slobodnog kapaciteta spreman za aukciju.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-ro-adriatic-demo-last-minute",
+      "hotelId": "ro-adriatic-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Last minute s doručkom",
+      "roomType": "Comfort dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-16",
+        "2026-08-21",
+        "2026-08-27"
+      ],
+      "coldPrice": 105,
+      "duration": 60,
+      "units": 9,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Kraći prodajni prozor za termine koji bi inače ostali nepopunjeni.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-ro-adriatic-demo-premium",
+      "hotelId": "ro-adriatic-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Premium paket u pripremi",
+      "roomType": "Superior soba",
+      "mealPlan": "Polupansion",
+      "dates": [
+        "2026-08-05",
+        "2026-08-10"
+      ],
+      "coldPrice": 128,
+      "duration": 240,
+      "units": 6,
+      "maxGuests": 2,
+      "status": "draft",
+      "description": "Primjer paketa koji partner još uređuje prije objave gostima.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-op-kvarner-demo",
+      "hotelId": "op-kvarner-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Fleksibilna soba",
+      "roomType": "Standardna dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-04",
+        "2026-08-11",
+        "2026-08-18",
+        "2026-08-23",
+        "2026-08-29"
+      ],
+      "coldPrice": 90,
+      "duration": 120,
+      "units": 16,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Paket slobodnog kapaciteta spreman za aukciju.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-op-kvarner-demo-last-minute",
+      "hotelId": "op-kvarner-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Last minute s doručkom",
+      "roomType": "Comfort dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-18",
+        "2026-08-23",
+        "2026-08-29"
+      ],
+      "coldPrice": 99,
+      "duration": 60,
+      "units": 8,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Kraći prodajni prozor za termine koji bi inače ostali nepopunjeni.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-tg-stone-demo",
+      "hotelId": "tg-stone-demo",
+      "partnerId": "partner-hosts",
+      "name": "Fleksibilna soba",
+      "roomType": "Cijeli apartman",
+      "mealPlan": "Bez obroka",
+      "dates": [
+        "2026-08-03",
+        "2026-08-09",
+        "2026-08-14",
+        "2026-08-20",
+        "2026-08-26"
+      ],
+      "coldPrice": 48,
+      "duration": 30,
+      "units": 3,
+      "maxGuests": 4,
+      "status": "active",
+      "description": "Paket slobodnog kapaciteta spreman za aukciju.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-tg-stone-demo-last-minute",
+      "hotelId": "tg-stone-demo",
+      "partnerId": "partner-hosts",
+      "name": "Last minute cijeli smještaj",
+      "roomType": "Cijeli smještaj",
+      "mealPlan": "Bez obroka",
+      "dates": [
+        "2026-08-14",
+        "2026-08-20",
+        "2026-08-26"
+      ],
+      "coldPrice": 53,
+      "duration": 60,
+      "units": 2,
+      "maxGuests": 4,
+      "status": "active",
+      "description": "Kraći prodajni prozor za termine koji bi inače ostali nepopunjeni.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-tg-stone-demo-premium",
+      "hotelId": "tg-stone-demo",
+      "partnerId": "partner-hosts",
+      "name": "Premium paket u pripremi",
+      "roomType": "Cijeli smještaj s kasnom odjavom",
+      "mealPlan": "Košarica dobrodošlice",
+      "dates": [
+        "2026-08-03",
+        "2026-08-09"
+      ],
+      "coldPrice": 65,
+      "duration": 240,
+      "units": 1,
+      "maxGuests": 4,
+      "status": "draft",
+      "description": "Primjer paketa koji partner još uređuje prije objave gostima.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-hv-pharos-demo",
+      "hotelId": "hv-pharos-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Fleksibilna soba",
+      "roomType": "Standardna dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-06",
+        "2026-08-12",
+        "2026-08-17",
+        "2026-08-22",
+        "2026-08-28"
+      ],
+      "coldPrice": 105,
+      "duration": 240,
+      "units": 20,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Paket slobodnog kapaciteta spreman za aukciju.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-hv-pharos-demo-last-minute",
+      "hotelId": "hv-pharos-demo",
+      "partnerId": "partner-adriatic",
+      "name": "Last minute s doručkom",
+      "roomType": "Comfort dvokrevetna soba",
+      "mealPlan": "Doručak uključen",
+      "dates": [
+        "2026-08-17",
+        "2026-08-22",
+        "2026-08-28"
+      ],
+      "coldPrice": 116,
+      "duration": 60,
+      "units": 10,
+      "maxGuests": 2,
+      "status": "active",
+      "description": "Kraći prodajni prozor za termine koji bi inače ostali nepopunjeni.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-vz-old-town-demo",
+      "hotelId": "vz-old-town-demo",
+      "partnerId": "partner-hosts",
+      "name": "Fleksibilna soba",
+      "roomType": "Cijeli apartman",
+      "mealPlan": "Bez obroka",
+      "dates": [
+        "2026-08-02",
+        "2026-08-08",
+        "2026-08-15",
+        "2026-08-21",
+        "2026-08-27"
+      ],
+      "coldPrice": 42,
+      "duration": 15,
+      "units": 5,
+      "maxGuests": 4,
+      "status": "active",
+      "description": "Paket slobodnog kapaciteta spreman za aukciju.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    },
+    {
+      "id": "pkg-vz-old-town-demo-last-minute",
+      "hotelId": "vz-old-town-demo",
+      "partnerId": "partner-hosts",
+      "name": "Last minute cijeli smještaj",
+      "roomType": "Cijeli smještaj",
+      "mealPlan": "Bez obroka",
+      "dates": [
+        "2026-08-15",
+        "2026-08-21",
+        "2026-08-27"
+      ],
+      "coldPrice": 46,
+      "duration": 60,
+      "units": 3,
+      "maxGuests": 4,
+      "status": "active",
+      "description": "Kraći prodajni prozor za termine koji bi inače ostali nepopunjeni.",
+      "createdAt": "2026-07-07T08:00:00.000Z",
+      "updatedAt": "2026-07-07T08:00:00.000Z"
+    }
+  ],
+  "bidsByPackage": {
+    "pkg-st-marjan-demo": [
+      {
+        "id": "bid-marjan-a",
+        "label": "A",
+        "meta": "Anonimni sudionik",
+        "amount": 55,
+        "self": false,
+        "dates": [
+          "2026-08-02",
+          "2026-08-03"
+        ],
+        "duration": 60,
+        "createdAt": "2026-07-07T09:30:00.000Z",
+        "userId": null,
+        "packageId": "pkg-st-marjan-demo",
+        "openingBid": 55
+      },
+      {
+        "id": "bid-marjan-b",
+        "label": "Vi",
+        "meta": "Demo korisnik",
+        "amount": 80,
+        "self": true,
+        "dates": [
+          "2026-08-02",
+          "2026-08-03"
+        ],
+        "duration": 60,
+        "createdAt": "2026-07-07T09:42:00.000Z",
+        "userId": "user-guest-demo",
+        "packageId": "pkg-st-marjan-demo",
+        "openingBid": 80
+      }
+    ],
+    "pkg-st-park-demo": [],
+    "pkg-st-bacvice-apartment": [
+      {
+        "id": "bid-bacvice-a",
+        "label": "B",
+        "meta": "Anonimni sudionik",
+        "amount": 45,
+        "self": false,
+        "dates": [
+          "2026-08-02"
+        ],
+        "duration": 45,
+        "createdAt": "2026-07-07T09:12:00.000Z",
+        "userId": null,
+        "packageId": "pkg-st-bacvice-apartment",
+        "openingBid": 45
+      }
+    ],
+    "pkg-st-radisson-demo": [],
+    "pkg-zg-ambasador-demo": [],
+    "pkg-os-hotel-demo": [
+      {
+        "id": "bid-osijek-a",
+        "label": "C",
+        "meta": "Anonimni sudionik",
+        "amount": 60,
+        "self": false,
+        "dates": [
+          "2026-08-02"
+        ],
+        "duration": 60,
+        "createdAt": "2026-07-07T08:40:00.000Z",
+        "userId": null,
+        "packageId": "pkg-os-hotel-demo",
+        "openingBid": 60
+      }
+    ],
+    "pkg-pu-pula-demo": [
+      {
+        "id": "bid-pula-a",
+        "label": "A",
+        "meta": "Anonimni sudionik",
+        "amount": 45,
+        "self": false,
+        "dates": [
+          "2026-08-03"
+        ],
+        "duration": 30,
+        "createdAt": "2026-07-07T08:50:00.000Z",
+        "userId": null,
+        "packageId": "pkg-pu-pula-demo",
+        "openingBid": 45
+      }
+    ],
+    "pkg-du-lapad-demo": [],
+    "pkg-si-amadria-demo": [],
+    "pkg-ma-osejava-demo": [
+      {
+        "id": "bid-osejava-a",
+        "label": "D",
+        "meta": "Anonimni sudionik",
+        "amount": 75,
+        "self": false,
+        "dates": [
+          "2026-08-07"
+        ],
+        "duration": 60,
+        "createdAt": "2026-07-08T11:10:00.000Z",
+        "userId": null,
+        "packageId": "pkg-ma-osejava-demo",
+        "openingBid": 75
+      },
+      {
+        "id": "bid-osejava-b",
+        "label": "E",
+        "meta": "Anonimni sudionik",
+        "amount": 85,
+        "self": false,
+        "dates": [
+          "2026-08-07"
+        ],
+        "duration": 60,
+        "createdAt": "2026-07-08T11:18:00.000Z",
+        "userId": null,
+        "packageId": "pkg-ma-osejava-demo",
+        "openingBid": 85
+      }
+    ],
+    "pkg-zd-forum-demo": [
+      {
+        "id": "bid-forum-a",
+        "label": "F",
+        "meta": "Anonimni sudionik",
+        "amount": 60,
+        "self": false,
+        "dates": [
+          "2026-08-06",
+          "2026-08-12"
+        ],
+        "duration": 45,
+        "createdAt": "2026-07-08T13:00:00.000Z",
+        "userId": null,
+        "packageId": "pkg-zd-forum-demo",
+        "openingBid": 60
+      },
+      {
+        "id": "bid-forum-b",
+        "label": "G",
+        "meta": "Anonimni sudionik",
+        "amount": 70,
+        "self": false,
+        "dates": [
+          "2026-08-06",
+          "2026-08-12"
+        ],
+        "duration": 45,
+        "createdAt": "2026-07-08T13:07:00.000Z",
+        "userId": null,
+        "packageId": "pkg-zd-forum-demo",
+        "openingBid": 70
+      }
+    ],
+    "pkg-ro-adriatic-demo": [
+      {
+        "id": "bid-rovinj-a",
+        "label": "H",
+        "meta": "Anonimni sudionik",
+        "amount": 110,
+        "self": false,
+        "dates": [
+          "2026-08-10"
+        ],
+        "duration": 180,
+        "createdAt": "2026-07-09T08:30:00.000Z",
+        "userId": null,
+        "packageId": "pkg-ro-adriatic-demo",
+        "openingBid": 110
+      },
+      {
+        "id": "bid-rovinj-b",
+        "label": "I",
+        "meta": "Anonimni sudionik",
+        "amount": 125,
+        "self": false,
+        "dates": [
+          "2026-08-10"
+        ],
+        "duration": 180,
+        "createdAt": "2026-07-09T09:05:00.000Z",
+        "userId": null,
+        "packageId": "pkg-ro-adriatic-demo",
+        "openingBid": 125
+      },
+      {
+        "id": "bid-rovinj-c",
+        "label": "J",
+        "meta": "Anonimni sudionik",
+        "amount": 135,
+        "self": false,
+        "dates": [
+          "2026-08-10"
+        ],
+        "duration": 180,
+        "createdAt": "2026-07-09T09:42:00.000Z",
+        "userId": null,
+        "packageId": "pkg-ro-adriatic-demo",
+        "openingBid": 135
+      }
+    ],
+    "pkg-op-kvarner-demo": [
+      {
+        "id": "bid-opatija-a",
+        "label": "K",
+        "meta": "Anonimni sudionik",
+        "amount": 105,
+        "self": false,
+        "dates": [
+          "2026-08-11"
+        ],
+        "duration": 120,
+        "createdAt": "2026-07-09T14:12:00.000Z",
+        "userId": null,
+        "packageId": "pkg-op-kvarner-demo",
+        "openingBid": 105
+      }
+    ],
+    "pkg-tg-stone-demo": [
+      {
+        "id": "bid-trogir-a",
+        "label": "L",
+        "meta": "Anonimni sudionik",
+        "amount": 53,
+        "self": false,
+        "dates": [
+          "2026-08-09"
+        ],
+        "duration": 30,
+        "createdAt": "2026-07-10T17:00:00.000Z",
+        "userId": null,
+        "packageId": "pkg-tg-stone-demo",
+        "openingBid": 53
+      },
+      {
+        "id": "bid-trogir-b",
+        "label": "M",
+        "meta": "Anonimni sudionik",
+        "amount": 63,
+        "self": false,
+        "dates": [
+          "2026-08-09"
+        ],
+        "duration": 30,
+        "createdAt": "2026-07-10T17:08:00.000Z",
+        "userId": null,
+        "packageId": "pkg-tg-stone-demo",
+        "openingBid": 63
+      }
+    ],
+    "pkg-hv-pharos-demo": [
+      {
+        "id": "bid-hvar-a",
+        "label": "N",
+        "meta": "Anonimni sudionik",
+        "amount": 120,
+        "self": false,
+        "dates": [
+          "2026-08-12"
+        ],
+        "duration": 240,
+        "createdAt": "2026-07-11T10:20:00.000Z",
+        "userId": null,
+        "packageId": "pkg-hv-pharos-demo",
+        "openingBid": 120
+      }
+    ],
+    "pkg-vz-old-town-demo": [
+      {
+        "id": "bid-varazdin-a",
+        "label": "O",
+        "meta": "Anonimni sudionik",
+        "amount": 47,
+        "self": false,
+        "dates": [
+          "2026-08-08"
+        ],
+        "duration": 15,
+        "createdAt": "2026-07-11T12:15:00.000Z",
+        "userId": null,
+        "packageId": "pkg-vz-old-town-demo",
+        "openingBid": 47
+      },
+      {
+        "id": "bid-varazdin-b",
+        "label": "P",
+        "meta": "Anonimni sudionik",
+        "amount": 57,
+        "self": false,
+        "dates": [
+          "2026-08-08"
+        ],
+        "duration": 15,
+        "createdAt": "2026-07-11T12:20:00.000Z",
+        "userId": null,
+        "packageId": "pkg-vz-old-town-demo",
+        "openingBid": 57
+      }
+    ]
+  },
+  "watchlists": {
+    "user-guest-demo": [
+      "pkg-st-marjan-demo"
+    ]
+  },
+  "reservations": [
+    {
+      "id": "confirm-seed-1",
+      "name": "Marko Perić",
+      "email": "marko.peric@example.com",
+      "card": "Demo Visa",
+      "hotel": "Hotel Marjan Split",
+      "hotelId": "st-marjan-demo",
+      "dates": "2026-08-02, 2026-08-03",
+      "amount": 80,
+      "createdAt": "2026-07-07T10:00:00.000Z",
+      "userId": "legacy-guest-record",
+      "packageId": "pkg-st-marjan-demo",
+      "status": "confirmed",
+      "paymentStatus": "demo_authorized",
+      "bookingCode": "AS-SEED-1"
+    },
+    {
+      "id": "confirm-seed-2",
+      "name": "Iva Horvat",
+      "email": "iva.horvat@example.com",
+      "card": "Demo Mastercard",
+      "hotel": "Hotel Pula",
+      "hotelId": "pu-pula-demo",
+      "dates": "2026-08-03",
+      "amount": 55,
+      "createdAt": "2026-07-08T12:20:00.000Z",
+      "userId": "legacy-guest-record",
+      "packageId": "pkg-pu-pula-demo",
+      "status": "confirmed",
+      "paymentStatus": "demo_authorized",
+      "bookingCode": "AS-SEED-2"
+    },
+    {
+      "id": "confirm-seed-3",
+      "name": "Luka Radić",
+      "email": "luka.radic@example.com",
+      "card": "Demo Visa",
+      "hotel": "Forum Heritage Rooms",
+      "hotelId": "zd-forum-demo",
+      "dates": "2026-08-06, 2026-08-12",
+      "amount": 70,
+      "createdAt": "2026-07-09T16:45:00.000Z",
+      "userId": "legacy-guest-record",
+      "packageId": "pkg-zd-forum-demo",
+      "status": "confirmed",
+      "paymentStatus": "demo_authorized",
+      "bookingCode": "AS-SEED-3"
+    },
+    {
+      "id": "confirm-seed-4",
+      "name": "Mia Babić",
+      "email": "mia.babic@example.com",
+      "card": "Demo Amex",
+      "hotel": "Adriatic Garden Rovinj",
+      "hotelId": "ro-adriatic-demo",
+      "dates": "2026-08-10",
+      "amount": 135,
+      "createdAt": "2026-07-10T09:10:00.000Z",
+      "userId": "legacy-guest-record",
+      "packageId": "pkg-ro-adriatic-demo",
+      "status": "confirmed",
+      "paymentStatus": "demo_authorized",
+      "bookingCode": "AS-SEED-4"
+    },
+    {
+      "id": "confirm-seed-5",
+      "name": "Ivan Kovač",
+      "email": "ivan.kovac@example.com",
+      "card": "Demo Visa",
+      "hotel": "Trogir Stone House",
+      "hotelId": "tg-stone-demo",
+      "dates": "2026-08-09",
+      "amount": 63,
+      "createdAt": "2026-07-10T18:30:00.000Z",
+      "userId": "legacy-guest-record",
+      "packageId": "pkg-tg-stone-demo",
+      "status": "confirmed",
+      "paymentStatus": "demo_authorized",
+      "bookingCode": "AS-SEED-5"
+    }
+  ],
+  "staticSeedVersion": 4
+}

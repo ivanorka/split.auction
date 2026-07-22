@@ -1,8 +1,10 @@
 const { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } = require('node:fs');
 const { extname, join, resolve } = require('node:path');
-const { migrateDatabase } = require('./server/database');
+const { writeStaticSeed } = require('./generate-static-seed');
 
 const dist = resolve('dist');
+
+writeStaticSeed();
 
 if(existsSync(dist)){
   rmSync(dist, {recursive:true, force:true});
@@ -22,14 +24,6 @@ if(existsSync(resolve('vendor'))){
 if(existsSync(resolve('output'))){
   cpSync(resolve('output'), resolve(dist, 'output'), {recursive:true});
 }
-
-const sourceSeed = JSON.parse(readFileSync(resolve('data/seed-db.json'), 'utf8'));
-const staticSeed = migrateDatabase(sourceSeed);
-staticSeed.staticSeedVersion = 4;
-staticSeed.users = staticSeed.users.map(({ passwordHash, ...user }) => user);
-staticSeed.sessions = [];
-staticSeed.passwordResets = [];
-writeFileSync(resolve(dist, 'assets/static-api-seed.json'), `${JSON.stringify(staticSeed, null, 2)}\n`);
 
 const basePath = String(process.env.BASE_PATH || '').replace(/\/$/, '');
 if(basePath){

@@ -1,3 +1,5 @@
+import { staticSeed } from './static-api-seed.js';
+
 const STORAGE_KEY = 'auction-split-static-api-v4';
 const SESSION_KEY = 'auction-split-static-session-v4';
 const DEMO_PASSWORDS = {
@@ -9,8 +11,6 @@ const DEMO_PASSWORDS = {
   'adriatic@auction.split':'Partner123!',
   'host@auction.split':'Partner123!'
 };
-
-let seedPromise;
 
 const clone = value => JSON.parse(JSON.stringify(value));
 const now = () => new Date().toISOString();
@@ -31,12 +31,8 @@ function apiError(message, status = 400, code = ''){
 }
 
 async function loadSeed(){
-  seedPromise ||= fetch(new URL('../assets/static-api-seed.json', import.meta.url))
-    .then(response => {
-      if(!response.ok) throw new Error('Prezentacijski podaci nisu pronađeni.');
-      return response.json();
-    });
-  return clone(await seedPromise);
+  // The seed ships with the app, so a static host cannot leave the demo empty.
+  return clone(staticSeed);
 }
 
 async function readDb(){
