@@ -80,8 +80,8 @@ function offerByPackageId(packageId){
 function packagePriceFit(auctionPackage){
   const gap = Number(auctionPackage.coldPrice) - state.openingBid;
   if(gap <= 0) return { rank:0, tone:'success', label:'U vašem budžetu' };
-  if(gap <= 30) return { rank:1, tone:'warning', label:`Još ${formatMoney(gap)} do minimuma` };
-  return { rank:2, tone:'neutral', label:`Premium +${formatMoney(gap)}` };
+  if(gap <= 30) return { rank:1, tone:'warning', label:`Početna cijena +${formatMoney(gap)}` };
+  return { rank:2, tone:'neutral', label:`Iznad budžeta +${formatMoney(gap)}` };
 }
 
 function packageMatchesDate(auctionPackage){

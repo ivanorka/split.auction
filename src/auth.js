@@ -14,6 +14,11 @@ let session = { authenticated:false, user:null, partner:null, csrfToken:'' };
 let readyPromise;
 let resolveReady;
 let selectedEntryRole = 'guest';
+const demoCredentials = {
+  guest:['gost@auction.split', 'Demo123!'],
+  partner:['partner@auction.split', 'Partner123!'],
+  admin:['admin@auction.split', 'Admin123!']
+};
 
 export const authReady = new Promise(resolve => {
   resolveReady = resolve;
@@ -179,6 +184,15 @@ export function openAuthDialog(view = 'login', accountType = ''){
   refreshIcons();
 }
 
+export function openDemoLogin(role = 'guest'){
+  const [email, password] = demoCredentials[role] || demoCredentials.guest;
+  openAuthDialog('login');
+  setEntryRole(role);
+  const form = document.getElementById('loginForm');
+  form.email.value = email;
+  form.password.value = password;
+}
+
 function applySession(payload, announce = true){
   session = {
     authenticated:Boolean(payload?.authenticated),
@@ -336,16 +350,8 @@ function bindAuthEvents(){
     }
     const demoLogin = event.target.closest('[data-demo-login]');
     if(demoLogin){
-      const accounts = {
-        guest:['gost@auction.split', 'Demo123!'],
-        partner:['partner@auction.split', 'Partner123!'],
-        admin:['admin@auction.split', 'Admin123!']
-      };
-      const [email, password] = accounts[demoLogin.dataset.demoLogin];
-      const form = document.getElementById('loginForm');
-      form.email.value = email;
-      form.password.value = password;
-      form.requestSubmit();
+      openDemoLogin(demoLogin.dataset.demoLogin);
+      document.getElementById('loginForm').requestSubmit();
     }
   });
 
@@ -365,8 +371,13 @@ function bindAuthEvents(){
 
 export function requireAuthenticatedUser(role = ''){
   if(!session.user){
-    openAuthDialog(role === 'partner' ? 'register' : 'login');
-    notify(role === 'partner' ? 'Prijavite se partnerskim računom.' : 'Prijavite se za nastavak.', 'error');
+    if(role === 'guest'){
+      openDemoLogin('guest');
+      notify('Demo prijava gosta je unaprijed popunjena.', 'error');
+    }else{
+      openAuthDialog(role === 'partner' ? 'register' : 'login');
+      notify(role === 'partner' ? 'Prijavite se partnerskim računom.' : 'Prijavite se za nastavak.', 'error');
+    }
     return false;
   }
   if(role === 'guest' && session.user.role !== 'guest'){
