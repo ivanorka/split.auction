@@ -509,7 +509,7 @@ async function loadState(){
   try{
     const payload = await api('/api/state');
     applyServerState(payload);
-    const transportLabel = payload.transport === 'browser-demo' ? ' Prezentacijska baza aktivna' : ' Sustav aktivan';
+    const transportLabel = ' Neon baza aktivna';
     byId('backendIndicator').innerHTML = `<span class="status-dot live"></span>${payload.user ? ` Prijavljen: ${escapeHtml(payload.user.name)}` : transportLabel}`;
     populateControls();
     renderCalendar();

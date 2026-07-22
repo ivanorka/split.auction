@@ -34,7 +34,7 @@ Projekt više ne pretpostavlja da svaki hosting može pokrenuti Node API.
 - GitHub Pages workflow gradi projekt s `/split.auction` podputanjom
 - ako statički hosting nema `/api`, frontend automatski aktivira pregledničku prezentacijsku bazu umjesto poruke da API nije dostupan
 
-Prezentacijska baza na statičkom hostingu sprema promjene u lokalni browser i namijenjena je investitorskom prikazu. Puni Node način koristi zajedničku serversku bazu za sve korisnike instance. Netlify produkcija koristi zaštićenu `DATABASE_URL` varijablu i Neon PostgreSQL bazu `auction_split`.
+Lokalni `npm run dev` i Netlify produkcija koriste istu Neon PostgreSQL bazu `auction_split` kroz `DATABASE_URL`. Aplikacija više ne prelazi na browser demo bazu kada API nije dostupan; nedostupan API prikazuje jasnu grešku.
 
 ## Proizvodne cjeline
 
@@ -59,7 +59,6 @@ Prezentacijska baza na statičkom hostingu sprema promjene u lokalni browser i n
 - `scripts/server/database.js` - PostgreSQL/Neon spremište s lokalnim JSON fallbackom, migracija i reset demo podataka
 - `scripts/server/api.js` - autentikacija, autorizacija i poslovni API
 - `netlify/functions/api.js` - serverless adapter za produkcijski `/api/*`
-- `src/static-api.js` - funkcionalni lokalni API adapter za statičke produkcijske deploye
 - `.github/workflows/pages.yml` - automatski GitHub Pages build i deploy
 - `Dockerfile` - puni produkcijski Node servis s trajnim `DATA_DIR` volumenom
 - `vendor/lucide.min.js` - lokalna kopija Lucide ikona s licencom

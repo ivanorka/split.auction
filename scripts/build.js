@@ -1,10 +1,7 @@
 const { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } = require('node:fs');
 const { extname, join, resolve } = require('node:path');
-const { writeStaticSeed } = require('./generate-static-seed');
 
 const dist = resolve('dist');
-
-writeStaticSeed();
 
 if(existsSync(dist)){
   rmSync(dist, {recursive:true, force:true});
@@ -15,8 +12,12 @@ readdirSync(resolve('.'))
   .filter(file => file.endsWith('.html'))
   .forEach(file => cpSync(resolve(file), resolve(dist, file)));
 cpSync(resolve('src'), resolve(dist, 'src'), {recursive:true});
+['static-api.js', 'static-api-seed.js'].forEach(file => {
+  rmSync(join(dist, 'src', file), { force:true });
+});
 if(existsSync(resolve('assets'))){
   cpSync(resolve('assets'), resolve(dist, 'assets'), {recursive:true});
+  rmSync(join(dist, 'assets', 'static-api-seed.json'), { force:true });
 }
 if(existsSync(resolve('vendor'))){
   cpSync(resolve('vendor'), resolve(dist, 'vendor'), {recursive:true});

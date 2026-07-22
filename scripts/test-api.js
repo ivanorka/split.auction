@@ -64,7 +64,7 @@ async function resetWithAdmin(){
 async function run(){
   server = spawn(process.execPath, ['scripts/dev-server.js'], {
     cwd:process.cwd(),
-    env:{ ...process.env, PORT:String(port) },
+    env:{ ...process.env, PORT:String(port), USE_LOCAL_DEMO_DB:'1' },
     stdio:['ignore', 'pipe', 'pipe']
   });
   server.stderr.on('data', chunk => process.stderr.write(chunk));

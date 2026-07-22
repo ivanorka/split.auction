@@ -549,7 +549,7 @@ async function loadPartnerState(){
     const payload = await api('/api/partner/state');
     applyServerState(payload);
     renderAll();
-    byId('partnerBackendStatus').innerHTML = `<span class="status-dot live"></span> ${payload.transport === 'browser-demo' ? 'Prezentacijska baza aktivna' : 'Sigurna sesija aktivna'}`;
+    byId('partnerBackendStatus').innerHTML = '<span class="status-dot live"></span> Neon baza aktivna';
   }catch(error){
     byId('partnerBackendStatus').innerHTML = '<span class="status-dot error"></span> Pristup nije dostupan';
     notify(error.message, 'error');

@@ -10,7 +10,7 @@ export function setLocale(locale){
 }
 
 let csrfToken = '';
-let apiTransport = 'unknown';
+let apiTransport = 'server';
 
 export function getApiTransport(){
   return apiTransport;
@@ -20,12 +20,6 @@ function setApiTransport(value){
   if(apiTransport === value) return;
   apiTransport = value;
   window.dispatchEvent(new CustomEvent('auction-split:transport', { detail:{ transport:value } }));
-}
-
-async function browserDemoApi(path, options){
-  const { staticApi } = await import('./static-api.js');
-  setApiTransport('browser-demo');
-  return staticApi(path, options);
 }
 
 export function setCsrfToken(value){
@@ -67,13 +61,11 @@ export async function api(path, options = {}){
       ...(options.headers || {})
     }
   };
-  if(apiTransport === 'browser-demo') return browserDemoApi(path, requestOptions);
-
   let response;
   try{
     response = await fetch(path, requestOptions);
   }catch{
-    return browserDemoApi(path, requestOptions);
+    throw new Error('API nije dostupan. Pokrenite lokalni server ili otvorite split.auction.');
   }
   const contentType = response.headers.get('content-type') || '';
   const raw = await response.text();
@@ -82,7 +74,7 @@ export async function api(path, options = {}){
     try{ payload = raw ? JSON.parse(raw) : {}; }
     catch{ payload = {}; }
   }else if(path.startsWith('/api/') && (response.status === 404 || response.status === 405 || contentType.includes('text/html'))){
-    return browserDemoApi(path, requestOptions);
+    throw new Error('API ruta nije dostupna na ovom hostu. Otvorite aplikaciju preko lokalnog servera ili split.auction.');
   }
   if(!response.ok){
     const error = new Error(payload.error || 'Server nije prihvatio zahtjev.');

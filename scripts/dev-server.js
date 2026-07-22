@@ -1,6 +1,9 @@
 const { createReadStream, existsSync, statSync } = require('node:fs');
 const { createServer } = require('node:http');
 const { extname, isAbsolute, join, relative, resolve } = require('node:path');
+if(!process.env.USE_LOCAL_DEMO_DB){
+  require('dotenv').config({ path:resolve(__dirname, '../.env') });
+}
 const { handleApi, securityHeaders, sendJson } = require('./server/api');
 const { dbPath, ensureDatabase } = require('./server/database');
 
