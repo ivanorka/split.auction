@@ -28,10 +28,12 @@ Projekt više ne pretpostavlja da svaki hosting može pokrenuti Node API.
 - `npm start` pokreće puni frontend i pravi Node API na istom originu
 - `DATA_DIR=/var/lib/auction-split npm start` sprema radnu bazu na trajni disk
 - `Dockerfile` pakira isti puni servis i izlaže health check na `/api/health`
+- `netlify.toml` objavljuje statički build i usmjerava `/api/*` na Netlify funkciju
+- kada je postavljena `DATABASE_URL`, API automatski sprema zajedničko stanje u PostgreSQL/Neon umjesto lokalne JSON datoteke
 - GitHub Pages workflow gradi projekt s `/split.auction` podputanjom
 - ako statički hosting nema `/api`, frontend automatski aktivira pregledničku prezentacijsku bazu umjesto poruke da API nije dostupan
 
-Prezentacijska baza na statičkom hostingu sprema promjene u lokalni browser i namijenjena je investitorskom prikazu. Puni Node način koristi zajedničku serversku bazu za sve korisnike instance.
+Prezentacijska baza na statičkom hostingu sprema promjene u lokalni browser i namijenjena je investitorskom prikazu. Puni Node način koristi zajedničku serversku bazu za sve korisnike instance. Netlify produkcija koristi zaštićenu `DATABASE_URL` varijablu i Neon PostgreSQL bazu `auction_split`.
 
 ## Proizvodne cjeline
 
@@ -53,8 +55,9 @@ Prezentacijska baza na statičkom hostingu sprema promjene u lokalni browser i n
 - `src/partner.js` - partnerski dashboard, paketi, ovlasti i administracija inventara
 - `src/styles.css` - zajednički responzivni vizualni sustav
 - `scripts/server/security.js` - scrypt lozinke, tokeni, kolačići i sigurnosna validacija
-- `scripts/server/database.js` - atomski JSON zapis, migracija i reset demo podataka
+- `scripts/server/database.js` - PostgreSQL/Neon spremište s lokalnim JSON fallbackom, migracija i reset demo podataka
 - `scripts/server/api.js` - autentikacija, autorizacija i poslovni API
+- `netlify/functions/api.js` - serverless adapter za produkcijski `/api/*`
 - `src/static-api.js` - funkcionalni lokalni API adapter za statičke produkcijske deploye
 - `.github/workflows/pages.yml` - automatski GitHub Pages build i deploy
 - `Dockerfile` - puni produkcijski Node servis s trajnim `DATA_DIR` volumenom

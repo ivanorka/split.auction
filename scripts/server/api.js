@@ -486,7 +486,7 @@ async function handlePublicAuth(req, res, url, db, body){
     }
     const createdSession = createSession(db, user, req);
     audit(db, user, 'auth.register', 'user', user.id, { role:user.role });
-    writeDatabase(db);
+    await writeDatabase(db);
     sendJson(res, 201, sessionResponse(db, { user, session:createdSession.session }), {
       'set-cookie':sessionCookie(createdSession.rawToken, req)
     });
@@ -509,7 +509,7 @@ async function handlePublicAuth(req, res, url, db, body){
     user.lastLoginAt = now();
     const createdSession = createSession(db, user, req);
     audit(db, user, 'auth.login', 'session', createdSession.session.id);
-    writeDatabase(db);
+    await writeDatabase(db);
     sendJson(res, 200, sessionResponse(db, { user, session:createdSession.session }), {
       'set-cookie':sessionCookie(createdSession.rawToken, req)
     });
@@ -538,7 +538,7 @@ async function handlePublicAuth(req, res, url, db, body){
         usedAt:null
       });
       audit(db, user, 'auth.password_reset_requested', 'user', user.id);
-      writeDatabase(db);
+      await writeDatabase(db);
     }
     sendJson(res, 200, {
       message:'Ako račun postoji, poslali smo upute za promjenu lozinke.',
@@ -567,7 +567,7 @@ async function handlePublicAuth(req, res, url, db, body){
     reset.usedAt = now();
     db.sessions = db.sessions.filter(item => item.userId !== user.id);
     audit(db, user, 'auth.password_reset_completed', 'user', user.id);
-    writeDatabase(db);
+    await writeDatabase(db);
     sendJson(res, 200, { message:'Lozinka je promijenjena. Sada se možete prijaviti.' });
     return true;
   }
@@ -580,7 +580,7 @@ async function handleApi(req, res, url){
 
   if(req.method === 'GET' && url.pathname === '/api/health'){
     try{
-      const db = readDatabase();
+      const db = await readDatabase();
       sendJson(res, 200, { ok:true, database:'ready', schemaVersion:db.schemaVersion, auth:'ready' });
     }catch(error){
       sendJson(res, 500, { ok:false, database:'invalid', error:error.message });
@@ -588,8 +588,8 @@ async function handleApi(req, res, url){
     return true;
   }
 
-  const db = readDatabase();
-  if(pruneTransientData(db)) writeDatabase(db);
+  const db = await readDatabase();
+  if(pruneTransientData(db)) await writeDatabase(db);
   const context = authContext(req, db);
 
   if(req.method === 'GET' && url.pathname === '/api/auth/session'){
@@ -637,7 +637,7 @@ async function handleApi(req, res, url){
     if(!requireUser(req, res, context)) return true;
     db.sessions = db.sessions.filter(item => item.id !== context.session.id);
     audit(db, context.user, 'auth.logout', 'session', context.session.id);
-    writeDatabase(db);
+    await writeDatabase(db);
     sendJson(res, 200, { authenticated:false, user:null, csrfToken:'' }, {
       'set-cookie':expiredSessionCookie(req)
     });
@@ -654,7 +654,7 @@ async function handleApi(req, res, url){
     context.user.name = name;
     context.user.phone = asString(body.phone).slice(0, 40);
     audit(db, context.user, 'account.profile_updated', 'user', context.user.id);
-    writeDatabase(db);
+    await writeDatabase(db);
     sendJson(res, 200, sessionResponse(db, context));
     return true;
   }
@@ -673,7 +673,7 @@ async function handleApi(req, res, url){
     context.user.passwordHash = await hashPassword(body.newPassword);
     db.sessions = db.sessions.filter(item => item.id === context.session.id || item.userId !== context.user.id);
     audit(db, context.user, 'account.password_changed', 'user', context.user.id);
-    writeDatabase(db);
+    await writeDatabase(db);
     sendJson(res, 200, { message:'Lozinka je uspješno promijenjena.' });
     return true;
   }
@@ -718,7 +718,7 @@ async function handleApi(req, res, url){
     db.bidsByPackage[auctionPackage.id] ||= [];
     db.bidsByPackage[auctionPackage.id].push(bid);
     audit(db, context.user, 'auction.bid_placed', 'package', auctionPackage.id, { amount });
-    writeDatabase(db);
+    await writeDatabase(db);
     sendJson(res, 201, { bid:{ ...bid, self:true, label:'Vi', meta:'Vaša ponuda' }, state:publicState(db, context.user) });
     return true;
   }
@@ -735,7 +735,7 @@ async function handleApi(req, res, url){
     else watchlist.delete(auctionPackage.id);
     db.watchlists[context.user.id] = [...watchlist];
     audit(db, context.user, Boolean(body.watching) ? 'watch.added' : 'watch.removed', 'package', auctionPackage.id);
-    writeDatabase(db);
+    await writeDatabase(db);
     sendJson(res, 200, publicState(db, context.user));
     return true;
   }
@@ -784,7 +784,7 @@ async function handleApi(req, res, url){
     auctionPackage.units = Math.max(0, auctionPackage.units - 1);
     if(auctionPackage.units === 0) auctionPackage.status = 'sold_out';
     audit(db, context.user, 'reservation.confirmed', 'reservation', reservation.id, { amount:reservation.amount });
-    writeDatabase(db);
+    await writeDatabase(db);
     sendJson(res, 201, { confirmation:reservation, reservation, state:publicState(db, context.user) });
     return true;
   }
@@ -833,7 +833,7 @@ async function handleApi(req, res, url){
     }
     reservation.updatedAt = now();
     audit(db, context.user, 'reservation.updated', 'reservation', reservation.id, { status:reservation.status, paymentStatus:reservation.paymentStatus });
-    writeDatabase(db);
+    await writeDatabase(db);
     sendJson(res, 200, context.user.role === 'guest' ? accountActivity(db, context.user) : partnerState(db, context.user));
     return true;
   }
@@ -850,7 +850,7 @@ async function handleApi(req, res, url){
     const hotel = normalizeHotel(body, {}, partnerId);
     db.hotels.push(hotel);
     audit(db, context.user, 'hotel.created', 'hotel', hotel.id);
-    writeDatabase(db);
+    await writeDatabase(db);
     sendJson(res, 201, { hotel, state:partnerState(db, context.user) });
     return true;
   }
@@ -880,14 +880,14 @@ async function handleApi(req, res, url){
       db.hotels = db.hotels.filter(item => item.id !== hotel.id);
       db.packages = db.packages.filter(item => item.hotelId !== hotel.id);
       audit(db, context.user, 'hotel.deleted', 'hotel', hotel.id);
-      writeDatabase(db);
+      await writeDatabase(db);
       sendJson(res, 200, partnerState(db, context.user));
       return true;
     }
     const updated = normalizeHotel(body, hotel, hotel.partnerId);
     db.hotels[db.hotels.findIndex(item => item.id === hotel.id)] = updated;
     audit(db, context.user, 'hotel.updated', 'hotel', hotel.id);
-    writeDatabase(db);
+    await writeDatabase(db);
     sendJson(res, 200, { hotel:updated, state:partnerState(db, context.user) });
     return true;
   }
@@ -911,7 +911,7 @@ async function handleApi(req, res, url){
     db.packages.push(auctionPackage);
     db.bidsByPackage[auctionPackage.id] = [];
     audit(db, context.user, 'package.created', 'package', auctionPackage.id);
-    writeDatabase(db);
+    await writeDatabase(db);
     sendJson(res, 201, { package:auctionPackage, state:partnerState(db, context.user) });
     return true;
   }
@@ -944,7 +944,7 @@ async function handleApi(req, res, url){
         db.watchlists[userId] = db.watchlists[userId].filter(id => id !== auctionPackage.id);
       });
       audit(db, context.user, 'package.deleted', 'package', auctionPackage.id);
-      writeDatabase(db);
+      await writeDatabase(db);
       sendJson(res, 200, partnerState(db, context.user));
       return true;
     }
@@ -955,7 +955,7 @@ async function handleApi(req, res, url){
     }
     db.packages[db.packages.findIndex(item => item.id === auctionPackage.id)] = updated;
     audit(db, context.user, 'package.updated', 'package', auctionPackage.id, { status:updated.status });
-    writeDatabase(db);
+    await writeDatabase(db);
     sendJson(res, 200, { package:updated, state:partnerState(db, context.user) });
     return true;
   }
@@ -993,7 +993,7 @@ async function handleApi(req, res, url){
     };
     db.invitations.push(invitation);
     audit(db, context.user, 'team.invitation_created', 'invitation', invitation.id, { email, role });
-    writeDatabase(db);
+    await writeDatabase(db);
     sendJson(res, 201, {
       invitation:{ ...invitation, tokenHash:undefined, demoInvitationToken:process.env.NODE_ENV === 'production' ? undefined : token },
       state:partnerState(db, context.user)
@@ -1016,7 +1016,7 @@ async function handleApi(req, res, url){
     invitation.status = 'revoked';
     invitation.revokedAt = now();
     audit(db, context.user, 'team.invitation_revoked', 'invitation', invitation.id);
-    writeDatabase(db);
+    await writeDatabase(db);
     sendJson(res, 200, partnerState(db, context.user));
     return true;
   }
@@ -1024,12 +1024,12 @@ async function handleApi(req, res, url){
   if(req.method === 'POST' && url.pathname === '/api/reset'){
     if(!requireUser(req, res, context, ['admin'])) return true;
     const adminId = context.user.id;
-    const freshDb = resetDatabase();
+    const freshDb = await resetDatabase();
     const admin = freshDb.users.find(item => item.id === adminId && item.role === 'admin')
       || freshDb.users.find(item => item.role === 'admin');
     const createdSession = createSession(freshDb, admin, req);
     audit(freshDb, admin, 'demo.reset', 'database', 'demo-db');
-    writeDatabase(freshDb);
+    await writeDatabase(freshDb);
     sendJson(res, 200, partnerState(freshDb, admin), {
       'set-cookie':sessionCookie(createdSession.rawToken, req)
     });

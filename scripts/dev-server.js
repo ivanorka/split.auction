@@ -92,10 +92,15 @@ const server = createServer(async (req, res) => {
   }
 });
 
-ensureDatabase();
-
-server.listen(port, host, () => {
-  console.log(`Auction Split (auction.split) running at http://${host}:${port}`);
-  console.log(`Serving ${root}`);
-  console.log(`Authenticated demo database ${dbPath}`);
-});
+ensureDatabase()
+  .then(() => {
+    server.listen(port, host, () => {
+      console.log(`Auction Split (auction.split) running at http://${host}:${port}`);
+      console.log(`Serving ${root}`);
+      console.log(`Authenticated demo database ${dbPath}`);
+    });
+  })
+  .catch(error => {
+    console.error('Auction Split database initialization failed:', error);
+    process.exit(1);
+  });

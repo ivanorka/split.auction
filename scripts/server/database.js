@@ -14,6 +14,26 @@ const dataDir = process.env.DATA_DIR ? resolve(process.env.DATA_DIR) : join(proj
 const seedPath = join(seedDir, 'seed-db.json');
 const authSeedPath = join(seedDir, 'auth-seed.json');
 const dbPath = join(dataDir, 'demo-db.json');
+const databaseUrl = process.env.DATABASE_URL || '';
+let postgresClient;
+
+function usesPostgres(){
+  return Boolean(databaseUrl);
+}
+
+function sql(){
+  if(!usesPostgres()) return null;
+  if(!postgresClient){
+    const postgres = require('postgres');
+    postgresClient = postgres(databaseUrl, {
+      max:1,
+      prepare:false,
+      idle_timeout:20,
+      connect_timeout:15
+    });
+  }
+  return postgresClient;
+}
 
 function clone(value){
   return JSON.parse(JSON.stringify(value));
@@ -133,34 +153,74 @@ function migrateDatabase(input){
   return db;
 }
 
-function writeDatabase(db){
+function writeFileDatabase(db){
   mkdirSync(dataDir, { recursive:true });
   const temporaryPath = `${dbPath}.tmp`;
   writeFileSync(temporaryPath, `${JSON.stringify(db, null, 2)}\n`, { mode:0o600 });
   renameSync(temporaryPath, dbPath);
 }
 
-function resetDatabase(){
-  mkdirSync(dataDir, { recursive:true });
-  const seed = readJson(seedPath);
-  const db = migrateDatabase(seed);
-  writeDatabase(db);
+async function writeDatabase(db){
+  if(!usesPostgres()){
+    writeFileDatabase(db);
+    return db;
+  }
+  const client = sql();
+  await client`
+    INSERT INTO auction_split_state (id, payload, updated_at)
+    VALUES ('primary', ${client.json(db)}, now())
+    ON CONFLICT (id) DO UPDATE SET payload = EXCLUDED.payload, updated_at = now()
+  `;
   return db;
 }
 
-function ensureDatabase(){
+function resetFileDatabase(){
+  mkdirSync(dataDir, { recursive:true });
+  const seed = readJson(seedPath);
+  const db = migrateDatabase(seed);
+  writeFileDatabase(db);
+  return db;
+}
+
+async function resetDatabase(){
+  if(!usesPostgres()) return resetFileDatabase();
+  const db = migrateDatabase(readJson(seedPath));
+  await writeDatabase(db);
+  return db;
+}
+
+function ensureFileDatabase(){
   mkdirSync(dataDir, { recursive:true });
   if(!existsSync(dbPath)){
-    return resetDatabase();
+    return resetFileDatabase();
   }
   const original = readJson(dbPath);
   const before = JSON.stringify(original);
   const migrated = migrateDatabase(original);
-  if(JSON.stringify(migrated) !== before) writeDatabase(migrated);
+  if(JSON.stringify(migrated) !== before) writeFileDatabase(migrated);
   return migrated;
 }
 
-function readDatabase(){
+async function ensureDatabase(){
+  if(!usesPostgres()) return ensureFileDatabase();
+  const client = sql();
+  await client`
+    CREATE TABLE IF NOT EXISTS auction_split_state (
+      id text PRIMARY KEY,
+      payload jsonb NOT NULL,
+      updated_at timestamptz NOT NULL DEFAULT now()
+    )
+  `;
+  const rows = await client`SELECT payload FROM auction_split_state WHERE id = 'primary'`;
+  if(!rows.length) return resetDatabase();
+  const original = rows[0].payload;
+  const before = JSON.stringify(original);
+  const migrated = migrateDatabase(original);
+  if(JSON.stringify(migrated) !== before) await writeDatabase(migrated);
+  return migrated;
+}
+
+async function readDatabase(){
   return ensureDatabase();
 }
 
@@ -171,5 +231,6 @@ module.exports = {
   migrateDatabase,
   readDatabase,
   resetDatabase,
+  usesPostgres,
   writeDatabase
 };

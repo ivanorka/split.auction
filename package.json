@@ -13,6 +13,8 @@
     "brochures": "python3 scripts/generate_brochures.py"
   },
   "dependencies": {
-    "lucide": "1.25.0"
+    "lucide": "1.25.0",
+    "postgres": "^3.4.7",
+    "serverless-http": "^3.2.0"
   }
 }
