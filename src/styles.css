@@ -85,7 +85,7 @@ p{color:var(--text-soft)}
 .site-brand>span{display:grid;line-height:1.15}
 .site-brand strong{font-size:.96rem}
 .site-brand small{margin-top:3px;color:var(--muted);font-size:.72rem;font-weight:600}
-.site-navigation{display:flex;align-items:center;gap:5px;margin-left:auto}
+.site-navigation{display:flex;align-items:center;gap:5px;margin-left:clamp(36px,6vw,96px);margin-right:auto}
 .site-navigation a{
   padding:9px 11px;
   border-radius:7px;
@@ -811,6 +811,7 @@ tbody tr:last-child td{border-bottom:0}
     border-radius:8px;
     background:var(--surface);
     box-shadow:var(--shadow-md);
+    margin:0;
   }
   .site-navigation.open{display:flex}
   .site-navigation a{padding:11px 12px}
