@@ -1,0 +1,20 @@
+name: Keep Auction Split API warm
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  heartbeat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Ping production API health check
+        run: |
+          curl --fail --silent --show-error --location \
+            --retry 3 --retry-delay 2 --max-time 20 \
+            https://split.auction/api/health

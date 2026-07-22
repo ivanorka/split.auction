@@ -30,6 +30,7 @@ Projekt više ne pretpostavlja da svaki hosting može pokrenuti Node API.
 - `Dockerfile` pakira isti puni servis i izlaže health check na `/api/health`
 - `netlify.toml` objavljuje statički build i usmjerava `/api/*` na Netlify funkciju
 - kada je postavljena `DATABASE_URL`, API automatski sprema zajedničko stanje u PostgreSQL/Neon umjesto lokalne JSON datoteke
+- `.github/workflows/keep-api-warm.yml` poziva produkcijski health endpoint svakih pet minuta kako bi funkcija redovito imala promet
 - GitHub Pages workflow gradi projekt s `/split.auction` podputanjom
 - ako statički hosting nema `/api`, frontend automatski aktivira pregledničku prezentacijsku bazu umjesto poruke da API nije dostupan
 
