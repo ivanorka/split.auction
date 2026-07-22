@@ -13,6 +13,7 @@ import {
 let session = { authenticated:false, user:null, partner:null, csrfToken:'' };
 let readyPromise;
 let resolveReady;
+let selectedEntryRole = 'guest';
 
 export const authReady = new Promise(resolve => {
   resolveReady = resolve;
@@ -49,9 +50,9 @@ function authMarkup(){
           <span class="eyebrow">Dobro došli</span>
           <h2 id="authTitle">Prijavite se</h2>
           <p>Pratite ponude kao gost ili upravljajte inventarom kao partner.</p>
-          <div class="auth-guide-links" aria-label="Vodiči za platformu">
-            <a href="/brosura-korisnici.html"><i data-lucide="user-round"></i><span>Za goste</span></a>
-            <a href="/brosura-partneri.html"><i data-lucide="building-2"></i><span>Za partnere</span></a>
+          <div class="auth-guide-links" aria-label="Odaberite ulogu za prijavu">
+            <button type="button" data-auth-entry-role="guest" aria-pressed="true"><i data-lucide="user-round"></i><span>Za goste</span></button>
+            <button type="button" data-auth-entry-role="partner" aria-pressed="false"><i data-lucide="building-2"></i><span>Za partnere</span></button>
           </div>
           <form class="form-grid auth-form" id="loginForm">
             <label class="full-field"><span>E-mail</span><input name="email" type="email" autocomplete="email" required data-autofocus></label>
@@ -152,11 +153,20 @@ function setRegistrationAccountType(accountType){
   document.getElementById('registerForm').businessName.required = partner && !document.getElementById('registerForm').invitationToken.value;
 }
 
+function setEntryRole(role){
+  selectedEntryRole = role === 'partner' ? 'partner' : 'guest';
+  document.querySelectorAll('[data-auth-entry-role]').forEach(button => {
+    const active = button.dataset.authEntryRole === selectedEntryRole;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+}
+
 function showView(view, accountType = ''){
   document.querySelectorAll('[data-auth-panel]').forEach(panel => {
     panel.hidden = panel.dataset.authPanel !== view;
   });
-  if(view === 'register') setRegistrationAccountType(accountType);
+  if(view === 'register') setRegistrationAccountType(accountType || selectedEntryRole);
   const focusTarget = document.querySelector(`[data-auth-panel="${escapeAttribute(view)}"] input:not([type="hidden"]), [data-auth-panel="${escapeAttribute(view)}"] button`);
   window.setTimeout(() => focusTarget?.focus(), 0);
 }
@@ -316,7 +326,12 @@ function bindAuthEvents(){
     }
     const view = event.target.closest('[data-auth-view]');
     if(view){
-      showView(view.dataset.authView);
+      showView(view.dataset.authView, view.dataset.authAccount || (view.dataset.authView === 'register' ? selectedEntryRole : ''));
+      return;
+    }
+    const entryRole = event.target.closest('[data-auth-entry-role]');
+    if(entryRole){
+      setEntryRole(entryRole.dataset.authEntryRole);
       return;
     }
     const demoLogin = event.target.closest('[data-demo-login]');
@@ -369,6 +384,7 @@ export async function initAuthUI(){
   if(readyPromise) return readyPromise;
   readyPromise = (async () => {
     ensureAuthUi();
+    setEntryRole(selectedEntryRole);
     bindAuthEvents();
     const invitationToken = new URLSearchParams(window.location.search).get('invite') || '';
     if(invitationToken){

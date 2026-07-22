@@ -186,8 +186,8 @@ p{color:var(--text-soft)}
 .auth-brand small{color:var(--muted);font-size:.68rem}
 .auth-view>h2{margin-bottom:8px;font-size:1.65rem}
 .auth-guide-links{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:18px 0}
-.auth-guide-links a{min-height:42px;display:flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--line);border-radius:6px;background:var(--surface-subtle);color:var(--text-soft);font-size:.74rem;font-weight:750}
-.auth-guide-links a:hover{border-color:var(--teal);background:var(--teal-soft);color:var(--teal)}
+.auth-guide-links button{min-height:42px;display:flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--line);border-radius:6px;background:var(--surface-subtle);color:var(--text-soft);font-size:.74rem;font-weight:750;cursor:pointer}
+.auth-guide-links button:hover,.auth-guide-links button.active{border-color:var(--teal);background:var(--teal-soft);color:var(--teal)}
 .auth-view>p{margin-bottom:22px;font-size:.84rem}
 .auth-form{gap:13px}
 .auth-form label>small{display:block;margin-top:5px;color:var(--muted);font-size:.64rem}
